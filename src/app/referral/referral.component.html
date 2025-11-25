@@ -1,0 +1,37 @@
+<div class="referral-container">
+
+    <h2 class="title">🎁 Referral Rewards History</h2>
+
+    <!-- Loading spinner -->
+    <div class="text-center" *ngIf="loading">
+        <div class="spinner-border text-light"></div>
+        <p>Loading referral history...</p>
+    </div>
+
+    <!-- If no data -->
+    <div class="no-data" *ngIf="!loading && referralHistory.length === 0">
+        <p>No referral rewards earned yet.</p>
+    </div>
+
+    <!-- Card list -->
+    <div class="history-list" *ngIf="referralHistory.length > 0">
+        <div class="history-card" *ngFor="let item of referralHistory">
+
+            <div class="card-header">
+                <strong>Referred User:</strong> {{ item.referred_user }}
+            </div>
+
+            <div class="card-body">
+                <p><strong>Booking Amount:</strong> ₹{{ item.booking_amount }}</p>
+                <p><strong>Your Reward:</strong> ₹{{ item.reward_amount }}</p>
+                <p><strong>User Discount:</strong> ₹{{ item.discount_amount }}</p>
+
+                <p class="date">
+                    <strong>Date:</strong> {{ item.created_at | date:'medium' }}
+                </p>
+            </div>
+
+        </div>
+    </div>
+
+</div>

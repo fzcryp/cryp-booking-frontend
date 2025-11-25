@@ -1,0 +1,27 @@
+<div class="signin-container">
+    <div class="signin-card">
+        <h2 class="signin-title">Welcome Back 👋</h2>
+        <p class="signin-subtitle">Sign in to continue your crypto travel journey</p>
+
+        <form #f="ngForm" (ngSubmit)="onSignin(f.value)">
+            <div class="form-group">
+                <input type="email" name="email" ngModel placeholder="Email Address" required />
+            </div>
+
+            <div class="form-group">
+                <input type="password" name="password" ngModel placeholder="Password" required />
+            </div>
+
+            <button type="submit" class="signin-btn" [disabled]="loading">
+                {{ loading ? 'Signing in...' : 'Sign In' }}
+            </button>
+
+            <p *ngIf="errorMessage" class="error-msg">{{ errorMessage }}</p>
+        </form>
+
+        <p class="signup-link">
+            Don't have an account?
+            <a routerLink="/signup">Create one</a>
+        </p>
+    </div>
+</div>

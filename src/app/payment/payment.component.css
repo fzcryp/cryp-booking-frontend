@@ -1,0 +1,182 @@
+/* ============ Page container ============ */
+.payment-container {
+  padding-top: 110px;              /* equal to header height */
+  min-height: calc(100vh - 110px);
+  height: 100vh;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  font-family: 'Poppins', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-bottom: 60px;
+  color: #fff;
+}
+
+/* inner white wrapper/card */
+.payment-wrapper {
+  width: 100%;
+  max-width: 1100px;              /* wider to allow 3 columns */
+  background: #ffffff;
+  color: #333;
+  border-radius: 20px;
+  padding: 36px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.35);
+  box-sizing: border-box;
+  margin: 20px;
+}
+
+/* title */
+.payment-title {
+  text-align: center;
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: #203a43;
+  margin-bottom: 28px;
+}
+
+/* ============ Grid layout ============ */
+/* Use CSS grid for predictable columns and spacing */
+.payment-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr; /* left / center / right */
+  gap: 26px;
+  align-items: start;
+}
+
+/* columns common */
+.payment-grid .col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* PayPal button column */
+.paypal-button-box {
+  width: 100%;
+  max-width: 360px;
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 18px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+}
+
+/* small powered line under the paypal box */
+.powered {
+  margin-top: 10px;
+  font-size: 13px;
+  color: #7a7a7a;
+}
+.paypal-blue { color: #003087; font-weight: 600; }
+
+/* Success column */
+.success-box {
+  width: 100%;
+  max-width: 420px;
+  background: #e9f9f1;
+  border-left: 6px solid #00c4cc;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  text-align: left;
+}
+
+.success-box h3 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #007f79;
+  font-size: 1.25rem;
+  margin: 0 0 10px 0;
+}
+
+.success-box .thank-you {
+  margin: 6px 0 12px 0;
+  color: #333;
+}
+
+.details {
+  border-top: 1px solid rgba(0,0,0,0.08);
+  padding-top: 10px;
+}
+.details p {
+  margin: 8px 0;
+  color: #2f2f2f;
+  font-size: 0.95rem;
+}
+
+/* Download button column */
+.btn-download {
+  width: 100%;
+  max-width: 260px;
+  background: linear-gradient(90deg, #00c4cc, #0097a7);
+  color: #fff;
+  border: none;
+  padding: 14px 18px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+  transition: transform .16s ease, box-shadow .16s ease;
+}
+.btn-download:hover { transform: translateY(-4px); box-shadow: 0 14px 30px rgba(0,0,0,0.18); }
+
+/* ============ Animation for success box ============ */
+.animate-in {
+  opacity: 0;
+  transform: translateY(12px);
+  animation: slideFadeIn 420ms ease forwards;
+}
+
+@keyframes slideFadeIn {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ============ Responsive adjustments ============ */
+@media (max-width: 992px) {
+  .payment-grid {
+    grid-template-columns: 1fr; /* stack columns at tablet and below */
+  }
+
+  .payment-wrapper {
+    padding: 28px;
+  }
+
+  .success-box {
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .details { text-align: center; border-top: 1px solid rgba(0,0,0,0.06); padding-top: 12px; }
+  .btn-download { max-width: 320px; margin-top: 12px; }
+}
+/* ✅ Balance display - top right corner above the title */
+.balance-display {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.balance-display .label {
+  color: #555;
+  margin-right: 6px;
+}
+
+.balance-display .value {
+  color: #008080;
+  background: #f2f8f9;
+  border: 1px solid #d1e7e8;
+  border-radius: 8px;
+  padding: 4px 10px;
+  font-weight: 700;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.payment-title {
+  text-align: left;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}

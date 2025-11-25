@@ -1,0 +1,20 @@
+.footer {
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  color: #ffffffcc;
+  text-align: center;
+  padding: 1rem 0;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.9rem;
+
+  width: 100%;
+}
+
+.footer a {
+  color: #00c4cc;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}

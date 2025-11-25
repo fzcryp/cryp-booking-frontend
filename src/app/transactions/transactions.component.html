@@ -1,0 +1,79 @@
+<div class="transaction-container">
+    <div class="transaction-card shadow-lg">
+        <h3 class="text-center mb-4 text-gradient">💰 My Transaction History</h3>
+
+        <!-- TABLE VIEW (Desktop Only) -->
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered text-center align-middle shadow-sm">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Transaction ID</th>
+                        <th>Payer Name</th>
+                        <th>Amount</th>
+                        <th>Currency</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                        <th>Receipt</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let tx of transactions">
+                        <td>{{ tx.transaction_id }}</td>
+                        <td>{{ tx.payer_name }}</td>
+                        <td>${{ tx.amount }}</td>
+                        <td>{{ tx.currency }}</td>
+
+                        <td>
+                            <span [ngClass]="{
+                                'text-success fw-bold': tx.status === 'COMPLETED',
+                                'text-danger fw-bold': tx.status === 'FAILED'
+                            }">
+                                {{ tx.status }}
+                            </span>
+                        </td>
+
+                        <td>{{ tx.date | date: 'dd-MM-yyyy' }}</td>
+
+                        <td>
+                            <button class="btn btn-sm btn-outline-primary" (click)="downloadReceipt(tx)">
+                                ⬇ Download PDF
+                            </button>
+                        </td>
+                    </tr>
+
+                    <tr *ngIf="transactions.length === 0">
+                        <td colspan="7" class="text-muted py-3">No transactions found.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- MOBILE CARD VIEW (Visible Only on Mobile) -->
+        <div class="mobile-card-list" *ngIf="transactions.length > 0">
+            <div class="mobile-card" *ngFor="let tx of transactions">
+                <h5>🧾 Transaction #{{ tx.transaction_id }}</h5>
+
+                <p><strong>Payer:</strong> {{ tx.payer_name }}</p>
+                <p><strong>Amount:</strong> ${{ tx.amount }}</p>
+                <p><strong>Currency:</strong> {{ tx.currency }}</p>
+
+                <p>
+                    <strong>Status:</strong>
+                    <span [ngClass]="{
+                        'text-success fw-bold': tx.status === 'COMPLETED',
+                        'text-danger fw-bold': tx.status === 'FAILED'
+                    }">
+                        {{ tx.status }}
+                    </span>
+                </p>
+
+                <p><strong>Date:</strong> {{ tx.date | date: 'dd-MM-yyyy' }}</p>
+
+                <button class="btn btn-sm btn-primary w-100" (click)="downloadReceipt(tx)">
+                    ⬇ Download Receipt
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>

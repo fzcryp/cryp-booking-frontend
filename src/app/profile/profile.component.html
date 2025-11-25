@@ -1,0 +1,68 @@
+<div class="profile-page container">
+    <div class="row">
+
+        <!-- Left Column: User Details -->
+        <div class="col-md-4">
+            <div class="card user-card">
+                <div class="card-header">
+                    <h5>User Details</h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>Name:</strong> {{ user?.name }}</p>
+                    <p><strong>Email:</strong> {{ user?.email }}</p>
+                    <p><strong>Referral Code:</strong> {{ user?.referral_code }}</p>
+                    <p><strong>Total Referral:</strong> {{ totalBookings }}</p>
+                    <p><strong>Total Rewards Earned:</strong> {{ totalRewards | currency:'USD':'symbol':'1.2-2' }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column: Referrals -->
+    <div class="col-md-8">
+        <div class="card referrals-card">
+            <div class="card-header">
+                <h5>Referrals</h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-striped referral-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Referred User</th>
+                            <th>Reward</th>
+                            <th>Booking Amount</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let ref of referralHistory; let i = index">
+                            <td>{{ i + 1 }}</td>
+                            <td>{{ ref.referred_user }}</td>
+                            <td>{{ ref.reward_amount | currency:'USD':'symbol' }}</td>
+                            <td>{{ ref.booking_amount | currency:'USD':'symbol' }}</td>
+                            <td>{{ ref.created_at | date:'short' }}</td>
+                        </tr>
+                        <tr *ngIf="referralHistory.length === 0">
+                            <td colspan="5" class="text-center">No referrals yet.</td>
+                        </tr>
+                    </tbody>
+                </table>
+    
+                <!-- Mobile view cards -->
+                <div class="referral-cards" *ngIf="referralHistory.length > 0">
+                    <div class="referral-item" *ngFor="let ref of referralHistory; let i = index">
+                        <p><strong>#{{ i + 1 }}</strong></p>
+                        <p><strong>User:</strong> {{ ref.referred_user }}</p>
+                        <p><strong>Reward:</strong> {{ ref.reward_amount | currency:'USD':'symbol' }}</p>
+                        <p><strong>Booking:</strong> {{ ref.booking_amount | currency:'USD':'symbol' }}</p>
+                        <p><strong>Date:</strong> {{ ref.created_at | date:'short' }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    </div>
+</div>

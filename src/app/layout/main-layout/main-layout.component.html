@@ -1,0 +1,9 @@
+<div class="layout-wrapper">
+    <app-header></app-header>
+
+    <main class="content-area">
+        <router-outlet></router-outlet>
+    </main>
+
+<app-footer *ngIf="!hideFooter"></app-footer>
+</div>

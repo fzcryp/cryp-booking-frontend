@@ -1,0 +1,27 @@
+<main class="content">
+    <router-outlet></router-outlet>
+</main>
+
+<!-- Floating Referral Icon -->
+<div class="floating-referral-circle" (click)="toggleReferralTooltip()">
+    <i class="fas fa-gift"></i>
+</div>
+
+<!-- Floating Referral Tooltip -->
+<!-- Floating Referral Tooltip -->
+<div class="referral-tooltip" *ngIf="showReferralTooltip">
+    <div class="tooltip-header">
+        <span>Referral Program</span>
+        <button class="close-btn" (click)="closeReferralTooltip()">×</button>
+    </div>
+    <div class="tooltip-body">
+        Invite your friends and earn rewards on every successful booking! <br>
+        <p>
+            Referral Link:
+            <span class="referral-link" (click)="copyReferralLink()" title="Click to copy">
+                <!-- Show "Link Copied." temporarily -->
+                {{ copied ? 'Link Copied.' : referralLink }}
+            </span>
+        </p>
+    </div>
+</div>

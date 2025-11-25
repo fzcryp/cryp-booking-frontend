@@ -1,0 +1,48 @@
+<div class="payment-container">
+    <div class="payment-wrapper">
+        <div class="balance-display">
+            <span class="label">Available Balance:</span>
+            <span class="value">${{ userBalance | number:'1.2-2' }} USD</span>
+        </div>
+        <!-- <div class="balance-top-right">
+            Balance: <span class="balance-value">${{ userBalance | number:'1.2-2' }} USD</span>
+        </div> -->
+        <h2 class="payment-title">Pay with PayPal </h2>
+
+        <!-- grid layout: left = paypal, center = success, right = download -->
+        <div class="payment-grid">
+<!-- <div class="balance-card">
+    <h4>Your Available Balance</h4>
+    <p class="balance-amount">${{ userBalance | number:'1.2-2' }} USD</p>
+</div> -->
+
+            <!-- LEFT: PayPal Button area (shown even after success) -->
+            <div class="col paypal-col">
+                <div #paymentRef class="paypal-button-box"></div>
+                <!-- <div class="powered">Powered by <span class="paypal-blue">PayPal</span></div> -->
+            </div>
+
+            <!-- CENTER: Success message (shows only when transactionCompleted) -->
+            <div class="col success-col" *ngIf="transactionCompleted">
+                <div class="success-box animate-in">
+                    <h3>✅ <span>Payment Successful!</span></h3>
+                    <p class="thank-you">Thank you for your payment, <strong>{{ transactionDetails?.payerName
+                            }}</strong>.</p>
+
+                    <div class="details">
+                        <p><strong>Transaction ID:</strong> {{ transactionDetails?.transactionId }}</p>
+                        <p><strong>Amount:</strong> ${{ transactionDetails?.amount }} {{ transactionDetails?.currency }}
+                        </p>
+                        <p><strong>Status:</strong> {{ transactionDetails?.status }}</p>
+                        <p><strong>Date:</strong> {{ transactionDetails?.date | date: 'medium' }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT: Download button (shows only when transactionCompleted) -->
+            <div class="col download-col" *ngIf="transactionCompleted">
+                <button class="btn-download" (click)="downloadReceipt()">⬇ Download Receipt (PDF)</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,217 @@
+/* ========== Page Background (same as payment page) ========== */
+.transaction-container {
+  padding-top: 110px !important; /* match header height */
+  min-height: 100vh;
+  height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  font-family: 'Poppins', sans-serif;
+  color: #fff;
+  padding: 50px 15px;
+}
+
+/* ========== Card Styling ========== */
+.transaction-card {
+  background: #ffffff;
+  color: #333;
+  border-radius: 20px;
+  padding: 2rem 2.5rem;
+  width: 100%;
+  max-width: 1000px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* ========== Title Gradient ========== */
+.text-gradient {
+  background: linear-gradient(90deg, #00c4cc, #0097a7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 600;
+}
+
+/* ========== Table Styling ========== */
+.table {
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.table thead th {
+  background-color: #203a43 !important;
+  color: #fff;
+  border: none;
+}
+
+.table td {
+  vertical-align: middle;
+  font-size: 0.95rem;
+}
+
+.table tbody tr:hover {
+  background-color: #f2f6f7;
+  transition: background 0.3s;
+}
+
+/* ========== Responsive Adjustments ========== */
+@media (max-width: 768px) {
+  .transaction-card {
+    padding: 1.5rem;
+  }
+
+  .table {
+    font-size: 0.85rem;
+  }
+}
+.btn-outline-primary {
+  border-radius: 20px;
+  font-size: 0.85rem;
+  padding: 5px 10px;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-primary:hover {
+  background-color: #00a3b0;
+  color: #fff;
+}
+/* Hide mobile card view by default */
+.mobile-card-list {
+  display: none;
+}
+
+/* Mobile card style */
+.mobile-card {
+  background: #ffffff;
+  color: #333;
+  border-radius: 15px;
+  padding: 15px;
+  margin-bottom: 15px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+  border-left: 5px solid #0097a7;
+}
+
+/* Heading inside card */
+.mobile-card h5 {
+  font-weight: 600;
+  color: #0097a7;
+  margin-bottom: 10px;
+}
+
+/* Show card layout on mobile, hide table */
+@media (max-width: 768px) {
+  .table-responsive {
+    display: none;
+  }
+  .mobile-card-list {
+    display: block;
+  }
+}
+.transaction-container {
+  padding-top: 110px !important;
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  font-family: 'Poppins', sans-serif;
+  color: #fff;
+  padding: 50px 15px;
+  margin-bottom: 60px;
+}
+
+
+/* ============================
+   BEAUTIFUL MOBILE CARD DESIGN
+============================ */
+
+@media (max-width: 768px) {
+
+  .mobile-card-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 20px;
+  }
+
+  .mobile-card {
+    background: #ffffff;
+    color: #333;
+    border-radius: 18px;
+    padding: 18px 20px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.18);
+    border: none;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Soft gradient left border */
+  .mobile-card::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 6px;
+    height: 100%;
+    background: linear-gradient(180deg, #00c4cc, #006c7a);
+    border-radius: 6px 0 0 6px;
+  }
+
+  /* Header */
+  .mobile-card h5 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #006c7a;
+    margin-bottom: 10px;
+  }
+
+  /* Info rows */
+  .mobile-card p {
+    margin: 6px 0;
+    font-size: 0.95rem;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .mobile-card p strong {
+    color: #0f2027;
+    font-weight: 600;
+  }
+
+  /* Status badge */
+  .status-badge {
+    padding: 5px 12px;
+    font-size: 0.8rem;
+    border-radius: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+
+  .completed-badge {
+    background: #d7f7e4;
+    color: #1b8a4d;
+  }
+
+  .failed-badge {
+    background: #fde0dd;
+    color: #c62828;
+  }
+
+  /* Modern button */
+  .mobile-card button {
+    margin-top: 12px;
+    width: 100%;
+    padding: 10px;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    background: linear-gradient(135deg, #00c4cc, #0097a7);
+    border: none;
+    color: white;
+    box-shadow: 0 3px 14px rgba(0,0,0,0.18);
+  }
+
+  .mobile-card button:active {
+    transform: scale(0.97);
+  }
+}

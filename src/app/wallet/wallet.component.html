@@ -1,0 +1,28 @@
+<div class="wallet-container">
+    <h2 class="wallet-title">Wallet</h2>
+
+    <!-- Display current balance -->
+    <div class="wallet-balance">
+        <p><strong>Available Balance:</strong> ${{ userBalance | number: '1.2-2' }} USD</p>
+    </div>
+
+    <!-- Withdrawal Form -->
+    <div class="withdrawal-section">
+        <h4>Withdraw Funds</h4>
+
+        <div class="form-group">
+            <label>Enter Amount (USD):</label>
+            <input type="number" [(ngModel)]="withdrawAmount" (input)="calculateFees()" min="1" step="0.01" />
+        </div>
+
+        <!-- Fee Breakdown -->
+        <div *ngIf="withdrawAmount > 0" class="fee-details">
+            <p>PayPal Fee (4.4%): ${{ paypalFee | number: '1.2-2' }}</p>
+            <p>Platform Fee (2%): ${{ platformFee | number: '1.2-2' }}</p>
+            <p><strong>Total Fees (6.4%):</strong> ${{ totalFee | number: '1.2-2' }}</p>
+            <p><strong>Amount You Will Receive:</strong> ${{ finalAmount | number: '1.2-2' }} USD</p>
+        </div>
+
+        <button class="btn btn-primary" (click)="withdrawFunds()">Withdraw via PayPal</button>
+    </div>
+</div>

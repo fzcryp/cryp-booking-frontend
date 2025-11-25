@@ -1,0 +1,61 @@
+.profile-page {
+  padding-top: 110px !important; /* match header height */
+}
+
+.card {
+  border-radius: 12px;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+}
+
+.card-header {
+  background-color: #0bc6e3;
+  color: white;
+  font-weight: 600;
+  font-size: 16px;
+  border-radius: 12px 12px 0 0;
+  padding: 10px 15px;
+}
+
+.card-body {
+  padding: 15px;
+}
+
+.user-card p {
+  font-size: 14px;
+  margin: 6px 0;
+}
+
+.referrals-card table {
+  font-size: 14px;
+}
+
+.referrals-card table th, 
+.referrals-card table td {
+  vertical-align: middle;
+}
+/* Hide mobile cards by default */
+.referral-cards {
+  display: none;
+}
+
+/* Card style for mobile */
+.referral-item {
+  background-color: #f5f5f5;
+  padding: 12px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+}
+
+/* Responsive: switch table to cards on small screens */
+@media (max-width: 768px) {
+  /* Hide table */
+  .referral-table {
+    display: none;
+  }
+
+  /* Show cards */
+  .referral-cards {
+    display: block;
+  }
+}

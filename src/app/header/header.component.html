@@ -1,0 +1,80 @@
+<header class="main-header">
+    <div class="top-bar">
+        <div class="contact-info">
+            <span class="phone">(000) 999 -656 -888</span>
+            <span class="email">support cryptbooking.com</span>
+        </div>
+        <div class="social-links">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-pinterest-p"></i></a>
+        </div>
+    </div>
+
+    <nav class="navbar">
+        <div class="logo" routerLink="/">CryptoBooking</div>
+
+        <!-- Hamburger Icon -->
+        <div class="menu-toggle" (click)="toggleMenu()">
+            <i class="fas" [ngClass]="menuOpen ? 'fa-times' : 'fa-bars'"></i>
+        </div>
+
+        <!-- NAV LINKS -->
+        <ul class="nav-links" [ngClass]="{ 'mobile-open': menuOpen }">
+            <li><a routerLink="/home"><i class="fas fa-home"></i> Home</a></li>
+            <li><a><i class="fas fa-hotel"></i> Hotel</a></li>
+            <li><a><i class="fas fa-globe"></i> Tour</a></li>
+            <li><a><i class="fas fa-running"></i> Activity</a></li>
+            <li><a routerLink="/transaction"><i class="fas fa-receipt"></i> Transactions</a></li>
+        </ul>   
+<div class="profile-dropdown">
+    <!-- Profile Button Circle -->
+    <div class="profile-btn-circle" (click)="toggleProfileMenu()">
+        <i class="fas fa-user"></i>
+    </div>
+
+    <!-- Dropdown Panel -->
+    <div class="profile-menu" [ngClass]="{ 'open': profileMenuOpen }">
+        <div class="profile-menu-row">
+            <!-- Currency -->
+            <!-- <div class="menu-item">
+                <i class="fas fa-dollar-sign"></i>
+                <span>EUR/USD</span>
+            </div> -->
+
+            <!-- Wallet -->
+            <div class="menu-item" routerLink="/payment">
+                <i class="fas fa-wallet"></i>
+                <span>Wallet</span>
+            </div>
+
+            <!-- Profile/Options -->
+            <div class="menu-item" routerLink="/profile">
+                <i class="fas fa-user-circle"></i>
+                <span>Profile</span>
+            </div>
+
+            <!-- Login/Logout -->
+            <ng-container *ngIf="!isLoggedIn; else loggedInBlock">
+                <div class="menu-item" routerLink="/signin">
+                    <i class="fas fa-sign-in-alt"></i>
+                    <span>Login</span>
+                </div>
+            </ng-container>
+
+            <ng-template #loggedInBlock>
+                <div class="menu-item" (click)="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </div>
+            </ng-template>
+        </div>
+    </div>
+</div>
+
+
+
+
+    </nav>
+</header>

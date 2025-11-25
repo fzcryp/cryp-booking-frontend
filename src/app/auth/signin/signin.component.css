@@ -1,0 +1,95 @@
+/* Centered layout */
+.signin-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  /* min-height: 90vh; */
+  background: linear-gradient(to bottom right, #0f2027, #203a43, #2c5364);
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Card */
+.signin-card {
+  background: #ffffff;
+  padding: 2.5rem;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+/* Title & Subtitle */
+.signin-title {
+  margin-bottom: 0.5rem;
+  font-size: 1.8rem;
+  color: #222;
+  font-weight: 600;
+}
+
+.signin-subtitle {
+  color: #555;
+  margin-bottom: 2rem;
+  font-size: 0.95rem;
+}
+
+/* Inputs */
+.form-group input {
+  width: 100%;
+  padding: 0.9rem;
+  margin-bottom: 1.2rem;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  outline: none;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.form-group input:focus {
+  border-color: #00c4cc;
+  box-shadow: 0 0 5px rgba(0, 196, 204, 0.5);
+}
+
+/* Button */
+.signin-btn {
+  width: 100%;
+  padding: 0.9rem;
+  background: linear-gradient(90deg, #00c4cc, #0097a7);
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.signin-btn:hover {
+  background: linear-gradient(90deg, #00d4d8, #00a3b0);
+  transform: translateY(-2px);
+}
+
+/* Error Message */
+.error-msg {
+  color: #d9534f;
+  margin-top: 0.8rem;
+  font-size: 0.9rem;
+}
+
+/* Sign Up Link */
+.signup-link {
+  margin-top: 1.5rem;
+  color: #555;
+  font-size: 0.95rem;
+}
+
+.signup-link a {
+  color: #00c4cc;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.signup-link a:hover {
+  text-decoration: underline;
+}

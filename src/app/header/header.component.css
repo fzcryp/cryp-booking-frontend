@@ -1,0 +1,486 @@
+/* Import Font Awesome in your main style.css or index.html */
+
+/* ================= Top Bar ================= */
+.top-bar {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0.5rem 3rem;
+    
+    /* KEY CHANGE: Lighter, more subtle dark background for the very top bar */
+    background: rgba(10, 10, 10, 0.4); 
+    /* color: #ccc; */
+    font-size: 0.85rem;
+    
+    /* Keep blur for subtle effect */
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+}
+
+.contact-info {
+  margin-right: auto;
+}
+
+.contact-info .phone,
+.contact-info .email {
+  margin-right: 1.5rem;
+}
+
+.social-links a {
+  color: #ccc;
+  margin-left: 0.8rem;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.social-links a:hover {
+  color: white;
+}
+
+/* ================= Main Header/Navbar ================= */
+.main-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+    
+    /* KEY CHANGE: Subtle gradient from transparent black to fully transparent */
+       /* KEY CHANGE: Lighter, more subtle dark background for the very top bar */
+    background: #273243; 
+    color: #ccc;
+    font-size: 0.85rem;
+    
+    /* Keep blur for subtle effect */
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(2px);
+    
+    /* Subtle glow instead of harsh shadow */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
+    color: white;
+    transition: all 0.4s ease;
+}
+
+/* On scroll, make it slightly darker for depth */
+.main-header.scrolled {
+    /* KEY CHANGE: On scroll, make it a uniform, light transparent dark shade */
+    background: rgba(10, 10, 10, 0.85); /* Slightly darker solid transparent background */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); /* Stronger shadow on scroll */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+/* Navbar content stays transparent */
+.navbar {
+  background: transparent;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 3rem;
+  color: white;
+}
+
+.navbar a {
+  color: white !important;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.navbar a:hover {
+  color: #0bc6e3;
+}
+
+/* ================= Logo ================= */
+.logo {
+  display: flex;
+  align-items: center;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: white;
+  cursor: pointer;
+}
+
+.logo-icon {
+  width: 30px;
+  height: 30px;
+  margin-right: 0.5rem;
+}
+
+
+/* ================= Logo ================= */
+.logo {
+    display: flex;
+    align-items: center;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: white;
+    cursor: pointer;
+}
+
+.logo-icon {
+    width: 30px; /* Adjust as needed */
+    height: 30px;
+    margin-right: 0.5rem;
+}
+
+.logo-subtext {
+    font-size: 0.6rem;
+    font-weight: 300;
+    color: #aaa;
+    margin-left: 0.5rem;
+    align-self: flex-end;
+}
+
+/* ================= Navigation Links ================= */
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links li {
+    position: relative;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.5rem 0.8rem;
+    transition: color 0.2s;
+    font-size: 0.95rem;
+}
+
+.nav-links a:hover {
+    color: #0bc6e3; /* Highlight color for hover */
+}
+
+/* Dropdown Arrow */
+.nav-links .fa-angle-down {
+    font-size: 0.7rem;
+    margin-left: 0.3rem;
+}
+
+/* ================= Action and User Icons ================= */
+.nav-actions {
+    display: flex;
+    align-items: center;
+    /* gap: 1.5rem; */
+}
+
+.currency-select {
+    color: white;
+    display: flex;
+    align-items: center;
+    /* gap: 0.3rem; */
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.account-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.icon-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 50%;
+    transition: background-color 0.2s;
+}
+
+.icon-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.profile-btn i {
+    font-size: 1.5rem; /* Larger profile icon */
+}
+
+/* ================= Host Button (Primary Button) ================= */
+.host-btn {
+    background-color: #0bc6e3;
+    color: white;
+    padding: 0.7rem 1.5rem;
+    border: none;
+    border-radius: 4px; /* Less rounded corners than your original */
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.host-btn:hover {
+    background-color: #08a2be;
+}
+
+
+.wallet-icon {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #333;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 0 15px;
+    transition: color 0.3s ease;
+}
+
+.wallet-icon:hover {
+    color: #007bff;
+}
+
+.wallet-icon i {
+    font-size: 18px;
+}
+
+.wallet-balance {
+    font-weight: 500;
+    font-size: 14px;
+}
+.wallet-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background-color: white;       /* white background */
+  border-radius: 50%;            /* make it circular */
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.wallet-icon i {
+  color: #0bc6e3;                /* wallet icon color (matches your theme) */
+  font-size: 18px;
+}
+
+.wallet-icon:hover {
+  background-color: #0bc6e3;     /* hover: fill with theme color */
+}
+
+.wallet-icon:hover i {
+  color: white;                  /* make icon white when hovered */
+}
+/* ================= Dropdown Menu ================= */
+.dropdown {
+  position: relative;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.9);
+  border-radius: 6px;
+  list-style: none;
+  margin: 0;
+  padding: 0.5rem 0;
+  min-width: 180px;
+  display: none; /* hidden by default */
+  flex-direction: column;
+  z-index: 2000;
+}
+
+.dropdown-menu li {
+  width: 100%;
+}
+
+.dropdown-menu a {
+  color: white;
+  display: flex;
+  justify-content: space-between; /* places text left & icon right */
+  align-items: center;
+  padding: 0.6rem 1rem;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.dropdown-menu a i {
+  font-size: 0.7rem;
+  opacity: 0.7;
+  transition: transform 0.2s, opacity 0.2s;
+}
+
+
+.dropdown-menu a:hover {
+  background-color: #0bc6e3;
+  color: #fff;
+}
+
+/* Show dropdown on hover */
+.dropdown:hover .dropdown-menu {
+  display: flex;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+/* Optional: subtle fade-in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.dropdown-menu a:hover i {
+  transform: translateX(3px);
+  opacity: 1;
+}
+.menu-toggle {
+    display: none;
+    color: white;
+    font-size: 1.8rem;
+    cursor: pointer;
+}
+
+@media (max-width: 900px) {
+
+    .navbar {
+        padding: 0.8rem 1.2rem;
+    }
+
+    /* Show hamburger */
+    .menu-toggle {
+        display: block;
+    }
+
+    /* Hide nav links on mobile */
+    .nav-links {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        display: none;
+        flex-direction: column;
+        background: rgba(10, 10, 10, 0.95);
+        padding: 1rem 0;
+        text-align: left;
+        gap: 0;
+    }
+
+    /* Show when open */
+    .nav-links.mobile-open {
+        display: flex;
+        animation: slideDown 0.3s ease;
+    }
+
+    .nav-links li {
+        width: 100%;
+        padding: 0.7rem 1.5rem;
+    }
+
+    .nav-links a {
+        font-size: 1rem;
+        width: 100%;
+        display: block;
+        padding: 0.8rem 0;
+    }
+
+    /* Hide right-side actions in mobile */
+    .nav-actions {
+        display: none;
+    }
+
+    /* Smooth menu animation */
+    @keyframes slideDown {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+}
+/* Hide top-bar on mobile */
+@media (max-width: 900px) {
+    .top-bar {
+        display: none !important;
+    }
+}
+.nav-links li a i,
+.nav-actions i {
+    margin-right: 6px;
+}
+/* Profile Button Circle */
+.profile-btn-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: white;
+  color: #0bc6e3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+  transition: all 0.3s ease;
+}
+
+.profile-btn-circle:hover {
+  background-color: #0bc6e3;
+  color: white;
+}
+
+/* Dropdown Panel */
+.profile-dropdown {
+  position: relative;
+}
+
+.profile-menu {
+  position: absolute;
+  right: 0;
+  top: 50px;
+  background-color: rgba(10,10,10,0.95);
+  color: white;
+  border-radius: 8px;
+  padding: 10px 15px;
+  display: none;
+  z-index: 2000;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.25);
+  min-width: 300px;
+}
+
+.profile-menu.open {
+  display: block;
+}
+
+/* Row layout */
+.profile-menu-row {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+/* Each menu item */
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  padding: 5px 8px;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+
+.menu-item i {
+  font-size: 16px;
+  color: #0bc6e3;
+}
+
+.menu-item span {
+  font-size: 14px;
+  color: white;
+}
+
+/* Hover effect */
+.menu-item:hover {
+  background-color: rgba(255,255,255,0.1);
+}

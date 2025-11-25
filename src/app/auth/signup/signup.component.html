@@ -1,0 +1,23 @@
+<div class="signup-container">
+    <div class="signup-card">
+        <h2>Create Account</h2>
+
+        <form #f="ngForm" (ngSubmit)="onSignup(f.value)">
+            <input type="text" name="name" ngModel placeholder="Full Name" required />
+            <input type="email" name="email" ngModel placeholder="Email" required />
+            <input type="password" name="password" ngModel placeholder="Password" required />
+
+            <button type="submit" [disabled]="loading">
+                {{ loading ? 'Signing up...' : 'Signup' }}
+            </button>
+
+            <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
+            <p *ngIf="successMessage" class="success">{{ successMessage }}</p>
+        </form>
+
+        <div class="signin-inline">
+            <span>Already have an account?</span>
+            <a routerLink="/signin">Sign in</a>
+        </div>
+    </div>
+</div>
