@@ -1,0 +1,86 @@
+.terms-container {
+    max-width: 900px;
+    margin: 80px auto;
+    padding: 40px;
+    font-family: 'Inter', sans-serif;
+    color: #333;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05); /* Subtle shadow for depth */
+}
+
+h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #1a1a1a;
+    text-align: center;
+}
+
+.intro-meta {
+    text-align: center;
+    color: #666;
+    margin-bottom: 40px;
+    font-style: italic;
+}
+
+section {
+    margin-bottom: 30px;
+}
+
+h2 {
+    font-size: 1.5rem;
+    color: #1668e3; /* Brand blue */
+    margin-bottom: 15px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+h3 {
+    font-size: 1.2rem;
+    color: #444;
+    margin-bottom: 10px;
+    margin-top: 20px;
+}
+
+p {
+    line-height: 1.7;
+    margin-bottom: 15px;
+    color: #4a4a4a;
+}
+
+ul {
+    margin-bottom: 15px;
+    padding-left: 20px;
+}
+
+li {
+    margin-bottom: 8px;
+    line-height: 1.6;
+}
+
+.contact-email {
+    color: #1668e3;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.contact-email:hover {
+    text-decoration: underline;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .terms-container {
+        margin-top: 60px;
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    h2 {
+        font-size: 1.3rem;
+    }
+}

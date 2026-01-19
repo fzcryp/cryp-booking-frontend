@@ -1,0 +1,83 @@
+<div class="admin-page-container">
+    <div class="header-section">
+        <div class="title-box">
+            <h1>User Management</h1>
+            <p>Manage registered users and their permissions.</p>
+        </div>
+        <button class="delete-bulk-btn" *ngIf="selectedUsers.size > 0" (click)="deleteSelected()">
+            <i class="fas fa-trash"></i> Delete Selected ({{ selectedUsers.size }})
+        </button>
+    </div>
+
+    <div class="table-container">
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th class="checkbox-col">
+                        <input type="checkbox" [checked]="isAllSelected()" (change)="toggleAll($event)">
+                    </th>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Balance</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let user of users">
+                    <td class="checkbox-col">
+                        <input type="checkbox" [checked]="isSelected(user.id)" (change)="toggleSelection(user.id)">
+                    </td>
+                    <td>#{{ user.id }}</td>
+                    <td>{{ user.name }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>
+                        <span class="role-badge" [ngClass]="{'admin': user.isAdmin}">
+                            {{ user.isAdmin ? 'Admin' : 'User' }}
+                        </span>
+                    </td>
+                    <td>${{ user.balance | number:'1.2-2' }}</td>
+                    <td class="actions-cell">
+                        <button class="icon-btn edit" (click)="openEditModal(user)" title="Edit">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="icon-btn delete" (click)="deleteUser(user.id)" title="Delete">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Edit Modal -->
+<div class="modal-overlay" *ngIf="isEditModalOpen" (click)="closeEditModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+        <span class="close-btn" (click)="closeEditModal()">&times;</span>
+        <h2>Edit User</h2>
+
+        <form (ngSubmit)="saveUser()">
+            <div class="form-group">
+                <label>Name</label>
+                <input type="text" [(ngModel)]="editingUser.name" name="name" required>
+            </div>
+
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" [(ngModel)]="editingUser.email" name="email" required>
+            </div>
+
+            <div class="form-group checkbox-group">
+                <label class="checkbox-container">
+                    <input type="checkbox" [(ngModel)]="editingUser.isAdmin" name="isAdmin">
+                    <span class="checkmark"></span>
+                    Is Admin User?
+                </label>
+            </div>
+
+            <button type="submit" class="save-btn">Save Changes</button>
+        </form>
+    </div>
+</div>

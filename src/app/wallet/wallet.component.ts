@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-wallet',
@@ -18,7 +22,7 @@ export class WalletComponent implements OnInit {
 
   apiUrl = 'http://localhost:4000/api'; // backend base URL
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
     const userEmail = localStorage.getItem('userEmail');
@@ -64,26 +68,31 @@ export class WalletComponent implements OnInit {
       return;
     }
 
-    // Request backend to process withdrawal
+    // Prompt for PayPal email (since it might be different from user email, or we could just use userEmail if that's the design. 
+    // For now, let's assume the user's registered email is their PayPal email OR prompts. 
+    // Looking at the code, there was no input for paypal email in the component, it just used the user email impliedly or missed it.
+    // The backend `withdraw.js` expects `paypal_email`. 
+    // I will use `userEmail` as `paypal_email` for now to keep it simple, but ideally UI should ask.
+    // However, looking at the previous implementation, it didn't even send paypal email properly (it sent email: userEmail).
+
     const withdrawalData = {
-      email: userEmail,
+      user_email: userEmail,
       amount: this.withdrawAmount,
-      finalAmount: this.finalAmount,
-      paypalFee: this.paypalFee,
-      platformFee: this.platformFee
+      paypal_email: userEmail // Default to user email for now
     };
 
-    this.http.post(`${this.apiUrl}/paypal/withdraw`, withdrawalData)
+    this.http.post(`${this.apiUrl}/withdraw`, withdrawalData)
       .subscribe({
         next: (res: any) => {
-          alert('✅ Withdrawal successful!');
+          alert('✅ Withdrawal successful! Payout processed.');
           this.getBalance(userEmail); // refresh balance
           this.withdrawAmount = 0;
           this.calculateFees();
         },
         error: (err) => {
           console.error('Withdrawal failed:', err);
-          alert('❌ Withdrawal failed. Please try again.');
+          const errorMsg = err.error?.error || 'Withdrawal failed. Please try again.';
+          alert(`❌ ${errorMsg}`);
         }
       });
   }

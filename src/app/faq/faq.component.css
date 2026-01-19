@@ -1,0 +1,67 @@
+.faq-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+    min-height: 60vh;
+}
+
+.content-wrapper {
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+}
+
+.page-title {
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 40px;
+    color: #1a1a1a;
+}
+
+.faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.faq-item details {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 15px 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.faq-item details:hover {
+    background: #e9ecef;
+}
+
+.faq-item summary {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #333;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    outline: none;
+    list-style: none; /* Hide default triangle */
+}
+
+/* Custom indicator rotation */
+.faq-item details[open] summary i {
+    transform: rotate(180deg);
+}
+
+.faq-item details p {
+    margin-top: 15px;
+    line-height: 1.6;
+    color: #555;
+    font-size: 1rem;
+}
+
+/* Hide default marker in WebKit */
+.faq-item summary::-webkit-details-marker {
+    display: none;
+}

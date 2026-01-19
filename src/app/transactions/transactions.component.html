@@ -20,7 +20,7 @@
                     <tr *ngFor="let tx of transactions">
                         <td>{{ tx.transaction_id }}</td>
                         <td>{{ tx.payer_name }}</td>
-                        <td>${{ tx.amount }}</td>
+                        <td>${{ tx.amount || tx.amount_requested }}</td>
                         <td>{{ tx.currency }}</td>
 
                         <td>
@@ -54,7 +54,7 @@
                 <h5>🧾 Transaction #{{ tx.transaction_id }}</h5>
 
                 <p><strong>Payer:</strong> {{ tx.payer_name }}</p>
-                <p><strong>Amount:</strong> ${{ tx.amount }}</p>
+                <p><strong>Amount:</strong> ${{ tx.amount || tx.amount_requested }}</p>
                 <p><strong>Currency:</strong> {{ tx.currency }}</p>
 
                 <p>

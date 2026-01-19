@@ -2,14 +2,120 @@
     <router-outlet></router-outlet>
 </main>
 
-<!-- Floating Referral Icon -->
-<div class="floating-referral-circle" (click)="toggleReferralTooltip()">
+<!-- <div class="floating-referral-circle" (click)="toggleReferralTooltip()">
     <i class="fas fa-gift"></i>
+</div> -->
+
+<!-- Chatbot Floating Button -->
+<div class="floating-chatbot-circle" (click)="toggleChatbot()">
+    <i class="fas fa-robot"></i>
 </div>
 
-<!-- Floating Referral Tooltip -->
-<!-- Floating Referral Tooltip -->
-<div class="referral-tooltip" *ngIf="showReferralTooltip">
+<!-- Chatbot Modal -->
+<div class="chatbot-modal-overlay" *ngIf="showChatbot" (click)="toggleChatbot()"> <!-- Click outside to close -->
+    <div class="chatbot-modal-content" (click)="$event.stopPropagation()"> <!-- Prevent close on content click -->
+        <div class="chatbot-header">
+            <span>Pbookings Assistant</span>
+            <button class="close-btn" (click)="toggleChatbot()">×</button>
+        </div>
+        <div class="chatbot-body">
+            <div class="chatbot-scroll-content" #chatScrollContainer>
+                <!-- Options (Suggestions at Top) -->
+                <div class="chat-options-list" style="margin-bottom: 16px;">
+                    <button *ngFor="let opt of chatOptions" class="chat-option-btn" (click)="handleOptionClick(opt)">
+                        <i [class]="opt.icon"></i>
+                        <span>{{ opt.label }}</span>
+                        <i class="fas fa-chevron-right" style="margin-left: auto; font-size: 0.8rem; color: #ccc;"></i>
+                    </button>
+                </div>
+
+                <!-- Message History (Below) -->
+                <div class="chat-history">
+                    <div *ngFor="let msg of messages" class="chat-message"
+                        [ngClass]="{'user-msg': msg.sender === 'user', 'bot-msg': msg.sender === 'bot'}">
+
+                        <!-- Text Content -->
+                        <div>{{ msg.text }}</div>
+
+                        <!-- Interactive Options (Secondary Buttons) -->
+                        <div *ngIf="msg.type === 'options'" class="msg-options-grid">
+                            <button *ngFor="let opt of msg.options" class="msg-option-pill"
+                                (click)="handleOptionClick(opt)">
+                                {{ opt.label }}
+                            </button>
+                        </div>
+
+                        <!-- Action Link -->
+                        <div *ngIf="msg.type === 'link' && msg.link" style="margin-top: 8px;">
+                            <a [routerLink]="msg.link.url" class="msg-action-link" (click)="toggleChatbot()">
+                                {{ msg.link.text }} <i class="fas fa-external-link-alt"></i>
+                            </a>
+                        </div>
+
+                        <!-- Ticket List -->
+                        <div *ngIf="msg.type === 'ticket-list' && msg.tickets" class="msg-list-container">
+                            <div *ngFor="let ticket of msg.tickets" class="msg-list-item">
+                                <div class="msg-list-header">
+                                    <span class="msg-list-id">{{ ticket.id }}</span>
+                                    <span class="msg-list-status" [ngClass]="ticket.status.toLowerCase()">{{
+                                        ticket.status }}</span>
+                                </div>
+                                <div class="msg-list-body">{{ ticket.subject }}</div>
+                                <div class="msg-list-date">{{ ticket.date }}</div>
+                            </div>
+                        </div>
+
+                        <!-- Transaction List -->
+                        <div *ngIf="msg.type === 'transaction-list' && msg.transactions" class="msg-list-container">
+                            <div *ngFor="let txn of msg.transactions" class="msg-list-item">
+                                <div class="msg-list-header">
+                                    <span class="msg-list-id">{{ txn.id }}</span>
+                                    <span class="msg-list-status" [ngClass]="txn.status.toLowerCase()">{{ txn.status
+                                        }}</span>
+                                </div>
+                                <div class="msg-list-body" style="font-weight: bold;">{{ txn.amount }}</div>
+                                <div class="msg-list-date">{{ txn.date }}</div>
+                            </div>
+                        </div>
+
+                        <!-- Input Form -->
+                        <div *ngIf="msg.type === 'input-form' && msg.form" class="msg-form-container">
+                            <form (submit)="handleFormSubmit(msg.form.action, formRef.value); $event.preventDefault()"
+                                #formRef="ngForm">
+                                <div *ngFor="let field of msg.form.fields" class="msg-form-group">
+                                    <label>{{ field.label }}</label>
+
+                                    <!-- Country Select (binds to selectedCountryCode) -->
+                                    <select *ngIf="field.type === 'select'" [name]="field.key"
+                                        [(ngModel)]="selectedCountryCode" required class="msg-form-input">
+                                        <option *ngFor="let opt of field.options" [value]="opt.value">{{ opt.label }}
+                                        </option>
+                                    </select>
+
+                                    <!-- Phone (displays Country Code as prefix) -->
+                                    <div *ngIf="field.type === 'tel'" style="display: flex; gap: 8px;">
+                                        <input type="text" [value]="selectedCountryCode" disabled
+                                            style="width: 60px; background: #eee; text-align: center; border: 1px solid #ddd; border-radius: 4px;">
+                                        <input [type]="field.type" [name]="field.key"
+                                            [placeholder]="field.placeholder || ''" ngModel required
+                                            class="msg-form-input" style="flex: 1;">
+                                    </div>
+
+                                    <!-- Standard Input -->
+                                    <input *ngIf="field.type !== 'select' && field.type !== 'tel'" [type]="field.type"
+                                        [name]="field.key" [placeholder]="field.placeholder || ''" ngModel required
+                                        class="msg-form-input">
+                                </div>
+                                <button type="submit" class="msg-form-submit">{{ msg.form.submitLabel }}</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- <div class="referral-tooltip" *ngIf="showReferralTooltip">
     <div class="tooltip-header">
         <span>Referral Program</span>
         <button class="close-btn" (click)="closeReferralTooltip()">×</button>
@@ -19,9 +125,8 @@
         <p>
             Referral Link:
             <span class="referral-link" (click)="copyReferralLink()" title="Click to copy">
-                <!-- Show "Link Copied." temporarily -->
                 {{ copied ? 'Link Copied.' : referralLink }}
             </span>
         </p>
     </div>
-</div>
+</div> -->

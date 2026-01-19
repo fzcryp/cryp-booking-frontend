@@ -3,26 +3,28 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
 
+import { environment } from '../../../environments/environment';
+
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private baseUrl = 'http://192.168.5.125:4000/api/auth'; // backend URL
-  private profileUrl = 'http://192.168.5.125:4000/api/users'; // backend URL
+  private baseUrl = `${environment.apiUrl}/auth`; // backend URL
+  private profileUrl = `${environment.apiUrl}/users`; // backend URL
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router) { }
 
   // =====================
   // SIGNUP
   // =====================
-// auth.service.ts
-signup(name: string, email: string, password: string, referralCode?: string): Observable<any> {
-  const payload: any = { name, email, password };
-  if (referralCode) {
-    payload.referral_code = referralCode; // send referral_code as backend expects
+  // auth.service.ts
+  signup(name: string, email: string, password: string, referralCode?: string): Observable<any> {
+    const payload: any = { name, email, password };
+    if (referralCode) {
+      payload.referral_code = referralCode; // send referral_code as backend expects
+    }
+    return this.http.post(`${this.baseUrl}/signup`, payload);
   }
-  return this.http.post(`${this.baseUrl}/signup`, payload);
-}
 
 
   // =====================
@@ -34,6 +36,21 @@ signup(name: string, email: string, password: string, referralCode?: string): Ob
         if (response.token) {
           localStorage.setItem('token', response.token);
           localStorage.setItem('userEmail', email);
+          localStorage.setItem('user', JSON.stringify(response.user));
+        }
+      })
+    );
+  }
+
+  // =====================
+  // GOOGLE LOGIN
+  // =====================
+  googleLogin(idToken: string): Observable<any> {
+    return this.http.post(`${this.baseUrl}/google`, { idToken }).pipe(
+      tap((response: any) => {
+        if (response.token) {
+          localStorage.setItem('token', response.token);
+          localStorage.setItem('userEmail', response.user.email);
           localStorage.setItem('user', JSON.stringify(response.user));
         }
       })
@@ -57,7 +74,7 @@ signup(name: string, email: string, password: string, referralCode?: string): Ob
     this.router.navigate(['/signin']);
   }
 
-  getCurrentUser(id:any): Observable<any> {
+  getCurrentUser(id: any): Observable<any> {
     return this.http.get(`${this.profileUrl}/profile/${id}`);
   }
 }

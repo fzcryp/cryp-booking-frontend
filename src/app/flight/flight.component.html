@@ -1,0 +1,178 @@
+<div class="center-container" [class.is-searching]="isSearching">
+    <!-- Search Box (Left Panel when searching) -->
+
+    <div class="banner-section" [class.hidden]="isSearching">
+        <div class="banner-content">
+            <h1>Fly Anywhere <br>& Explore the World</h1>
+            <p>Best flight deals from top airlines.</p>
+        </div>
+    </div>
+
+
+    <div class="search-wrapper" [class.is-searching]="isSearching">
+        <div class="center-box">
+            <div class="logo-corner" *ngIf="!isSearching">
+                <span class="animated-logo">CrypBooking</span>
+            </div>
+
+            <h2 *ngIf="!isSearching">Book Your Flight</h2>
+            <h2 *ngIf="isSearching">Edit Search</h2>
+            <p class="subtitle" *ngIf="!isSearching">Safety. Comfort. Speed.</p>
+
+            <div class="form-grid">
+                <!-- Origin with Autocomplete -->
+                <div class="input-group" style="position: relative;">
+                    <label>From</label>
+                    <div style="position: relative;">
+                        <input type="text" placeholder="City or Airport" [ngModel]="originInput"
+                            (ngModelChange)="onOriginInput($event)" style="padding-right: 35px;" />
+
+                        <div *ngIf="isOriginLoading" class="input-loader">
+                            <i class="fas fa-spinner fa-spin"></i>
+                        </div>
+                    </div>
+
+                    <ul class="suggestions-list" *ngIf="originSuggestions.length > 0">
+                        <li *ngFor="let item of originSuggestions" (click)="selectOrigin(item)">
+                            <div class="s-name">{{ item.name }}</div>
+                            <div class="s-code">{{ item.iataCode }}</div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Destination with Autocomplete -->
+                <div class="input-group" style="position: relative;">
+                    <label>To</label>
+                    <div style="position: relative;">
+                        <input type="text" placeholder="City or Airport" [ngModel]="destinationInput"
+                            (ngModelChange)="onDestInput($event)" style="padding-right: 35px;" />
+
+                        <div *ngIf="isDestLoading" class="input-loader">
+                            <i class="fas fa-spinner fa-spin"></i>
+                        </div>
+                    </div>
+
+                    <ul class="suggestions-list" *ngIf="destSuggestions.length > 0">
+                        <li *ngFor="let item of destSuggestions" (click)="selectDest(item)">
+                            <div class="s-name">{{ item.name }}</div>
+                            <div class="s-code">{{ item.iataCode }}</div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="input-group">
+                    <label>Departure</label>
+                    <input type="date" [(ngModel)]="departureDate" />
+                </div>
+
+                <div class="input-group">
+                    <label>Return</label>
+                    <input type="date" [(ngModel)]="returnDate" />
+                </div>
+
+                <div class="input-group">
+                    <label>Guests</label>
+                    <input type="number" min="1" [(ngModel)]="guests" />
+                </div>
+            </div>
+
+            <button class="center-btn" (click)="search()">
+                {{ isSearching ? 'Update Search' : 'Find Flights' }}
+            </button>
+        </div>
+
+        <!-- Results Panel (Right Side) -->
+        <div class="results-panel" *ngIf="isSearching">
+
+            <!-- Loading State -->
+            <div *ngIf="isLoading" class="placeholder-message-box">
+                <div class="shimmer-icon spin">
+                    <i class="fas fa-spinner fa-spin"></i>
+                </div>
+                <h3>Searching Flights...</h3>
+                <p>Scanning airlines for best rates...</p>
+            </div>
+
+            <!-- Empty State -->
+            <div *ngIf="!isLoading && paginatedFlights.length === 0 && errorMessage" class="placeholder-message-box">
+                <div class="shimmer-icon warning">
+                    <i class="fas fa-exclamation-circle"></i>
+                </div>
+                <h3>No Flights Found</h3>
+                <p>{{ errorMessage }}</p>
+            </div>
+
+            <!-- Grid of Results -->
+            <div class="results-grid" *ngIf="!isLoading && paginatedFlights.length > 0">
+                <div class="result-card" *ngFor="let item of paginatedFlights">
+
+                    <!-- LEFT: Airline Logo Section -->
+                    <div class="card-image-section">
+                        <div class="hotel-img-placeholder" *ngIf="!item.logo">
+                            <i class="fas fa-plane" style="color: #64b5f6;"></i>
+                        </div>
+                        <div class="img-overlay-btn">
+                            <div class="overlay-btn"><i class="far fa-heart"></i> Save</div>
+                        </div>
+                    </div>
+
+                    <!-- MIDDLE: Info Section -->
+                    <div class="card-info-section">
+                        <h4 class="hotel-title">{{ item.airlineName }}</h4>
+                        <div class="hotel-location">
+                            {{ item.departureCode }} <i class="fas fa-long-arrow-alt-right"></i> {{ item.arrivalCode }}
+                        </div>
+                        <div class="hotel-location" style="font-size: 0.8rem; margin-top: -5px;">
+                            {{ item.duration }} • {{ item.stops }} Stop(s)
+                        </div>
+
+                        <div class="rating-row">
+                            <span class="rating-badge" style="background: #1976d2">Flight</span>
+                            <span class="rating-text">{{ item.departureTime | date:'shortTime' }}</span>
+                        </div>
+
+                        <div class="provider-list">
+                            <div class="provider-row">
+                                <span class="provider-name"><i class="fas fa-check" style="color:#0071c2"></i>
+                                    {{ item.airlineName }}</span>
+                                <span class="provider-price">{{ item.price | currency: item.currency : 'symbol' :
+                                    '1.0-0' }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- RIGHT: Deal Sidebar -->
+                    <div class="card-deal-section">
+                        <div>
+                            <div class="deal-badge">Best Fare</div>
+                            <div class="deal-provider-logo">{{ item.airlineName }}</div>
+                            <div class="main-price">{{ item.price | currency: item.currency : 'symbol' : '1.0-0' }}
+                            </div>
+                        </div>
+
+                        <button class="view-deal-btn">
+                            Book Now
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pagination Controls -->
+            <div class="pagination-container" *ngIf="!isLoading && paginatedFlights.length > 0">
+                <button class="page-btn prev" (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1">
+                    <i class="fas fa-arrow-left"></i> Previous
+                </button>
+
+                <div class="page-info">
+                    Page {{ currentPage }} <span>of {{ totalPages }}</span>
+                </div>
+
+                <button class="page-btn next" (click)="changePage(currentPage + 1)"
+                    [disabled]="currentPage === totalPages">
+                    Next <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>

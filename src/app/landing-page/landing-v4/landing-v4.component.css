@@ -1,0 +1,107 @@
+.bold-container {
+    display: flex;
+    min-height: 100vh;
+    font-family: 'Arial Black', 'Impact', sans-serif;
+}
+
+.split-screen {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 50px;
+}
+
+.left {
+    background-color: #ffcc00; /* Bold Yellow */
+    color: #000;
+}
+
+.right {
+    background-color: #000;
+    color: #fff;
+}
+
+h1 {
+    font-size: 8rem;
+    line-height: 0.9;
+    letter-spacing: -5px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+.header-text p {
+    font-family: 'Helvetica', sans-serif;
+    font-size: 1.5rem;
+    font-weight: bold;
+    max-width: 400px;
+}
+
+.big-btn {
+    background: #000;
+    color: #fff;
+    margin-top: 40px;
+}
+
+.search-panel {
+    background: #111;
+    padding: 60px;
+    width: 100%;
+    max-width: 500px;
+    border: 2px solid #333;
+}
+
+.search-panel h2 {
+    font-size: 3rem;
+    color: #fff;
+    margin-bottom: 40px;
+    letter-spacing: -2px;
+}
+
+.form-group {
+    margin-bottom: 30px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.9rem;
+    font-family: 'Courier New', monospace;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.form-group input {
+    background: transparent;
+    border: none;
+    border-bottom: 3px solid #333;
+    width: 100%;
+    color: #fff;
+    font-size: 1.5rem;
+    padding: 10px 0;
+    font-weight: bold;
+    outline: none;
+}
+
+.form-group input:focus {
+    border-bottom-color: #ffcc00;
+}
+
+.bold-btn {
+    border: none;
+    padding: 20px 40px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: transform 0.2s;
+}
+
+.bold-btn:hover {
+    transform: scale(1.02);
+}
+
+.black-btn {
+    background: #ffcc00;
+    color: #000;
+    width: 100%;
+}

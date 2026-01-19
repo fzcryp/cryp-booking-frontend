@@ -1,0 +1,70 @@
+<div class="support-container">
+    <div class="content-wrapper">
+        <h1 class="page-title">Help & Support</h1>
+
+        <!-- FAQ Section Moved to /faq -->
+
+
+        <div class="grid-layout">
+            <!-- Submit Form -->
+            <div class="section form-section">
+                <h2>Ask a Question</h2>
+                <p class="section-desc">Can't find what you're looking for? Send us a message.</p>
+
+                <form [formGroup]="supportForm" (ngSubmit)="submitRequest()">
+                    <div class="form-group">
+                        <label>Subject</label>
+                        <select formControlName="subject" class="styled-input">
+                            <option value="">Select a topic</option>
+                            <option value="Withdrawal Issue">Withdrawal Issue</option>
+                            <option value="Referral System">Referral System</option>
+                            <option value="Booking Inquiry">Booking Inquiry</option>
+                            <option value="Account Settings">Account Settings</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Message</label>
+                        <textarea formControlName="message" rows="5" placeholder="Describe your issue..."
+                            class="styled-input"></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-btn" [disabled]="supportForm.invalid || isSubmitting">
+                        {{ isSubmitting ? 'Sending...' : 'Send Message' }}
+                    </button>
+
+                    <p *ngIf="successMessage" class="success-msg">{{ successMessage }}</p>
+                </form>
+            </div>
+
+            <!-- History -->
+            <div class="section history-section">
+                <h2>My Support Requests</h2>
+                <div class="requests-list">
+                    <div *ngIf="myRequests.length === 0" class="no-requests">
+                        No requests yet.
+                    </div>
+
+                    <div class="request-card" *ngFor="let req of myRequests">
+                        <div class="req-header">
+                            <div class="req-title-group">
+                                <span class="req-id">{{ req.ticket_id || ('#SPT' + req.id) }}</span><br>
+                                <span class="req-subject">{{ req.subject }}</span>
+                            </div>
+                            <span class="req-status {{ req.status | lowercase }}">{{ req.status }}</span>
+                        </div>
+                        <p class="req-date">{{ req.created_at | date:'medium' }}</p>
+                        <div class="req-body">
+                            <p class="user-msg"><strong>You:</strong> {{ req.message }}</p>
+                            <div *ngIf="req.admin_reply" class="admin-reply">
+                                <p><strong><i class="fas fa-user-shield"></i> Support Team:</strong></p>
+                                <p>{{ req.admin_reply }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

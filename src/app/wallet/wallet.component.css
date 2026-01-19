@@ -1,36 +1,271 @@
-.wallet-container {
-  max-width: 500px;
-  margin: 30px auto;
-  padding-top: 110px;
-  /* padding: 20px; */
-  /* height: 100vh; */
-  background: #f9fafc;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+/* ================= Wallet Dashboard Layout ================= */
+.wallet-dashboard {
+    max-width: 1000px;
+    margin: 80px auto 40px; /* Space for fixed header */
+    padding: 20px;
+    font-family: 'Inter', sans-serif;
 }
 
-.wallet-title {
-  text-align: center;
-  margin-bottom: 20px;
+.dashboard-header {
+    text-align: center;
+    margin-bottom: 40px;
 }
 
-.form-group {
-  margin-bottom: 15px;
+.dashboard-header h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0;
 }
 
-input {
-  width: 100%;
-  padding: 8px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
+.subtitle {
+    font-size: 1.1rem;
+    color: #666;
+    margin-top: 8px;
 }
 
-.fee-details p {
-  margin: 5px 0;
+.dashboard-content {
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
 }
 
-button {
-  width: 100%;
-  margin-top: 10px;
-  padding: 10px;
+/* ================= Left Column: Balance Card ================= */
+.balance-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.balance-card {
+    background: linear-gradient(135deg, #1668e3 0%, #8a2be2 100%);
+    border-radius: 20px;
+    padding: 30px;
+    color: white;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(22, 104, 227, 0.3);
+    min-height: 220px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Shine Effect */
+.card-shine {
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
+    pointer-events: none;
+}
+
+.card-content {
+    position: relative;
+    z-index: 2;
+}
+
+.label {
+    font-size: 0.95rem;
+    opacity: 0.9;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.amount {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin: 15px 0;
+    letter-spacing: -1px;
+}
+
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+}
+
+.currency {
+    font-size: 1.2rem;
+    font-weight: 600;
+    background: rgba(255,255,255,0.2);
+    padding: 4px 12px;
+    border-radius: 20px;
+}
+
+.icon {
+    font-size: 2rem;
+    opacity: 0.8;
+}
+
+.security-note {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #f0f7ff;
+    padding: 15px;
+    border-radius: 12px;
+    color: #1668e3;
+    font-size: 0.9rem;
+    border: 1px solid #e0eeff;
+}
+
+.security-note i {
+    font-size: 1.2rem;
+}
+
+/* ================= Right Column: Withdrawal Panel ================= */
+.withdrawal-panel {
+    flex: 1.2; /* Slightly wider */
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+    border: 1px solid #eee;
+}
+
+.panel-header {
+    margin-bottom: 25px;
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 15px;
+}
+
+.panel-header h3 {
+    margin: 0;
+    font-size: 1.4rem;
+    color: #333;
+}
+
+.panel-subtitle {
+    font-size: 0.9rem;
+    color: #888;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 15px;
+    color: #555;
+    font-weight: 500;
+}
+
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.prefix {
+    position: absolute;
+    left: 15px;
+    font-size: 1.2rem;
+    color: #888;
+}
+
+.input-wrapper input {
+    width: 100%;
+    padding: 15px 15px 15px 35px; /* Space for prefix */
+    font-size: 1.2rem;
+    border: 2px solid #eee;
+    border-radius: 12px;
+    outline: none;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    color: #333;
+    margin-left:1vh !important
+}
+
+.input-wrapper input:focus {
+    border-color: #1668e3;
+    box-shadow: 0 0 0 4px rgba(22, 104, 227, 0.1);
+}
+
+/* Fee Breakdown */
+.fee-breakdown {
+    margin-top: 25px;
+    background: #fafafa;
+    border-radius: 12px;
+    padding: 20px;
+    animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.fee-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.fee-amount {
+    font-weight: 500;
+    color: #d32f2f; /* Red for deductions */
+}
+
+.fee-divider {
+    height: 1px;
+    background: #e0e0e0;
+    margin: 10px 0;
+}
+
+.fee-row.total {
+    margin-bottom: 0;
+    font-weight: 700;
+    color: #333;
+    font-size: 1.1rem;
+}
+
+.final-amount {
+    color: #2e7d32; /* Green for final */
+}
+
+/* Withdraw Button */
+.withdraw-btn {
+    width: 100%;
+    margin-top: 25px;
+    padding: 16px;
+    background: #1668e3;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(22, 104, 227, 0.3);
+}
+
+.withdraw-btn:hover:not(:disabled) {
+    background: #0f4bb5;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(22, 104, 227, 0.4);
+}
+
+.withdraw-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* ================= Responsive Layout ================= */
+@media (max-width: 900px) {
+    .dashboard-content {
+        flex-direction: column;
+    }
+    
+    .wallet-dashboard {
+        margin-top: 60px; /* Reduced header space */
+    }
+
+    .amount {
+        font-size: 2.8rem;
+    }
 }

@@ -1,8 +1,8 @@
 <header class="main-header">
-    <div class="top-bar">
+    <!-- <div class="top-bar">
         <div class="contact-info">
             <span class="phone">(000) 999 -656 -888</span>
-            <span class="email">support cryptbooking.com</span>
+            <span class="email">support www.pbookings.com</span>
         </div>
         <div class="social-links">
             <a href="#"><i class="fab fa-facebook-f"></i></a>
@@ -10,10 +10,10 @@
             <a href="#"><i class="fab fa-instagram"></i></a>
             <a href="#"><i class="fab fa-pinterest-p"></i></a>
         </div>
-    </div>
+    </div> -->
 
     <nav class="navbar">
-        <div class="logo" routerLink="/">CryptoBooking</div>
+        <div class="logo" routerLink="/">PBookings</div>
 
         <!-- Hamburger Icon -->
         <div class="menu-toggle" (click)="toggleMenu()">
@@ -22,56 +22,155 @@
 
         <!-- NAV LINKS -->
         <ul class="nav-links" [ngClass]="{ 'mobile-open': menuOpen }">
-            <li><a routerLink="/home"><i class="fas fa-home"></i> Home</a></li>
-            <li><a><i class="fas fa-hotel"></i> Hotel</a></li>
-            <li><a><i class="fas fa-globe"></i> Tour</a></li>
-            <li><a><i class="fas fa-running"></i> Activity</a></li>
-            <li><a routerLink="/transaction"><i class="fas fa-receipt"></i> Transactions</a></li>
-        </ul>   
-<div class="profile-dropdown">
-    <!-- Profile Button Circle -->
-    <div class="profile-btn-circle" (click)="toggleProfileMenu()">
-        <i class="fas fa-user"></i>
-    </div>
+            <!-- <li *ngIf="!isAdmin"><a routerLink="/"><i class="fas fa-home"></i>Home</a></li> -->
+            <li *ngIf="!isAdmin"><a routerLink="/"><i class="fas fa-home"></i> Home</a></li>
+            <li *ngIf="!isAdmin"><a routerLink="/Bookings"><i class="fas fa-hotel"></i> Bookings</a></li>
+            <li *ngIf="!isAdmin"><a routerLink="/Favorites"><i class="fas fa-bookmark"></i>Favorites</a></li>
+            <li *ngIf="!isAdmin"><a routerLink="/wallet"><i class="fas fa-wallet"></i>Wallet</a></li>
+            <li *ngIf="!isAdmin"><a routerLink="/get-discount"><i class="fas fa-tag"></i> Get Discount</a></li>
+            <li *ngIf="!isAdmin"><a routerLink="/contact-us"><i class="fas fa-envelope"></i> Contact Us</a></li>
+            <!-- <li *ngIf="!isAdmin"><a routerLink="/terms-and-conditions"><i class="fas fa-file-contract"></i> Terms &
+                    Conditions</a></li> -->
+            <!-- <li *ngIf="!isAdmin"><a routerLink="/get-discount"><i class="fas fa-tag"></i> Get Discount</a></li>
+            <li *ngIf="!isAdmin"><a routerLink="/transaction"><i class="fas fa-receipt"></i> Transactions</a></li>
+            <li *ngIf="!isAdmin"><a routerLink="/support"><i class="fas fa-headset"></i> Support</a></li> -->
+            <li *ngIf="isAdmin"><a routerLink="/admin" style="color: #d32f2f; font-weight: bold;"><i
+                        class="fas fa-user-shield"></i> Admin</a></li>
+        </ul>
 
-    <!-- Dropdown Panel -->
-    <div class="profile-menu" [ngClass]="{ 'open': profileMenuOpen }">
-        <div class="profile-menu-row">
-            <!-- Currency -->
-            <!-- <div class="menu-item">
+        <!-- DESIGN SWITCHER (TEMP FOR DEMO) -->
+        <div class="profile-dropdown design-dropdown">
+            <!-- <div class="profile-btn-circle design-btn" (click)="toggleDesignMenu()">
+                <i class="fas fa-paint-brush"></i>
+            </div> -->
+            <div class="profile-menu" [ngClass]="{ 'open': designMenuOpen }">
+                <div class="profile-menu-row">
+                    <div class="menu-item" routerLink="/">
+                        <span>Design 1 (Default)</span>
+                    </div>
+                    <div class="menu-item" routerLink="/design2">
+                        <span>Design 2 (Cyber)</span>
+                    </div>
+                    <div class="menu-item" routerLink="/design3">
+                        <span>Design 3 (Glass)</span>
+                    </div>
+                    <div class="menu-item" routerLink="/design4">
+                        <span>Design 4 (Bold)</span>
+                    </div>
+                    <div class="menu-item" routerLink="/simple">
+                        <span>Design 5 (Simple)</span>
+                    </div>
+                    <div class="menu-item" routerLink="/design-center"
+                        style="border-top: 1px solid #eee; margin-top: 5px; padding-top: 10px;">
+                        <span style="color: #ff00cc; font-weight: bold;">✨ Design 6 (Center Box)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="profile-dropdown">
+            <!-- Profile Button Circle -->
+            <div class="profile-btn-circle" (click)="toggleProfileMenu()">
+                <i class="fas fa-user"></i>
+            </div>
+
+            <!-- Dropdown Panel -->
+            <div class="profile-menu" [ngClass]="{ 'open': profileMenuOpen }">
+                <div class="profile-menu-row">
+                    <!-- MOBILE ONLY NAV ITEMS -->
+                    <div class="menu-item mobile-nav-item" routerLink="/" (click)="closeProfileMenu()" *ngIf="!isAdmin">
+                        <i class="fas fa-home"></i> <span>Home</span>
+                    </div>
+                    <div class="menu-item mobile-nav-item" routerLink="/Bookings" (click)="closeProfileMenu()"
+                        *ngIf="!isAdmin">
+                        <i class="fas fa-hotel"></i> <span>Bookings</span>
+                    </div>
+                    <div class="menu-item mobile-nav-item" routerLink="/Favorites" (click)="closeProfileMenu()"
+                        *ngIf="!isAdmin">
+                        <i class="fas fa-bookmark"></i> <span>Favorites</span>
+                    </div>
+                    <div class="menu-item mobile-nav-item" routerLink="/wallet" (click)="closeProfileMenu()"
+                        *ngIf="!isAdmin">
+                        <i class="fas fa-wallet"></i> <span>Wallet</span>
+                    </div>
+                    <div class="menu-item mobile-nav-item" routerLink="/get-discount" (click)="closeProfileMenu()"
+                        *ngIf="!isAdmin">
+                        <i class="fas fa-tag"></i> <span>Get Discount</span>
+                    </div>
+                    <div class="menu-item mobile-nav-item" routerLink="/contact-us" (click)="closeProfileMenu()"
+                        *ngIf="!isAdmin">
+                        <i class="fas fa-envelope"></i> <span>Contact Us</span>
+                    </div>
+                    <div class="menu-item mobile-nav-item" routerLink="/admin" (click)="closeProfileMenu()"
+                        *ngIf="isAdmin" style="color: #d32f2f;">
+                        <i class="fas fa-user-shield"></i> <span>Admin</span>
+                    </div>
+                    <div class="menu-item mobile-nav-item"
+                        style="border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 5px;"></div>
+
+                    <!-- Currency -->
+                    <!-- <div class="menu-item">
                 <i class="fas fa-dollar-sign"></i>
                 <span>EUR/USD</span>
             </div> -->
 
-            <!-- Wallet -->
-            <div class="menu-item" routerLink="/payment">
-                <i class="fas fa-wallet"></i>
-                <span>Wallet</span>
-            </div>
+                    <!-- Profile/Options -->
+                    <div class="menu-item" routerLink="/profile" (click)="closeProfileMenu()">
+                        <i class="fas fa-user-circle"></i>
+                        <span>Profile</span>
+                    </div>
 
-            <!-- Profile/Options -->
-            <div class="menu-item" routerLink="/profile">
-                <i class="fas fa-user-circle"></i>
-                <span>Profile</span>
-            </div>
+                    <!-- Wallet -->
+                    <!-- <div class="menu-item" routerLink="/payment" (click)="closeProfileMenu()">
+                        <i class="fas fa-wallet"></i>
+                        <span>Wallet</span>
+                    </div> -->
 
-            <!-- Login/Logout -->
-            <ng-container *ngIf="!isLoggedIn; else loggedInBlock">
-                <div class="menu-item" routerLink="/signin">
-                    <i class="fas fa-sign-in-alt"></i>
-                    <span>Login</span>
+                    <!-- Support -->
+                    <div class="menu-item" routerLink="/support" (click)="closeProfileMenu()">
+                        <i class="fas fa-headset"></i>
+                        <span>Support</span>
+                    </div>
+
+                    <div class="menu-item" routerLink="/faq" (click)="closeProfileMenu()">
+                        <i class="fas fa-question"></i>
+                        <span>FAQ</span>
+                    </div>
+
+
+                    <!-- Get Discount -->
+                    <div class="menu-item" routerLink="/transaction" (click)="closeProfileMenu()">
+                        <i class="fas fa-receipt"></i>
+                        <span>Transactions</span>
+                    </div>
+                    <div class="menu-item" routerLink="/terms-and-conditions" (click)="closeProfileMenu()">
+                        <i class="fas fa-receipt"></i>
+                        <span>Terms & Conditions</span>
+                    </div>
+
+                    <!-- Get Discount -->
+                    <!-- <div class="menu-item" routerLink="/get-discount" (click)="closeProfileMenu()">
+                        <i class="fas fa-tag"></i>
+                        <span>Get Discount</span>
+                    </div> -->
+
+                    <!-- Login/Logout -->
+                    <ng-container *ngIf="!isLoggedIn; else loggedInBlock">
+                        <div class="menu-item" routerLink="/signin" (click)="closeProfileMenu()">
+                            <i class="fas fa-sign-in-alt"></i>
+                            <span>Login</span>
+                        </div>
+                    </ng-container>
+
+                    <ng-template #loggedInBlock>
+                        <div class="menu-item" (click)="logout(); closeProfileMenu()">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Logout</span>
+                        </div>
+                    </ng-template>
                 </div>
-            </ng-container>
-
-            <ng-template #loggedInBlock>
-                <div class="menu-item" (click)="logout()">
-                    <i class="fas fa-sign-out-alt"></i>
-                    <span>Logout</span>
-                </div>
-            </ng-template>
+            </div>
         </div>
-    </div>
-</div>
 
 
 

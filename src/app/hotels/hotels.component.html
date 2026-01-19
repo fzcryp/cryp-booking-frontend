@@ -1,0 +1,101 @@
+<div class="center-container" [class.is-searching]="isSearching">
+    <!-- Search Box (Left Panel when searching) -->
+
+    <div class="banner-section">
+        <div class="banner-content">
+            <h1>Book Hotels via Our Links <br>& Get Up to $100</h1>
+            <p>Exclusive deals for travelers.</p>
+        </div>
+    </div>
+
+
+    <div class="search-wrapper" [class.is-searching]="isSearching">
+        <div class="center-box">
+            <div class="logo-corner" *ngIf="!isSearching">
+                <span class="animated-logo">CrypBooking</span>
+            </div>
+
+            <h2 *ngIf="!isSearching">Start Your Journey</h2>
+            <h2 *ngIf="isSearching">Edit Search</h2>
+            <p class="subtitle" *ngIf="!isSearching">Secure. Simple. Global.</p>
+
+            <div class="form-grid">
+                <div class="input-group">
+                    <label>Location</label>
+                    <input type="text" placeholder="Where do you want to go?" [(ngModel)]="location" />
+                </div>
+                <!-- ... existing inputs ... -->
+                <div class="input-group">
+                    <label>Check In</label>
+                    <input type="date" [(ngModel)]="checkIn" />
+                </div>
+                <div class="input-group">
+                    <label>Check Out</label>
+                    <input type="date" [(ngModel)]="checkOut" />
+                </div>
+                <div class="input-group">
+                    <label>Guests</label>
+                    <input type="number" min="1" [(ngModel)]="guests" />
+                </div>
+            </div>
+
+            <button class="center-btn" (click)="searchHotels()">
+                {{ isSearching ? 'Update Search' : 'Explore Hotels' }}
+            </button>
+        </div>
+
+        <!-- Results Panel (Right Side) -->
+        <div class="results-panel" *ngIf="isSearching">
+            <h3>Available Platforms</h3>
+            <p class="results-subtitle">Select a provider to continue your booking</p>
+
+            <div class="results-grid">
+                <div class="result-card" *ngFor="let result of searchResults">
+                    <!-- ... card content ... -->
+                    <div class="card-header">
+                        <ng-container *ngIf="result.logo; else textHeader">
+                            <img [src]="result.logo" [alt]="result.platform" class="platform-logo-img"
+                                style="height: 30px; object-fit: contain; margin-left: -13px;">
+                        </ng-container>
+                        <ng-template #textHeader>
+                            <h4>{{ result.platform }}</h4>
+                        </ng-template>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="info-row">
+                            <span class="icon">📍</span>
+                            <div class="info-content">
+                                <span class="label">Location</span>
+                                <span class="value">{{ location }}</span>
+                            </div>
+                        </div>
+
+                        <div class="info-row">
+                            <span class="icon">📅</span>
+                            <div class="info-content">
+                                <span class="label">Dates</span>
+                                <span class="value">{{ checkIn }} to {{ checkOut }}</span>
+                            </div>
+                        </div>
+
+                        <div class="info-row">
+                            <span class="icon">👥</span>
+                            <div class="info-content">
+                                <span class="label">Guests</span>
+                                <span class="value">{{ guests }} Adults</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-action">
+                        <a [href]="result.url" target="_blank" class="book-btn">
+                            Proceed to {{ result.platform }}
+                            <span class="arrow">→</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

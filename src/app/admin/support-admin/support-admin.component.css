@@ -1,0 +1,95 @@
+/* Inherit common admin table styles or define here */
+.admin-page-container {
+    padding: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.header-section { margin-bottom: 30px; text-align: center; }
+.header-section h1 { font-size: 2rem; color: #333; margin-bottom: 5px; }
+
+.table-container {
+    overflow-x: auto;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+}
+
+.styled-table { width: 100%; border-collapse: collapse; min-width: 800px; }
+.styled-table th { background: #f8f9fa; padding: 15px; text-align: left; color: #444; }
+.styled-table td { padding: 15px; border-bottom: 1px solid #eee; color: #555; vertical-align: middle; }
+
+.user-info { display: flex; flex-direction: column; }
+.user-name { font-weight: 600; color: #333; }
+.user-email { font-size: 0.85rem; color: #888; }
+
+.subject-col { font-weight: 500; }
+.message-col { color: #666; font-style: italic; }
+
+.status-badge {
+    padding: 5px 10px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+.status-badge.open { background: #e3f2fd; color: #1976d2; }
+.status-badge.replied { background: #e8f5e9; color: #2e7d32; }
+
+.view-btn {
+    padding: 6px 12px;
+    background: #000;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+}
+
+/* Modal */
+.modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5);
+    display: flex; justify-content: center; align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(3px);
+}
+
+.modal-content {
+    background: white;
+    padding: 30px;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 600px;
+    position: relative;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+}
+
+.close-btn { position: absolute; top: 15px; right: 20px; font-size: 1.5rem; cursor: pointer; color: #aaa; }
+
+.req-details-box {
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.full-message { margin-top: 10px; white-space: pre-wrap; }
+
+.form-group label { display: block; margin-bottom: 8px; font-weight: 600; }
+.form-group textarea {
+    width: 100%; padding: 15px; border: 1px solid #ddd; border-radius: 8px;
+    outline: none; font-family: inherit; font-size: 1rem;
+}
+.form-group textarea:focus { border-color: #000; }
+
+.action-btn.send {
+    width: 100%;
+    padding: 12px;
+    background: #333;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+.action-btn.send:hover { background: #000; }

@@ -1,4 +1,18 @@
 /* Import Font Awesome in your main style.css or index.html */
+/* Reusing profile dropdown styles for design dropdown */
+.design-dropdown {
+    margin-right: 15px;
+    z-index: 1001;
+}
+
+.design-btn {
+    background: linear-gradient(135deg, #ff00cc 0%, #333399 100%);
+    box-shadow: 0 4px 15px rgba(255, 0, 204, 0.3);
+}
+
+.design-btn i {
+    color: white;
+}
 
 /* ================= Top Bar ================= */
 .top-bar {
@@ -10,7 +24,7 @@
     /* KEY CHANGE: Lighter, more subtle dark background for the very top bar */
     background: rgba(10, 10, 10, 0.4); 
     /* color: #ccc; */
-    font-size: 0.85rem;
+    font-size: 1rem;
     
     /* Keep blur for subtle effect */
     backdrop-filter: blur(2px);
@@ -45,49 +59,43 @@
     width: 100%;
     z-index: 100;
     
-    /* KEY CHANGE: Subtle gradient from transparent black to fully transparent */
-       /* KEY CHANGE: Lighter, more subtle dark background for the very top bar */
-    background: #273243; 
-    color: #ccc;
-    font-size: 0.85rem;
+    /* LIGHT THEME UPDATE */
+    background: rgba(255, 255, 255, 0.95); 
+    color: #333; /* Dark text */
+    font-size: 0.95rem;
     
-    /* Keep blur for subtle effect */
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     
-    /* Subtle glow instead of harsh shadow */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
-    color: white;
+    /* Subtle border instead of shadow */
+    border-bottom: 1px solid #eaeaea;
     transition: all 0.4s ease;
 }
 
-/* On scroll, make it slightly darker for depth */
+/* On scroll, make it fully solid */
 .main-header.scrolled {
-    /* KEY CHANGE: On scroll, make it a uniform, light transparent dark shade */
-    background: rgba(10, 10, 10, 0.85); /* Slightly darker solid transparent background */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); /* Stronger shadow on scroll */
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    background: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
-/* Navbar content stays transparent */
+/* Navbar content */
 .navbar {
-  background: transparent;
+  background: #ffffff; /* White background */
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1rem 3rem;
-  color: white;
+  color: #1f1f1f !important; /* Dark text */
 }
 
 .navbar a {
-  color: white !important;
-  font-weight: 500;
+  color: #1f1f1f !important; /* Force dark text */
+  font-weight: 600;
   transition: color 0.3s ease;
 }
 
 .navbar a:hover {
-  color: #0bc6e3;
+  color: #000;
 }
 
 /* ================= Logo ================= */
@@ -96,7 +104,7 @@
   align-items: center;
   font-size: 1.2rem;
   font-weight: 700;
-  color: white;
+  color: #1f1f1f !important;
   cursor: pointer;
 }
 
@@ -113,7 +121,7 @@
     align-items: center;
     font-size: 1.2rem;
     font-weight: 700;
-    color: white;
+    color: #000; /* Black logo */
     cursor: pointer;
 }
 
@@ -141,17 +149,20 @@
     padding: 0;
 }
 
+/* Hide mobile nav items on desktop by default */
+.mobile-nav-item { display: none !important; }
+
 .nav-links li {
     position: relative;
 }
 
 .nav-links a {
-    color: white;
+    color: #444; /* Dark grey links */
     text-decoration: none;
     font-weight: 500;
     padding: 0.5rem 0.8rem;
     transition: color 0.2s;
-    font-size: 0.95rem;
+    font-size: 1.05rem;
 }
 
 .nav-links a:hover {
@@ -178,7 +189,7 @@
     /* gap: 0.3rem; */
     cursor: pointer;
     font-weight: 600;
-    font-size: 0.95rem;
+    font-size: 1rem;
 }
 
 .account-actions {
@@ -350,23 +361,19 @@
         padding: 0.8rem 1.2rem;
     }
 
-    /* Show hamburger */
+    /* Hide hamburger */
     .menu-toggle {
-        display: block;
+        display: none !important;
     }
 
-    /* Hide nav links on mobile */
+    /* Hide nav links on mobile (using profile menu instead) */
     .nav-links {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        width: 100%;
-        display: none;
-        flex-direction: column;
-        background: rgba(10, 10, 10, 0.95);
-        padding: 1rem 0;
-        text-align: left;
-        gap: 0;
+        display: none !important;
+    }
+
+    /* Show duplicated items in profile menu */
+    .mobile-nav-item {
+        display: flex !important;
     }
 
     /* Show when open */
@@ -413,8 +420,8 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background-color: white;
-  color: #0bc6e3;
+  background-color: #232647; /* Black circle */
+  color: white; /* White icon */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -437,14 +444,14 @@
   position: absolute;
   right: 0;
   top: 50px;
-  background-color: rgba(10,10,10,0.95);
+  background-color: #232647;
   color: white;
   border-radius: 8px;
   padding: 10px 15px;
   display: none;
   z-index: 2000;
   box-shadow: 0 6px 14px rgba(0,0,0,0.25);
-  min-width: 300px;
+  min-width: 200px; /* Reduced width */
 }
 
 .profile-menu.open {
@@ -454,8 +461,9 @@
 /* Row layout */
 .profile-menu-row {
   display: flex;
-  gap: 15px;
-  align-items: center;
+  flex-direction: column; /* Vertical layout */
+  gap: 10px; /* Reduced gap for vertical list */
+  align-items: stretch; /* Full width items */
   justify-content: flex-start;
 }
 
@@ -470,9 +478,10 @@
   transition: background 0.2s;
 }
 
+
 .menu-item i {
-  font-size: 16px;
-  color: #0bc6e3;
+    font-size: 16px;
+    color: #0bc6e3;
 }
 
 .menu-item span {
@@ -483,4 +492,62 @@
 /* Hover effect */
 .menu-item:hover {
   background-color: rgba(255,255,255,0.1);
+}
+
+/* ================= Colorful Nav Icons ================= */
+.nav-links li a i {
+    font-size: 1.1rem;
+    transition: transform 0.2s;
+}
+
+/* Home - Indigo */
+.nav-links li a i.fa-home { color: #101011; }
+
+/* Hotel - Expedia Blue */
+.nav-links li a i.fa-hotel { color: #1687e3; }
+
+/* My Hotels - Rose */
+.nav-links li a i.fa-bookmark { color: #ca6d82; }
+
+/* Flights - Sky Blue */
+.nav-links li a i.fa-plane { color: #0ea5e9; }
+
+.nav-links li a i.fa-wallet { color: #2a4260; }
+
+.nav-links li a i.fa-tag { color: #47602a; }
+
+
+/* Cars - Green */
+.nav-links li a i.fa-car { color: #22c55e; }
+
+/* Admin - Red (already inline but good to enforce) */
+.nav-links li a i.fa-user-shield { color: #d32f2f; }
+
+/* Hover Animation for all icons */
+.nav-links li a:hover i {
+    transform: scale(1.2);
+}
+
+/* Scrollable Profile Menu on Mobile */
+@media (max-width: 900px) {
+    .profile-menu {
+        max-height: 70vh;
+        overflow-y: auto;
+        /* Scrollbar styling for Webkit */
+        scrollbar-width: thin;
+        scrollbar-color: #0bc6e3 #232647;
+    }
+
+    .profile-menu::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .profile-menu::-webkit-scrollbar-track {
+        background: #232647;
+    }
+
+    .profile-menu::-webkit-scrollbar-thumb {
+        background-color: #0bc6e3;
+        border-radius: 10px;
+    }
 }

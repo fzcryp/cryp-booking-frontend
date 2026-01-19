@@ -1,0 +1,95 @@
+.admin-page-container {
+    padding: 30px;
+    background: #f8f9fa;
+    min-height: 100vh;
+}
+
+.header-section {
+    margin-bottom: 30px;
+}
+
+.header-section h2 {
+    color: #333;
+    font-size: 1.8rem;
+    margin-bottom: 5px;
+}
+
+.header-section p {
+    color: #666;
+}
+
+.table-container {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    overflow-x: auto;
+    padding: 20px;
+}
+
+.styled-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.styled-table th, .styled-table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.styled-table th {
+    background-color: #f1f3f5;
+    color: #444;
+    font-weight: 600;
+}
+
+.status-badge {
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.status-badge.active {
+    background: #e6fcf5;
+    color: #0ca678;
+}
+
+.status-badge.inactive {
+    background: #fff5f5;
+    color: #e03131;
+}
+
+.action-btn {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s;
+    margin-right: 5px;
+}
+
+.toggle-btn {
+    background: #fff3bf; /* Yellowish */
+    color: #f08c00;
+}
+
+.toggle-btn:hover {
+    background: #ffec99;
+}
+
+.delete-btn {
+    background: #ffc9c9;
+    color: #e03131;
+}
+
+.delete-btn:hover {
+    background: #ffa8a8;
+}
+
+.no-data {
+    text-align: center;
+    color: #999;
+    padding: 30px;
+}

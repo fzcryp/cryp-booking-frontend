@@ -1,0 +1,103 @@
+body, html {
+  margin: 0;
+  padding: 0;
+}
+
+.cryp-container {
+  height: 100vh;
+  width: 100%;
+  background: radial-gradient(circle at top, #0a0f29, #000);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  font-family: "Poppins", sans-serif;
+  color: #fff;
+}
+
+.floating-box {
+  text-align: center;
+  position: relative;
+}
+
+/* Brand Title */
+.brand {
+  font-size: 54px;
+  letter-spacing: 1px;
+  margin-top: 20px;
+  font-weight: 800;
+  background: linear-gradient(90deg, #00eaff, #007bff, #6f00ff);
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: glow 4s infinite ease-in-out;
+}
+
+.brand span {
+  color: #00eaff;
+}
+
+/* Maintenance Message */
+.message {
+  font-size: 20px;
+  opacity: 0.85;
+  margin-top: 10px;
+}
+
+/* Crypto Loader */
+.crypto-loader {
+  margin: 40px auto 0;
+  width: 60px;
+  height: 60px;
+  border: 5px solid #ffffff20;
+  border-top-color: #00eaff;
+  border-radius: 50%;
+  animation: spin 1.2s linear infinite;
+}
+
+/* Floating Crypto Coins Animation */
+.coin {
+  position: absolute;
+  font-size: 45px;
+  opacity: 0.6;
+  animation: float 4s infinite ease-in-out;
+  color: #00eaff;
+  filter: drop-shadow(0 0 12px #00eaff);
+}
+
+.coin1 {
+  left: -120px;
+  top: -20px;
+  animation-duration: 5s;
+}
+
+.coin2 {
+  right: -120px;
+  top: 30px;
+  font-size: 52px;
+  animation-duration: 6s;
+}
+
+.coin3 {
+  left: 50%;
+  transform: translateX(-50%);
+  top: -140px;
+  font-size: 40px;
+  animation-duration: 7s;
+}
+
+/* Keyframes */
+@keyframes float {
+  0%   { transform: translateY(0px) rotate(0deg); }
+  50%  { transform: translateY(-25px) rotate(20deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes glow {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
+}

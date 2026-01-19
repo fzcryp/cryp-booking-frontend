@@ -1,5 +1,7 @@
 .profile-page {
-  padding-top: 110px !important; /* match header height */
+  padding-top: 120px !important; /* match header height */
+  min-height: 80vh; /* Ensure content takes up screen height */
+  padding-bottom: 50px;
 }
 
 .card {

@@ -1,0 +1,63 @@
+<div class="admin-page-container">
+    <div class="header">
+        <h2>Contact Requests</h2>
+        <p>View inquiries from users.</p>
+    </div>
+
+    <!-- Requests List -->
+    <div class="requests-list">
+        <div *ngFor="let req of requests" class="request-card" (click)="openModal(req)">
+            <div class="card-left">
+                <div class="avatar-circle">
+                    {{ req.full_name.charAt(0).toUpperCase() }}
+                </div>
+                <div class="details">
+                    <span class="name">{{ req.full_name }}</span>
+                    <span class="date">{{ req.created_at | date:'medium' }}</span>
+                </div>
+            </div>
+            <div class="card-right">
+                <span class="preview-text">{{ req.subject | slice:0:50 }}...</span>
+                <button class="view-btn">View</button>
+            </div>
+        </div>
+
+        <div *ngIf="requests.length === 0" class="no-data">
+            <p>No contact requests found.</p>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal-overlay" *ngIf="selectedRequest" (click)="closeModal()">
+        <div class="modal-content" (click)="$event.stopPropagation()">
+            <div class="modal-header">
+                <h3>Message Details</h3>
+                <button class="close-btn" (click)="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="info-row">
+                    <label>Full Name:</label>
+                    <span>{{ selectedRequest.full_name }}</span>
+                </div>
+                <div class="info-row">
+                    <label>Mobile Number:</label>
+                    <span class="highlight">{{ selectedRequest.mobile_number }}</span>
+                </div>
+                <div class="info-row">
+                    <label>Date:</label>
+                    <span>{{ selectedRequest.created_at | date:'medium' }}</span>
+                </div>
+                <div class="message-box">
+                    <label>Message:</label>
+                    <p>{{ selectedRequest.subject }}</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a [href]="'tel:' + selectedRequest.mobile_number" class="action-btn call-btn">
+                    <i class="fas fa-phone"></i> Call
+                </a>
+                <button class="action-btn close-action" (click)="closeModal()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

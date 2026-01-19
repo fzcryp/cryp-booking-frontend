@@ -7,9 +7,17 @@
             <input type="email" name="email" ngModel placeholder="Email" required />
             <input type="password" name="password" ngModel placeholder="Password" required />
 
-            <button type="submit" [disabled]="loading">
+            <button type="submit" class="signup-btn" [disabled]="loading">
                 {{ loading ? 'Signing up...' : 'Signup' }}
             </button>
+
+            <!-- Divider -->
+            <div class="separator">or</div>
+
+            <!-- Google Sign In -->
+            <div class="google-auth-section">
+                <div id="google-btn"></div>
+            </div>
 
             <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
             <p *ngIf="successMessage" class="success">{{ successMessage }}</p>

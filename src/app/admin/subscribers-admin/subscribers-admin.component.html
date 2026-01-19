@@ -1,0 +1,43 @@
+<div class="admin-page-container">
+    <div class="header-section">
+        <h2>Subscribed Users</h2>
+        <p>Manage newsletter subscribers. Total: {{ subscribers.length }}</p>
+    </div>
+
+    <div class="table-container">
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Email</th>
+                    <th>Subscribed At</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let sub of subscribers">
+                    <td>{{ sub.id }}</td>
+                    <td>{{ sub.email }}</td>
+                    <td>{{ sub.subscribed_at | date:'medium' }}</td>
+                    <td>
+                        <span class="status-badge" [class.active]="sub.is_active" [class.inactive]="!sub.is_active">
+                            {{ sub.is_active ? 'Active' : 'Unsubscribed' }}
+                        </span>
+                    </td>
+                    <td>
+                        <button class="action-btn toggle-btn" (click)="toggleStatus(sub)">
+                            {{ sub.is_active ? 'Unsubscribe' : 'Re-activate' }}
+                        </button>
+                        <button class="action-btn delete-btn" (click)="deleteSubscriber(sub.id)">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+                <tr *ngIf="subscribers.length === 0 && !loading">
+                    <td colspan="5" class="no-data">No subscribers found.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

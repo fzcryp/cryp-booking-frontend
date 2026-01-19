@@ -1,0 +1,278 @@
+<div class="center-container" [class.is-searching]="isSearching">
+    <!-- Search Box (Left Panel when searching) -->
+
+    <div class="banner-section">
+        <div class="banner-content">
+            <div class="banner-left">
+                <h3>www.pbookings.com</h3>
+                <h2>Book Hotels via Our<br> Partner Links & Get <br>Up to $500</h2>
+                <!-- <p>Exclusive deals for travelers.</p> -->
+            </div>
+            <div class="banner-right">
+                <div class="info-glass-card">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>Ensure you are logged in to <strong>pbookings.com</strong> to claim rewards.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="search-wrapper" [class.is-searching]="isSearching">
+        <div class="center-box" [class.mobile-hidden]="isSearching && !showMobileSearchForm">
+            <div class="logo-corner" *ngIf="!isSearching">
+                <span class="animated-logo">CrypBooking</span>
+            </div>
+
+            <h2 *ngIf="!isSearching">Start Your Journey</h2>
+            <h2 *ngIf="isSearching">Edit Search</h2>
+            <p class="subtitle" *ngIf="!isSearching">Secure. Simple. Global.</p>
+
+            <div class="form-grid">
+                <!-- Location Input with Loader -->
+                <div class="input-group" style="position: relative;">
+                    <label>Location</label>
+                    <div style="position: relative; width: 100%;">
+                        <input type="text" placeholder="City or Airport" [ngModel]="cityInput"
+                            (ngModelChange)="onCityInput($event)" style="padding-right: 35px;" />
+
+                        <div *ngIf="isLoadingSuggestions" class="input-loader">
+                            <i class="fas fa-spinner fa-spin"></i>
+                        </div>
+                    </div>
+
+                    <ul class="suggestions-list" *ngIf="suggestions.length > 0">
+                        <li *ngFor="let item of suggestions" (click)="selectCity(item)">
+                            <div class="s-name">{{ item.name }}</div>
+                            <div class="s-code">{{ item.iataCode }}</div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Other Inputs -->
+                <div class="input-group">
+                    <label>Check In</label>
+                    <input type="date" [(ngModel)]="checkInDate" />
+                </div>
+                <div class="input-group">
+                    <label>Check Out</label>
+                    <input type="date" [(ngModel)]="checkOutDate" />
+                </div>
+                <div class="input-group">
+                    <label>Guests</label>
+                    <input type="number" min="1" [(ngModel)]="guests" />
+                </div>
+            </div>
+
+            <button class="center-btn" (click)="search()">
+                {{ isSearching ? 'Update Search' : 'Explore Hotels' }}
+            </button>
+        </div>
+
+        <!-- Results Panel (Right Side) -->
+        <div class="results-panel" *ngIf="isSearching" [class.mobile-hidden]="isSearching && showMobileSearchForm">
+
+            <!-- Filter Header (Visible if results found OR filters are active) -->
+            <div class="filter-header" *ngIf="!isLoading && (paginatedHotels.length > 0 || hasActiveFilters)">
+                <div class="filter-row-single">
+                    <!-- Mobile Edit Button -->
+                    <button class="edit-btn-mobile" (click)="toggleSearchForm()">
+                        <i class="fas fa-pen"></i>
+                    </button>
+
+                    <!-- Sort By -->
+                    <div class="filter-item">
+                        <label>Sort By</label>
+                        <select [ngModel]="sortBy" (ngModelChange)="onSortChange($event)" class="filter-select">
+                            <option value="relevant">Relevant</option>
+                            <option value="price_asc">Low to High</option>
+                            <option value="price_desc">High to Low</option>
+                        </select>
+                    </div>
+
+                    <!-- Mobile Scroll Hint Icon -->
+                    <div class="mobile-scroll-hint">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+
+                    <div class="filter-divider"></div>
+
+                    <!-- Star Rating (Inline Pills) -->
+                    <div class="filter-item">
+                        <label>Star Rating</label>
+                        <div class="checkbox-row">
+                            <label *ngFor="let star of [3,4,5]" class="checkbox-pill"
+                                [class.active]="isStarSelected(star)">
+                                <input type="checkbox" [checked]="isStarSelected(star)"
+                                    (change)="toggleStarFilter(star)" hidden>
+                                {{star}} Star
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="filter-divider"></div>
+
+                    <!-- Amenities (Dropdown with Pending State and Search Button) -->
+                    <div class="filter-item" style="position: relative;">
+                        <label>Amenities</label>
+                        <button class="dropdown-btn" (click)="openAmenitiesDropdown()"
+                            [class.active]="selectedAmenities.size > 0">
+                            {{ selectedAmenities.size > 0 ? selectedAmenities.size + ' Selected' : 'Select Amenities' }}
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+
+                        <!-- Dropdown Content -->
+                        <div class="custom-dropdown-menu" *ngIf="showAmenities">
+                            <div class="dropdown-overlay" (click)="showAmenities = false"></div>
+                            <div class="dropdown-content-wrapper">
+                                <div class="dropdown-list">
+                                    <label *ngFor="let am of availableAmenities" class="dropdown-item">
+                                        <input type="checkbox" [checked]="isAmenityPending(am)"
+                                            (change)="togglePendingAmenity(am)">
+                                        <span>{{am | titlecase}}</span>
+                                    </label>
+                                </div>
+                                <div class="dropdown-actions">
+                                    <button class="apply-btn" (click)="applyAmenities()">Search</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Loading State -->
+            <div *ngIf="isLoading" class="placeholder-message-box">
+                <div class="shimmer-icon spin">
+                    <i class="fas fa-spinner fa-spin"></i>
+                </div>
+                <h3>Searching Hotels...</h3>
+                <p>Finding the best rates for you...</p>
+            </div>
+
+            <!-- Empty State (No Results Found) -->
+            <div *ngIf="!isLoading && paginatedHotels.length === 0" class="placeholder-message-box">
+                <div class="shimmer-icon warning">
+                    <i class="fas fa-search"></i>
+                </div>
+                <h3>No Hotels Found</h3>
+                <p *ngIf="hasActiveFilters">Try adjusting your filters to see more results.</p>
+                <p *ngIf="!hasActiveFilters">{{ errorMessage || 'We couldn\'t find any hotels matching your search.' }}
+                </p>
+            </div>
+
+            <!-- Grid of Results -->
+            <div class="results-grid" *ngIf="!isLoading && paginatedHotels.length > 0">
+                <div class="result-card" *ngFor="let item of paginatedHotels">
+
+                    <!-- LEFT: Image Section -->
+                    <div class="card-image-section">
+                        <div class="hotel-img-placeholder">
+                            <i class="fas fa-bed"></i>
+                        </div>
+                        <div class="img-overlay-btn">
+                            <div class="overlay-btn" (click)="toggleSave(item)" [class.saved]="item.isSaved">
+                                <i [class]="item.isSaved ? 'fas fa-heart' : 'far fa-heart'"></i> {{ item.isSaved ?
+                                'Saved' : 'Save' }}
+                            </div>
+                            <!-- <div class="overlay-btn"><i class="fas fa-share"></i> Share</div> -->
+                        </div>
+                    </div>
+
+                    <!-- MIDDLE: Info Section -->
+                    <div class="card-info-section">
+                        <h4 class="hotel-title">{{ item.hotel?.name | titlecase }}</h4>
+                        <div class="hotel-location">{{ item.hotel?.cityCode }}</div>
+
+                        <div class="rating-row">
+                            <span class="rating-badge">8.4</span>
+                            <span class="rating-text">Very good (9803)</span>
+                            <div class="stars">
+                                <i class="fas fa-star" style="color: #000; font-size: 0.8rem;"></i>
+                                <i class="fas fa-star" style="color: #000; font-size: 0.8rem;"></i>
+                                <i class="fas fa-star" style="color: #000; font-size: 0.8rem;"></i>
+                                <i class="fas fa-star" style="color: #000; font-size: 0.8rem;"></i>
+                            </div>
+                        </div>
+
+                        <!-- Provider List -->
+                        <div class="provider-list">
+                            <div class="provider-row">
+                                <span class="provider-name"><i class="fas fa-check" style="color:#0071c2"></i>
+                                    Booking.com</span>
+                                <span class="provider-price" *ngIf="item.offers && item.offers.length > 0">
+                                    {{ (item.offers[0].price?.total * 1.05) | currency: item.offers[0].price.currency :
+                                    'symbol' : '1.0-0' }}
+                                </span>
+                                <span class="provider-price" *ngIf="!item.offers || item.offers.length === 0">
+                                    <i class="fas fa-lock" style="color: #bbb; font-size: 0.9rem;"></i>
+                                </span>
+                            </div>
+                            <div class="provider-row">
+                                <span class="provider-name"><i class="fas fa-location-arrow" style="color:#fbc02d"></i>
+                                    Expedia</span>
+                                <span class="provider-price" *ngIf="item.offers && item.offers.length > 0">
+                                    {{ (item.offers[0].price?.total * 1.08) | currency: item.offers[0].price.currency :
+                                    'symbol' : '1.0-0' }}
+                                </span>
+                                <span class="provider-price" *ngIf="!item.offers || item.offers.length === 0">
+                                    <i class="fas fa-lock" style="color: #bbb; font-size: 0.9rem;"></i>
+                                </span>
+                            </div>
+                            <div class="provider-row">
+                                <span class="provider-name"><i class="fas fa-hotel" style="color:#d32f2f"></i>
+                                    Hotels.com</span>
+                                <span class="provider-price" *ngIf="item.offers && item.offers.length > 0">
+                                    {{ (item.offers[0].price?.total * 1.15) | currency: item.offers[0].price.currency :
+                                    'symbol' : '1.0-0' }}
+                                </span>
+                                <span class="provider-price" *ngIf="!item.offers || item.offers.length === 0">
+                                    <i class="fas fa-lock" style="color: #bbb; font-size: 0.9rem;"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- RIGHT: Deal Sidebar -->
+                    <div class="card-deal-section">
+                        <div *ngIf="item.offers && item.offers.length > 0">
+                            <div class="deal-badge">28% less than usual</div>
+                            <div class="deal-provider-logo">agoda</div>
+                            <div class="main-price">{{ item.offers[0].price?.total | currency:
+                                item.offers[0].price.currency : 'symbol' : '1.0-0' }}</div>
+                        </div>
+
+                        <div *ngIf="!item.offers || item.offers.length === 0">
+                            <div class="deal-badge" style="background:#eee; color:#666;">Check Details</div>
+                            <div class="deal-provider-logo">-----</div>
+                            <div class="main-price" style="font-size: 1.5rem; color: #ccc;">
+                                <i class="fas fa-lock"></i>
+                            </div>
+                        </div>
+
+                        <a [href]="getExpediaLink(item.hotel)" target="_blank" class="view-deal-btn">
+                            View Deal
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pagination Controls -->
+            <div class="pagination-container" *ngIf="!isLoading && paginatedHotels.length > 0">
+                <button class="page-btn prev" (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1">
+                    <i class="fas fa-arrow-left"></i> Previous
+                </button>
+
+                <div class="page-info">
+                    Page {{ currentPage }} <span>of {{ totalPages }}</span>
+                </div>
+
+                <button class="page-btn next" (click)="changePage(currentPage + 1)"
+                    [disabled]="currentPage === totalPages">
+                    Next <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>

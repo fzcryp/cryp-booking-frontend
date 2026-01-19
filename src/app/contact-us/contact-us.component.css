@@ -1,0 +1,88 @@
+.contact-container {
+    max-width: 600px;
+    margin: 80px auto;
+    padding: 20px;
+    font-family: 'Inter', sans-serif;
+}
+
+.contact-card {
+    background: white;
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    border: 1px solid #eee;
+}
+
+h2 {
+    text-align: center;
+    color: #1a1a1a;
+    font-size: 2rem;
+    margin-bottom: 8px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #666;
+    margin-bottom: 30px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #333;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+    box-sizing: border-box; /* Fix width issues */
+}
+
+input:focus, textarea:focus {
+    border-color: #1668e3;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(22, 104, 227, 0.1);
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 14px;
+    background: #1668e3;
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-top: 10px;
+}
+
+.submit-btn:hover {
+    background: #0f4bb5;
+}
+
+/* Mobile Responsive */
+@media (max-width: 600px) {
+    .contact-container {
+        margin-top: 60px;
+        padding: 15px;
+    }
+    
+    .contact-card {
+        padding: 25px;
+    }
+
+    h2 {
+        font-size: 1.8rem;
+    }
+}

@@ -1,0 +1,28 @@
+<div class="contact-container">
+    <div class="contact-card">
+        <h2>Contact Us</h2>
+        <p class="subtitle">We'd love to hear from you. Send us a message!</p>
+
+        <form (ngSubmit)="submitForm()">
+            <div class="form-group">
+                <label for="fullName">Full Name</label>
+                <input type="text" id="fullName" [(ngModel)]="formData.full_name" name="fullName"
+                    placeholder="Enter Full Name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="mobile">Mobile Number</label>
+                <input type="tel" id="mobile" [(ngModel)]="formData.mobile_number" name="mobile"
+                    placeholder="Enter Mobile Number" required>
+            </div>
+
+            <div class="form-group">
+                <label for="subject">Subject</label>
+                <textarea id="subject" [(ngModel)]="formData.subject" name="subject" placeholder="Enter Subject"
+                    rows="4" required></textarea>
+            </div>
+
+            <button type="submit" class="submit-btn">Send Message</button>
+        </form>
+    </div>
+</div>

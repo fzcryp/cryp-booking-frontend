@@ -1,0 +1,92 @@
+<div class="admin-container">
+    <div class="dashboard-header">
+        <h1>Admin Dashboard</h1>
+        <p>Manage your application settings and user requests.</p>
+    </div>
+
+    <div class="cards-grid">
+        <!-- Discount Requests Card -->
+        <div class="admin-card" (click)="navigateTo('discount-requests')">
+            <div class="icon-box discount-icon">
+                <i class="fas fa-tags"></i>
+            </div>
+            <div class="card-content">
+                <h3>Discount Requests</h3>
+                <p>Review and approve user discount proofs.</p>
+            </div>
+            <div class="card-action">
+                <span>View <i class="fas fa-arrow-right"></i></span>
+            </div>
+        </div>
+
+        <!-- Handle Users Card -->
+        <div class="admin-card" (click)="navigateTo('users')">
+            <div class="icon-box users-icon">
+                <i class="fas fa-users"></i>
+            </div>
+            <div class="card-content">
+                <h3>Handle Users</h3>
+                <p>Manage user accounts and permissions.</p>
+            </div>
+            <div class="card-action">
+                <span>Manage <i class="fas fa-arrow-right"></i></span>
+            </div>
+        </div>
+
+        <!-- Support Requests Card -->
+        <div class="admin-card" (click)="navigateTo('support')">
+            <div class="icon-box support-icon">
+                <i class="fas fa-headset"></i>
+            </div>
+            <div class="card-content">
+                <h3>Support Requests</h3>
+                <p>View inquiries and send replies.</p>
+            </div>
+            <div class="card-action">
+                <span>View <i class="fas fa-arrow-right"></i></span>
+            </div>
+        </div>
+
+        <!-- Subscribed Users Card (New) -->
+        <div class="admin-card" (click)="navigateTo('subscribers')">
+            <div class="icon-box" style="background: #e3fafc; color: #0c8599;">
+                <i class="fas fa-envelope-open-text"></i>
+            </div>
+            <div class="card-content">
+                <h3>Subscribed Users</h3>
+                <p>Manage newsletter subscribers list.</p>
+            </div>
+            <div class="card-action">
+                <span>Manage <i class="fas fa-arrow-right"></i></span>
+            </div>
+        </div>
+
+        <!-- Affiliate Partners Card (New) -->
+        <div class="admin-card" (click)="navigateTo('affiliate-partners')">
+            <div class="icon-box" style="background: #fff0f6; color: #c41d7f;">
+                <i class="fas fa-handshake"></i>
+            </div>
+            <div class="card-content">
+                <h3>Affiliate Partners</h3>
+                <p>Manage partner platforms and links.</p>
+            </div>
+            <div class="card-action">
+                <span>Manage <i class="fas fa-arrow-right"></i></span>
+            </div>
+        </div>
+
+        <!-- Contact Requests Card (New) -->
+        <div class="admin-card" (click)="navigateTo('contact-requests')">
+            <div class="icon-box" style="background: #e6f7ff; color: #1890ff;">
+                <i class="fas fa-inbox"></i>
+            </div>
+            <div class="card-content">
+                <h3>Contact Requests</h3>
+                <p>View user inquiries and messages.</p>
+            </div>
+            <div class="card-action">
+                <span>View <i class="fas fa-arrow-right"></i></span>
+            </div>
+        </div>
+    </div>
+</div>

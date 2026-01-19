@@ -1,0 +1,652 @@
+@import '../landing-page/landing-center/placeholder.css';
+
+.center-container {
+    background-color: #ffffff;
+    min-height: 100vh;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Inter', sans-serif;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.5s ease;
+}
+
+/* SEARCH STATE LAYOUT */
+.center-container.is-searching {
+    align-items: flex-start;
+    gap: 40px;
+    flex-direction: row;
+}
+
+/* Subtle background pattern */
+.center-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: radial-gradient(#e5e5e5 1px, transparent 1px);
+    background-size: 20px 20px;
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+/* CENTER BOX (Search Panel) */
+.center-box {
+    background: white;
+    padding: 30px 40px; 
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+    width: 100%;
+    max-width: 70%; 
+    position: relative;
+    z-index: 10;
+    border: none;
+    margin-top: -75px; 
+    transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* SEARCH WRAPPER */
+.search-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: all 0.5s ease;
+}
+
+/* SEARCHING STATE LAYOUT */
+.search-wrapper.is-searching {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 30px;
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 0 20px;
+    margin-top: 16vh !important; /* Reset overlap since banner is gone */
+}
+
+/* SIDEBAR IN SEARCH STATE */
+.search-wrapper.is-searching .center-box {
+    max-width: 320px;
+    margin-top: 0;
+    padding: 25px;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.center-container.is-searching .form-grid {
+    grid-template-columns: 1fr; /* Stack inputs vertically */
+    gap: 15px;
+}
+
+.center-container.is-searching h2 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+
+/* RESULTS PANEL */
+.results-panel {
+    flex: 1;
+    max-width: 800px;
+    margin-right: 5%;
+    animation: slideInRight 0.6s ease-out forwards;
+    margin-top: 50px;
+    /* Fixed height for internal scrolling */
+    height: 80vh; 
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+@keyframes slideInRight {
+    from { opacity: 0; transform: translateX(50px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+.results-panel h3 {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #1a1a1a;
+    margin-bottom: 5px;
+}
+
+.results-subtitle {
+    color: #666;
+    margin-bottom: 30px;
+    font-size: 1.1rem;
+}
+
+.results-grid {
+    display: grid;
+    grid-template-columns: 1fr; /* Single column for wide horizontal cards */
+    gap: 20px;
+}
+
+/* COMPARISON CARD DESIGN */
+.result-card {
+    background: #ffffff;
+    border-radius: 12px;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    transition: all 0.3s ease;
+    display: flex; /* Horizontal Layout */
+    flex-direction: row;
+    overflow: hidden;
+    position: relative;
+    height: auto;
+    min-height: 220px;
+    font-family: 'Inter', sans-serif;
+    margin-bottom: 0; /* Grid handles gap */
+}
+
+.result-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    border-color: #ccd1d1;
+}
+
+/* === LEFT: IMAGE SECTION === */
+.card-image-section {
+    width: 280px;
+    flex-shrink: 0;
+    position: relative;
+    background: #f0f2f5;
+}
+
+.hotel-img-placeholder {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #64b5f6;
+    font-size: 3rem;
+}
+
+.img-overlay-btn {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    display: flex;
+    gap: 8px;
+}
+
+.overlay-btn {
+    background: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #333;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* === MIDDLE: INFO SECTION === */
+.card-info-section {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid #f0f0f0;
+}
+
+.hotel-title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #1a1a1a;
+    margin-bottom: 4px;
+    line-height: 1.2;
+}
+
+.hotel-location {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 12px;
+}
+
+.rating-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.rating-badge {
+    background: #00796b;
+    color: white;
+    font-weight: 700;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.rating-text {
+    font-size: 0.9rem;
+    color: #333;
+    font-weight: 500;
+}
+
+/* Provider List */
+.provider-list {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.provider-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-top: 1px solid #f9f9f9;
+}
+
+.provider-name {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    color: #333;
+    font-size: 0.9rem;
+}
+
+.provider-price {
+    font-weight: 700;
+    color: #1a1a1a;
+}
+
+/* === RIGHT: DEAL SIDEBAR === */
+.card-deal-section {
+    width: 220px;
+    flex-shrink: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    background: #ffffff;
+}
+
+.deal-badge {
+    background-color: #e0f2f1;
+    color: #00695c;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 6px 10px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+.deal-provider-logo {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #555;
+    margin-bottom: 5px;
+}
+
+.main-price {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: #1a1a1a;
+    margin-bottom: 15px;
+}
+
+.view-deal-btn {
+    width: 100%;
+    background: #ad1457; /* Magenta/Purple from image */
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+    text-decoration: none;
+    text-align: center;
+}
+
+.view-deal-btn:hover {
+    background: #880e4f;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+    .result-card {
+        flex-direction: column; /* Stack vertically on small screens */
+    }
+    
+    .card-image-section {
+        width: 100%;
+        height: 180px;
+    }
+    
+    .card-info-section {
+        border-right: none;
+        border-bottom: 1px solid #f0f0f0;
+    }
+    
+    .card-deal-section {
+        width: 100%;
+        flex-direction: row;
+        align-items: center;
+        gap: 20px;
+    }
+    
+    .main-price {
+        margin-bottom: 0;
+    }
+    
+    .view-deal-btn {
+        width: auto;
+        min-width: 150px;
+    }
+}
+
+h2 {
+    font-size: 1.75rem; 
+    font-weight: 800;
+    color: #1a1a1a;
+    margin-bottom: 5px;
+    letter-spacing: -1px;
+}
+
+.subtitle {
+    color: #666;
+    margin-bottom: 25px; 
+    font-size: 0.95rem;
+}
+
+/* SEARCH FORM GRID for Flights */
+.form-grid {
+    display: grid;
+    /* Adapted columns for Flights: Origin, Dest, Date, Return, Passengers */
+    grid-template-columns: 2fr 2fr 1.2fr 1.2fr 0.8fr;
+    gap: 15px; 
+    margin-bottom: 25px; 
+    text-align: left;
+    align-items: end; 
+}
+
+/* Improved Input Group */
+.input-group label {
+    display: block;
+    font-size: 0.65rem; 
+    font-weight: 700;
+    color: #888;
+    margin-bottom: 4px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px 12px; 
+    border: 2px solid #f0f0f0;
+    border-radius: 10px;
+    font-size: 0.9rem; 
+    font-weight: 500;
+    background: #ffffff;
+    transition: all 0.2s ease-in-out;
+    outline: none;
+    color: #333;
+}
+
+.input-group input:hover {
+    border-color: #e0e0e0;
+}
+
+.input-group input:focus {
+    border-color: #000;
+    background: #fff;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+}
+
+/* Premium Button */
+.center-btn {
+    background: #232647;
+    color: white;
+    width: 100%;
+    padding: 14px; 
+    font-size: 1rem;
+    font-weight: 700;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+    margin-top: 5px;
+    position: relative;
+    overflow: hidden;
+}
+
+.center-btn:hover {
+    transform: scale(1.02);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+}
+
+.center-btn:active {
+    transform: scale(0.98);
+}
+
+/* Responsiveness refinement */
+@media (max-width: 900px) {
+    .center-container.is-searching {
+        flex-direction: column;
+        align-items: center;
+        padding-top: 100px;
+        gap: 20px;
+    }
+    
+    .center-container.is-searching .center-box {
+        margin-left: 0;
+        max-width: 90%;
+    }
+
+    .results-panel {
+        max-width: 90%;
+        margin-right: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    .center-box {
+        padding: 40px 25px;
+        margin: 15px;
+        max-width: 100%;
+    }
+    h2 {
+        font-size: 2rem;
+    }
+}
+
+
+
+.banner-section {
+    width: 100%;
+    max-width: 100%; /* Full width */
+    height: 400px; /* Slightly taller to accommodate overlap */
+    /* Using a flight relevant background via gradient if image not available */
+    background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://png.pngtree.com/thumb_back/fh260/background/20240929/pngtree-a-plane-flying-above-the-clouds-connected-data-points-symbolizing-global-image_16271374.jpg');
+    background-size: cover;
+    background-position: center;
+    border-radius: 0 0 0 0; /* Square edges for full width */
+    position: relative;
+    display: flex;
+    /* align-items: center;
+    justify-content: center;  */
+    padding: 0 20px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    z-index: 5;
+    transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55); /* Smooth slide up */
+}
+
+/* Hidden state for animation */
+.banner-section.hidden {
+    margin-top: -420px; /* Slide completely out of view */
+    opacity: 0;
+    pointer-events: none;
+}
+
+.banner-content {
+    color: white;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    max-width: 800px;
+    text-align: left; /* Center text */
+    margin-bottom: 50px; /* Push text up slightly */
+    margin-top: 120px;
+}
+
+.banner-content h1 {
+    color: white !important;
+    font-size: 3.5rem;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 15px;
+    letter-spacing: -1px;
+}
+
+.banner-content p {
+    font-size: 1.2rem;
+    color: rgba(255,255,255,0.95);
+    font-weight: 500;
+}
+
+/* PAGINATION DESIGN */
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    margin-top: 40px;
+    padding: 15px 30px;
+    background: #ffffff;
+    border-radius: 50px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08); /* Floating effect */
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid #f0f0f0;
+}
+
+.page-btn {
+    background: transparent;
+    border: 2px solid #e0e0e0;
+    color: #333;
+    padding: 10px 24px;
+    border-radius: 30px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.page-btn:hover:not(:disabled) {
+    border-color: #000;
+    background: #000;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.page-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    border-color: #eee;
+}
+
+.page-info {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #1a1a1a;
+}
+
+.page-info span {
+    font-weight: 500;
+    color: #888;
+    margin-left: 4px;
+}
+
+/* AUTOCOMPLETE SUGGESTIONS */
+.suggestions-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: white;
+    border: 1px solid #f0f0f0;
+    border-radius: 0 0 10px 10px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    z-index: 100;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.suggestions-list li {
+    padding: 10px 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    border-bottom: 1px solid #f9f9f9;
+    transition: background 0.1s;
+}
+
+.suggestions-list li:hover {
+    background: #f5f7fa;
+}
+
+.suggestions-list li:last-child {
+    border-bottom: none;
+}
+
+.s-name {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #333;
+}
+
+.s-code {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #0071c2;
+    background: #e3f2fd;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.loading-item {
+    display: none;
+}
+
+/* Loader inside input */
+.input-loader {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #0071c2;
+    font-size: 1rem;
+    pointer-events: none; /* Let clicks pass through */
+    z-index: 10;
+}

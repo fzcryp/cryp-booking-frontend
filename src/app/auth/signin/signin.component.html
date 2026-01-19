@@ -16,6 +16,14 @@
                 {{ loading ? 'Signing in...' : 'Sign In' }}
             </button>
 
+            <!-- Divider -->
+            <div class="separator">or</div>
+
+            <!-- Google Sign In -->
+            <div class="google-auth-section">
+                <div id="google-btn-signin"></div>
+            </div>
+
             <p *ngIf="errorMessage" class="error-msg">{{ errorMessage }}</p>
         </form>
 

@@ -1,0 +1,83 @@
+<div class="admin-page-container">
+    <div class="header-section">
+        <h1>Support Requests</h1>
+        <p>Manage user inquiries and send replies.</p>
+    </div>
+
+    <!-- Requests Table -->
+    <div class="table-container">
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>Ticket ID</th>
+                    <th>User</th>
+                    <th>Subject</th>
+                    <th>Message</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let req of requests">
+                    <td>{{ req.ticket_id || ('#' + req.id) }}</td>
+                    <td>
+                        <div class="user-info">
+                            <span class="user-name">{{ req.user_name }}</span>
+                            <span class="user-email">{{ req.user_email }}</span>
+                        </div>
+                    </td>
+                    <td class="subject-col">{{ req.subject }}</td>
+                    <td class="message-col" title="{{ req.message }}">{{ req.message | slice:0:50 }}...</td>
+                    <td>{{ req.created_at | date:'short' }}</td>
+                    <td>
+                        <span class="status-badge" [ngClass]="{
+                            'open': req.status === 'Open',
+                            'replied': req.status === 'Replied'
+                        }">{{ req.status }}</span>
+                    </td>
+                    <td>
+                        <button class="view-btn" (click)="openReplyModal(req)">
+                            {{ req.status === 'Replied' ? 'View/Edit' : 'Reply' }}
+                        </button>
+                    </td>
+                </tr>
+                <tr *ngIf="requests.length === 0">
+                    <td colspan="6" class="no-data">No support requests found.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Reply Modal -->
+<div class="modal-overlay" *ngIf="selectedRequest" (click)="closeModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+        <span class="close-btn" (click)="closeModal()">&times;</span>
+
+        <h2>Reply to User</h2>
+
+        <div class="req-details-box">
+            <p><strong>Ticket ID:</strong> {{ selectedRequest.ticket_id || ('#' + selectedRequest.id) }}</p>
+            <p><strong>User:</strong> {{ selectedRequest.user_name }}</p>
+            <p><strong>Subject:</strong> {{ selectedRequest.subject }}</p>
+            <p class="full-message"><strong>Message:</strong><br />{{ selectedRequest.message }}</p>
+        </div>
+
+        <div class="existing-reply" *ngIf="selectedRequest.admin_reply">
+            <label>Previous Reply:</label>
+            <p>{{ selectedRequest.admin_reply }}</p>
+        </div>
+
+        <div class="form-group">
+            <label>Your Reply</label>
+            <textarea [(ngModel)]="replyText" rows="5" placeholder="Type your response here..."></textarea>
+        </div>
+
+        <div class="modal-actions">
+            <button class="action-btn send" (click)="sendReply()" [disabled]="isSending || !replyText.trim()">
+                <i class="fas fa-paper-plane"></i> {{ isSending ? 'Sending...' : 'Send Reply' }}
+            </button>
+        </div>
+    </div>
+</div>

@@ -1,199 +1,541 @@
-/* HERO SECTION */
-.hero {
-  position: relative;
-  height: 100vh;
-  background: url('https://images.unsplash.com/photo-1501117716987-c8e1ecb2105a?auto=format&fit=crop&w=1920&q=80')
-    center/cover no-repeat;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  color: white;
-  overflow: hidden;
+/* Global Font */
+:host {
+    display: block;
+    font-family: 'Poppins', sans-serif;
+    background-color: #f4f7f6; 
+    min-height: 100vh;
 }
 
-.hero .overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.55);
+.landing-container {
+    width: 100%;
+    overflow-x: hidden;
+    padding: 0;
 }
 
-.hero-content {
-  position: relative;
-  z-index: 2;
-  max-width: 800px;
-  animation: fadeIn 1.5s ease;
+/* ================= BANNER SECTION ================= */
+.promo-banner {
+    background: #ffffff;
+    width: 100%;
+    max-width: 100%;
+    border-radius: 0;
+    display: flex;
+    flex-wrap: wrap; 
+    overflow: hidden;
+    position: relative;
+    padding: 40px 5%;
+    min-height: 700px; 
+    align-items: center; 
+    /* background: linear-gradient(135deg, #ffffff 0%, #f0f8ff 100%); */
 }
 
-.hero-content h1 {
-  font-size: 3.2rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
-  line-height: 1.2;
+/* Left Content */
+.promo-content {
+    flex: 1 1 600px;
+    padding-right: 40px;
+    z-index: 2;
+    margin-top: 20px;
 }
 
-.hero-content p {
-  font-size: 1.2rem;
-  margin-bottom: 2rem;
+.brand-name {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #444;
+    margin-bottom: 24px;
+    letter-spacing: 1px;
+    /* text-transform: uppercase; */
 }
 
-.search-box {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-bottom: 1.5rem;
+.offer-headline h1 {
+    font-size: 4rem; 
+    line-height: 1.1;
+    font-weight: 800;
+    color: #002b4d; 
+    margin: 0 0 20px 0;
 }
 
-.search-box input {
-  padding: 0.8rem 1rem;
-  border: none;
-  border-radius: 8px;
-  min-width: 180px;
-  font-size: 1rem;
-  outline: none;
+.offer-headline .highlight {
+    color: #00c4cc; 
 }
 
-.search-box .btn {
-  padding: 0.8rem 1.6rem;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s;
+.offer-subtitle {
+    font-size: 1.2rem;
+    color: #555;
+    margin-bottom: 40px;
+    font-weight: 500;
 }
 
-/* BUTTON STYLES */
-.btn {
-  text-decoration: none;
-  border: none;
-  cursor: pointer;
-  transition: all 0.3s;
+/* Icons Grid */
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-bottom: 40px;
+    max-width: 500px;
 }
 
-.btn.primary {
-  background-color: #0bc6e3;
-  color: white;
-}
-
-.btn.secondary {
-  background-color: white;
-  color: #0bc6e3;
-}
-
-.btn.outline {
-  border: 2px solid white;
-  color: white;
-  background: transparent;
-}
-
-.btn:hover {
-  transform: scale(1.05);
-  filter: brightness(1.1);
-}
-
-.cta-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-}
-
-/* FEATURES SECTION */
-.features {
-  display: flex;
-  justify-content: center;
-  align-items: stretch;
-  gap: 2rem;
-  padding: 5rem 2rem;
-  background-color: #f9f9f9;
-  flex-wrap: wrap;
-}
-
-.feature {
-  flex: 1 1 250px;
-  background: white;
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.feature img {
-  width: 60px;
-  height: 60px;
-  margin-bottom: 1rem;
-}
-
-.feature:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-}
-
-/* EXPLORE SECTION */
-.explore {
-  height: 60vh;
-  background: url('https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=1920&q=80')
-    center/cover no-repeat;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  color: white;
-  position: relative;
-}
-
-.explore::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.55);
-}
-
-.explore .text {
-  position: relative;
-  z-index: 2;
-  max-width: 700px;
-  padding: 2rem;
-}
-
-.explore h2 {
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
-}
-
-.explore p {
-  font-size: 1.1rem;
-  margin-bottom: 1.5rem;
-}
-
-/* ANIMATION */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* RESPONSIVE */
-@media (max-width: 768px) {
-  .hero-content h1 {
-    font-size: 2.2rem;
-  }
-
-  .search-box {
+.service-item {
+    background: #ffffff;
+    border: 1px solid #eee;
+    padding: 15px 10px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    display: flex;
     flex-direction: column;
     align-items: center;
-  }
-
-  .features {
-    flex-direction: column;
-  }
-
-  .explore h2 {
-    font-size: 1.8rem;
-  }
+    gap: 8px;
 }
+
+.service-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    border-color: #00c4cc;
+}
+
+.service-item i {
+    font-size: 1.5rem;
+    color: #ffb703; 
+}
+
+.service-item span {
+    font-size: 0.85rem;
+    color: #444;
+    font-weight: 500;
+}
+
+.terms {
+    font-size: 0.75rem;
+    color: #999;
+    line-height: 1.4;
+    margin-top: 20px;
+}
+
+/* Right Image Section */
+.promo-image-container {
+    flex: 1 1 500px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    /* Added based on user preference to adjust vertical query */
+    top: 7vh; 
+}
+
+.circle-bg {
+    position: absolute;
+    bottom: -50px;
+    right: -50px;
+    width: 600px;
+    height: 600px;
+    background-color: #0044cc;
+    border-radius: 50%;
+    z-index: 1;
+    opacity: 0.1; /* Optional: make it subtle if it clashes */
+}
+
+/* ... existing styles ... */
+
+.promo-girl {
+    position: relative;
+    z-index: 2;
+    max-width: 100%;
+    height: auto;
+    max-height: 600px; 
+    object-fit: contain;
+}
+
+/* Center Bottom Button Container */
+.center-cta-container {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    width: 100%;
+    text-align: center;
+}
+
+.landing-main-btn {
+    background: linear-gradient(135deg, #00c4cc 0%, #008ba3 100%);
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 700;
+    padding: 14px 40px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 196, 204, 0.4);
+    transition: transform 0.2s, box-shadow 0.2s;
+    outline: none;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.landing-main-btn:hover {
+    transform: translateX(-50%) translateY(-3px); /* Match container translate + hover lift */
+    /* Note: when on hover, we must keep the X translate or it jumps. 
+       Actually, since the container handles centering, the button itself doesn't need translate X. 
+       Wait, the button is inside the container. The container has translate X. 
+       So the button just needs translateY. */
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 196, 204, 0.6);
+}
+
+/* ================= HOW IT WORKS SECTION ================= */
+.how-it-works-section {
+    padding: 80px 5%;
+    background: #fff;
+    /* Optional: separate visually if needed, but white is fine */
+}
+
+.hiw-container {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.hiw-text {
+    flex: 1;
+}
+
+.hiw-video {
+    flex: 1;
+}
+
+.steps-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 30px;
+}
+
+.steps-list li {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 25px;
+    align-items: flex-start;
+}
+
+.step-number {
+    width: 40px;
+    height: 40px;
+    background: #0bc6e3;
+    color: white;
+    font-weight: 700;
+    font-size: 1.2rem;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.steps-list h4 {
+    margin: 0 0 5px 0;
+    color: #333;
+    font-size: 1.2rem;
+}
+
+.steps-list p {
+    margin: 0;
+    color: #666;
+    font-size: 0.95rem;
+}
+
+.video-wrapper {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+    height: 0;
+    overflow: hidden;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.video-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+
+/* ================= FEATURES SECTION ================= */
+.features-section {
+    padding: 80px 5%;
+    background: #fff;
+    text-align: center;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    color: #333;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.section-subtitle {
+    color: #666;
+    margin-bottom: 50px;
+    font-size: 1.1rem;
+}
+
+.features-grid {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.feature-card {
+    flex: 1 1 300px;
+    padding: 30px;
+    border-radius: 16px;
+    background: #fff;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    transition: transform 0.3s;
+    border: 1px solid #f0f0f0;
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+}
+
+.feature-icon {
+    width: 70px;
+    height: 70px;
+    background: #e0f7fa;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px auto;
+}
+
+.feature-icon i {
+    font-size: 1.8rem;
+    color: #00bcd4;
+}
+
+.feature-card h3 {
+    margin-bottom: 15px;
+    color: #222;
+}
+
+.feature-card p {
+    color: #666;
+    line-height: 1.6;
+}
+
+/* ================= DESTINATIONS SECTION ================= */
+.destinations-section {
+    padding: 80px 5%;
+    background: #f9fcff;
+}
+
+.destinations-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+.destination-card {
+    border-radius: 16px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+    height: 350px;
+}
+
+.destination-card:hover {
+    transform: scale(1.02);
+}
+
+.destination-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.dest-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(0,0,0,0.8));
+    padding: 20px;
+    color: white;
+}
+
+.dest-overlay h3 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.dest-overlay span {
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+/* ================= CTA SECTION ================= */
+.cta-section {
+    padding: 80px 5%;
+    background: linear-gradient(135deg, #00c4cc 0%, #008ba3 100%);
+    text-align: center;
+    color: white;
+}
+
+.cta-btn {
+    display: inline-block;
+    background: white;
+    color: #008ba3;
+    padding: 15px 40px;
+    border-radius: 50px;
+    font-weight: 700;
+    text-decoration: none;
+    margin-top: 30px;
+    transition: transform 0.3s;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.cta-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+/* ================= RESPONSIVE MEDIA QUERIES ================= */
+
+@media (max-width: 991px) {
+    .promo-banner {
+        display: flex;
+        flex-direction: row; /* Keep row */
+        align-items: center;
+        padding-top: 40px;
+        padding-bottom: 80px;
+        position: relative;
+        overflow: hidden;
+        min-height: 500px;
+    }
+
+    .promo-content {
+        padding-right: 0;
+        margin-top: 0;
+        margin-bottom: 20px;
+        width: 60%; /* Limit text width so it doesn't overlap image too much */
+        flex: none; /* Don't grow/shrink based on flex */
+        z-index: 5;
+    }
+
+    .offer-headline h1 {
+        font-size: 2.5rem;
+    }
+
+    .services-grid {
+        justify-content: flex-start;
+        margin: 0 0 30px 0;
+        grid-template-columns: repeat(2, 1fr); /* 2 cols for better fit */
+    }
+
+    .promo-image-container {
+        position: absolute;
+        right: -20px; /* Bring closer to edge */
+        bottom: 20px; /* Lower to "stand" on bottom padding area */
+        width: 45%; /* Restrict width to avoid text overlap */
+        display: flex;
+        justify-content: flex-end;
+        align-items: flex-end;
+        margin-top: 0;
+        top: auto;
+        flex: none;
+        z-index: 1;
+        opacity: 1; /* Full visibility */
+    }
+    
+    .promo-girl {
+        max-height: 400px; /* Taller image */
+        width: auto;
+        object-fit: contain;
+    }
+
+    /* Adjust Center CTA to be Left aligned on mobile and below text */
+    .center-cta-container {
+        position: absolute;
+        bottom: 30px;
+        left: 20px; /* Align left */
+        transform: none;
+        margin-top: 0;
+        width: auto;
+        text-align: left;
+        z-index: 10; /* Ensure button is above everything */
+    }
+    
+    .landing-main-btn {
+        width: auto;
+        padding: 12px 30px;
+        font-size: 1rem;
+    }
+
+    /* HiW Responsive */
+    .hiw-container {
+        flex-direction: column;
+        text-align: left;
+    }
+
+    .hiw-text, .hiw-video {
+        width: 100%;
+    }
+    
+    .hiw-text {
+        margin-bottom: 30px;
+    }
+}
+
+@media (max-width: 600px) {
+    .promo-banner {
+        padding: 30px 20px 90px 20px; /* Extra bottom padding for button */
+        min-height: auto;
+    }
+
+    .promo-content {
+        width: 60%; /* Keep text width limited so right side is open */
+    }
+
+    .offer-headline h1 {
+        font-size: 1.8rem;
+    }
+
+
+    .services-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 5px;
+        max-width: 100%;
+    }
+    
+    .promo-image-container {
+        width: 45%; 
+        right: -15px; 
+        top: 70px; /* Align with the text headline */
+        bottom: auto; /* Remove bottom positioning */
+        align-items: flex-start; /* Align top */
+    }
+
+    .promo-girl {
+        max-height: 220px; /* Smaller to fit next to text */
+    }
+    
+    .destinations-section, .features-section, .cta-section, .how-it-works-section {
+        padding: 40px 5%;
+    }
+
+    .section-title {
+        font-size: 1.8rem;
+    }
+}
+

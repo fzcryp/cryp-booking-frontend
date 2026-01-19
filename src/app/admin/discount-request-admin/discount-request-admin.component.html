@@ -1,0 +1,149 @@
+<div class="admin-page-container">
+    <div class="header-section">
+        <h1>Discount Requests Management</h1>
+        <p>Review and manage user discount submissions.</p>
+    </div>
+
+    <!-- Filter Section -->
+    <div class="filter-section"
+        style="margin-bottom: 20px; max-width: 1000px; margin-left: auto; margin-right: auto; display: flex; align-items: center; gap: 10px;">
+        <div class="search-user">
+            <input type="text" [(ngModel)]="userSearchText" placeholder="Search User Name..." class="user-search-input">
+        </div>
+        <div class="select-user">
+            <select [(ngModel)]="selectedUserId" class="user-filter">
+                <option value="">All Users</option>
+                <option *ngFor="let user of users" [value]="user.id">{{ user.name }}</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Requests Table -->
+    <div class="table-container">
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>Request ID</th>
+                    <th>User</th>
+                    <th>Booking ID</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let req of filteredRequests">
+                    <td>{{ req.request_id || ('#' + req.id) }}</td>
+                    <td>
+                        <div class="user-info">
+                            <span class="user-name">{{ req.user_name }}</span>
+                            <span class="user-email">{{ req.user_email }}</span>
+                        </div>
+                    </td>
+                    <td>{{ req.booking_id }}</td>
+                    <td>{{ req.created_at | date:'short' }}</td>
+                    <td>
+                        <span class="status-badge" [ngClass]="{
+                            'pending': req.status === 'Pending',
+                            'approved': req.status === 'Approved',
+                            'rejected': req.status === 'Rejected'
+                        }">{{ req.status }}</span>
+                    </td>
+                    <td>
+                        <button class="view-btn" (click)="openModal(req)">View Details</button>
+                    </td>
+                </tr>
+                <tr *ngIf="filteredRequests.length === 0">
+                    <td colspan="6" class="no-data">No any request found.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Details Modal -->
+<div class="modal-overlay" *ngIf="selectedRequest" (click)="closeModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+        <span class="close-btn" (click)="closeModal()">&times;</span>
+
+        <h2>Request Details</h2>
+
+        <div class="detail-row">
+            <strong>User:</strong> {{ selectedRequest.user_name }} ({{ selectedRequest.user_email }})
+        </div>
+        <p class="detail-row"><strong>Booking ID:</strong> {{ selectedRequest.booking_id }}</p>
+        <p class="detail-row" *ngIf="selectedRequest.extracted_order_id">
+            <strong>Scanned Order ID:</strong>
+            <span [class.match-success]="selectedRequest.booking_id === selectedRequest.extracted_order_id"
+                [class.match-fail]="selectedRequest.booking_id !== selectedRequest.extracted_order_id">
+                {{ selectedRequest.extracted_order_id }}
+                <i *ngIf="selectedRequest.booking_id === selectedRequest.extracted_order_id"
+                    class="fas fa-check-circle"></i>
+                <i *ngIf="selectedRequest.booking_id !== selectedRequest.extracted_order_id"
+                    class="fas fa-exclamation-circle"></i>
+            </span>
+        </p>
+        <p class="detail-row"><strong>Date:</strong> {{ selectedRequest.created_at | date:'medium' }}</p>
+        <div class="detail-row">
+            <strong>Status:</strong>
+            <span class="status-text {{ selectedRequest.status | lowercase }}">{{ selectedRequest.status }}</span>
+        </div>
+
+        <div class="file-preview">
+            <h3>Proof Document</h3>
+            <div class="preview-box">
+                <img *ngIf="isImage(selectedRequest.file_path)" [src]="getFileUrl(selectedRequest.file_path)"
+                    alt="Proof">
+                <div *ngIf="!isImage(selectedRequest.file_path)" class="pdf-placeholder">
+                    <a [href]="getFileUrl(selectedRequest.file_path)" target="_blank">Download PDF <i
+                            class="fas fa-external-link-alt"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-actions-section" *ngIf="selectedRequest.status === 'Pending'">
+            <div class="verification-box">
+                <label class="checkbox-container">
+                    <input type="checkbox" [(ngModel)]="isVerified">
+                    <span class="checkmark"></span>
+                    Attached user booking detail is correct
+                </label>
+            </div>
+
+            <div class="calculation-box" *ngIf="isVerified">
+                <div class="form-group">
+                    <label>Total Booking Amount ($)</label>
+                    <input type="number" [(ngModel)]="totalBookingAmount" (input)="calculateDiscount()"
+                        placeholder="Enter Amount">
+                </div>
+
+                <div class="form-group">
+                    <label>Discount Percentage (%)</label>
+                    <select [(ngModel)]="discountPercentage" (change)="calculateDiscount()">
+                        <option value="0">Select %</option>
+                        <option *ngFor="let p of [1,1.5, 2, 2.5, 3, 3.5]" [value]="p">{{p}}%</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Calculated Discount (To be Credited)</label>
+                    <input type="text" [value]="calculatedDiscount | currency" disabled class="highlight-input">
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="action-btn approve" (click)="updateStatus('Approved')"
+                    [disabled]="!isVerified || calculatedDiscount <= 0">
+                    <i class="fas fa-check"></i> Approve & Credit
+                </button>
+                <button class="action-btn reject" (click)="updateStatus('Rejected')">
+                    <i class="fas fa-times"></i> Reject
+                </button>
+            </div>
+        </div>
+
+        <div class="modal-actions" *ngIf="selectedRequest.status !== 'Pending'">
+            <p class="processed-msg">This request has already been {{ selectedRequest.status }}.</p>
+        </div>
+    </div>
+</div>

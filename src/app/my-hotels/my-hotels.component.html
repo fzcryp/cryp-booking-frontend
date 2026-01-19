@@ -1,0 +1,131 @@
+<div class="my-hotels-container">
+    <div class="header">
+        <h2>My Favorites</h2>
+        <p>Your personal collection of saved stays and flights.</p>
+    </div>
+
+    <!-- TABS -->
+    <div class="favorites-tabs">
+        <div class="tab" [class.active]="activeTab === 'hotels'" (click)="activeTab = 'hotels'">
+            <i class="fas fa-bed"></i> Hotels
+        </div>
+        <div class="tab" [class.active]="activeTab === 'flights'" (click)="activeTab = 'flights'">
+            <i class="fas fa-plane"></i> Flights
+        </div>
+    </div>
+
+    <div *ngIf="isLoading" class="loading-state">
+        <i class="fas fa-spinner fa-spin"></i>
+        <h3>Loading your Favorites...</h3>
+    </div>
+
+    <!-- HOTELS SECTION -->
+    <div *ngIf="activeTab === 'hotels' && !isLoading">
+        <div *ngIf="savedHotels.length === 0" class="empty-state">
+            <i class="far fa-heart"></i>
+            <h3>No hotels saved yet</h3>
+            <p>Go to the Landing page to explore and save your favorite hotels!</p>
+            <button class="book-btn" routerLink="/landing-center" style="margin-top: 20px;">Explore Hotels</button>
+        </div>
+
+        <div class="hotels-grid" *ngIf="savedHotels.length > 0">
+            <div class="hotel-card" *ngFor="let item of savedHotels">
+                <div class="card-image">
+                    <div class="placeholder-img">
+                        <i class="fas fa-bed"></i>
+                    </div>
+                    <button class="remove-btn" (click)="removeHotel(item.hotel_id)" title="Remove from Saved">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+                <div class="card-content">
+                    <h3>{{ (item.hotel_name || item.hotel_data?.hotel?.name) | titlecase }}</h3>
+
+                    <!-- Hotel ID -->
+                    <p class="hotel-id" style="font-size: 0.85rem; color: #888; margin-bottom: 4px;">
+                        ID: {{ item.hotel_data?.hotel?.hotelId }}
+                    </p>
+
+                    <!-- Address -->
+                    <p class="location" style="display: flex; align-items: flex-start; gap: 6px;">
+                        <i class="fas fa-map-marker-alt" style="color: #ff4d4f; margin-top: 3px;"></i>
+                        <span>
+                            {{ item.hotel_data?.hotel?.address?.lines?.join(', ') }}
+                            <br *ngIf="item.hotel_data?.hotel?.address?.lines?.length">
+                            {{ item.hotel_data?.hotel?.address?.cityName }}, {{
+                            item.hotel_data?.hotel?.address?.countryCode }}
+                        </span>
+                    </p>
+                    <div class="price-section">
+                        <div class="price-box" *ngIf="item.hotel_data?.offers && item.hotel_data.offers.length > 0">
+                            <span class="price">
+                                {{ item.hotel_data.offers[0].price?.total | currency:
+                                item.hotel_data.offers[0].price.currency : 'symbol' : '1.0-0' }}
+                            </span>
+                        </div>
+                        <button class="book-btn">View Deal</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FLIGHTS SECTION -->
+    <div *ngIf="activeTab === 'flights' && !isLoading">
+        <div *ngIf="savedFlights.length === 0" class="empty-state">
+            <i class="far fa-heart"></i>
+            <h3>No flights saved yet</h3>
+            <p>Go to the Landing page to explore and save your favorite flights!</p>
+            <button class="book-btn" routerLink="/Bookings" style="margin-top: 20px;">Explore Flights</button>
+        </div>
+
+        <div class="hotels-grid" *ngIf="savedFlights.length > 0">
+            <div class="hotel-card" *ngFor="let item of savedFlights">
+                <div class="card-image" style="background: #e3f2fd;">
+                    <div class="placeholder-img">
+                        <i class="fas fa-plane" style="color: #1976d2;"></i>
+                    </div>
+                    <button class="remove-btn" (click)="removeFlight(item.flight_id)" title="Remove from Saved">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+                <div class="card-content">
+                    <!-- Airline Name -->
+                    <h3>{{ item.flight_data?.airlineName || item.flight_data?.airlineCode }}</h3>
+
+                    <!-- Route -->
+                    <p style="font-weight: bold; margin: 5px 0;">
+                        {{ item.flight_data?.departureCode }}
+                        <i class="fas fa-arrow-right" style="font-size: 0.8rem; margin: 0 5px;"></i>
+                        {{ item.flight_data?.arrivalCode }}
+                    </p>
+
+                    <!-- Details -->
+                    <p class="location" style="margin-bottom: 0.5rem;">
+                        <i class="far fa-clock"></i> {{ item.flight_data?.duration }}
+                        <span *ngIf="item.flight_data?.stops != null"
+                            style="margin-left:8px; font-size:0.85em; color:#888;">
+                            ({{ item.flight_data.stops }} stops)
+                        </span>
+                    </p>
+
+                    <!-- Date (Using Departure Time) -->
+                    <p class="location">
+                        <i class="far fa-calendar-alt"></i> {{ item.flight_data?.departureTime | date:'mediumDate' }}
+                    </p>
+
+                    <div class="price-section">
+                        <div class="price-box">
+                            <span class="price">
+                                {{ item.flight_data?.price | currency: item.flight_data?.currency : 'symbol' : '1.0-0'
+                                }}
+                            </span>
+                        </div>
+                        <button class="book-btn">View Deal</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

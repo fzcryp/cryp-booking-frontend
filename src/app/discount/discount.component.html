@@ -1,0 +1,69 @@
+<div class="discount-container">
+    <div class="discount-card">
+        <h2>🎉 Request a Discount</h2>
+        <p class="subtitle">Did you book with us before? Upload proof to get a discount code!</p>
+
+        <!-- Form -->
+        <form [formGroup]="discountForm" (ngSubmit)="submitRequest()" class="discount-form">
+            <div class="form-group">
+                <label>Booking ID</label>
+                <input type="text" formControlName="bookingId" placeholder="Enter your previous Booking ID" />
+            </div>
+
+            <div class="form-group">
+                <label>Upload Proof (Screenshot/PDF)</label>
+                <input type="file" (change)="onFileSelected($event)" accept="image/*,.pdf" />
+            </div>
+
+            <button type="submit" class="submit-btn" [disabled]="isSubmitting">
+                {{ isSubmitting ? 'Submitting...' : 'Submit Request' }}
+            </button>
+
+            <p *ngIf="message" class="status-msg">{{ message }}</p>
+        </form>
+
+        <hr class="divider" />
+
+        <!-- History -->
+        <div class="history-section">
+            <h3>My Requests</h3>
+            <div *ngIf="requests.length === 0" class="no-requests">No requests found.</div>
+
+            <div class="request-grid">
+                <div class="request-item-card" *ngFor="let req of requests">
+                    <!-- Thumbnail Container -->
+                    <div class="thumbnail-box" (click)="openPreview(req.file_path)">
+                        <img *ngIf="isImage(req.file_path)" [src]="getFileUrl(req.file_path)" alt="Proof">
+                        <div *ngIf="!isImage(req.file_path)" class="pdf-icon">
+                            <i class="fas fa-file-pdf"></i>
+                        </div>
+
+                        <!-- Overlay Status -->
+                        <div class="status-overlay" [ngClass]="{
+                            'status-approved': req.status === 'Approved',
+                            'status-rejected': req.status === 'Rejected'
+                        }">
+                            <span class="status-text" *ngIf="req.status === 'Pending'">Under Review</span>
+                            <span class="status-icon" *ngIf="req.status === 'Approved'"><i
+                                    class="fas fa-check-circle"></i> Approved</span>
+                            <span class="status-icon" *ngIf="req.status === 'Rejected'"><i
+                                    class="fas fa-times-circle"></i> Rejected</span>
+                        </div>
+                    </div>
+
+                    <div class="req-details">
+                        <span class="booking-id-text">ID: {{ req.booking_id }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Image Preview Modal -->
+<div class="preview-modal" *ngIf="previewUrl" (click)="closePreview()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+        <span class="close-btn" (click)="closePreview()">&times;</span>
+        <img [src]="previewUrl" alt="Full Preview">
+    </div>
+</div>

@@ -7,42 +7,156 @@
         <!-- <div class="balance-top-right">
             Balance: <span class="balance-value">${{ userBalance | number:'1.2-2' }} USD</span>
         </div> -->
-        <h2 class="payment-title">Pay with PayPal </h2>
+        <h2 class="payment-title">Wallet & Payments</h2>
 
-        <!-- grid layout: left = paypal, center = success, right = download -->
-        <div class="payment-grid">
-<!-- <div class="balance-card">
-    <h4>Your Available Balance</h4>
-    <p class="balance-amount">${{ userBalance | number:'1.2-2' }} USD</p>
-</div> -->
+        <!-- grid layout: 2 columns (Deposit vs Withdraw) -->
+        <div class="payment-grid two-column-layout">
 
-            <!-- LEFT: PayPal Button area (shown even after success) -->
-            <div class="col paypal-col">
+            <!-- LEFT: PAYPAL DEPOSIT (COMMENTED OUT) -->
+            <!-- 
+            <div class="col deposit-col">
+                <h3>Add Funds</h3>
+                <p class="section-desc">Deposit money into your wallet instantly.</p>
                 <div #paymentRef class="paypal-button-box"></div>
-                <!-- <div class="powered">Powered by <span class="paypal-blue">PayPal</span></div> -->
             </div>
+            -->
 
-            <!-- CENTER: Success message (shows only when transactionCompleted) -->
-            <div class="col success-col" *ngIf="transactionCompleted">
-                <div class="success-box animate-in">
-                    <h3>✅ <span>Payment Successful!</span></h3>
-                    <p class="thank-you">Thank you for your payment, <strong>{{ transactionDetails?.payerName
-                            }}</strong>.</p>
+            <!-- LEFT: WITHDRAW FORM -->
+            <div class="payment-col withdraw-col">
+                <h3>Withdraw Funds</h3>
+                <p class="section-desc">Transfer balance to your PayPal account.</p>
 
-                    <div class="details">
-                        <p><strong>Transaction ID:</strong> {{ transactionDetails?.transactionId }}</p>
-                        <p><strong>Amount:</strong> ${{ transactionDetails?.amount }} {{ transactionDetails?.currency }}
-                        </p>
-                        <p><strong>Status:</strong> {{ transactionDetails?.status }}</p>
-                        <p><strong>Date:</strong> {{ transactionDetails?.date | date: 'medium' }}</p>
+                <div class="withdraw-form">
+                    <div class="input-group">
+                        <label>Amount (USD)</label>
+                        <input type="number" [(ngModel)]="withdrawalAmount" (input)="calculateFees()" placeholder="0.00"
+                            min="1" [max]="userBalance">
+                    </div>
+
+                    <div class="input-group">
+                        <label>PayPal Email</label>
+                        <input type="email" [(ngModel)]="withdrawalEmail" placeholder="your-email@paypal.com">
+                    </div>
+
+                    <button class="btn-withdraw" (click)="openVerifyModal()" [disabled]="isWithdrawing">
+                        {{ isWithdrawing ? 'Processing...' : 'Withdraw Now' }}
+                    </button>
+
+                    <div class="message-box" *ngIf="withdrawalMessage" [class.error]="withdrawalError"
+                        [class.success]="!withdrawalError">
+                        {{ withdrawalMessage }}
                     </div>
                 </div>
             </div>
 
-            <!-- RIGHT: Download button (shows only when transactionCompleted) -->
-            <div class="col download-col" *ngIf="transactionCompleted">
+            <!-- RIGHT: CHARGES & FEES -->
+            <div class="payment-col charges-col">
+                <h3>Estimate Details</h3>
+                <p class="section-desc">Breakdown of transaction fees.</p>
+
+                <div class="payment-summary-card">
+                    <div class="fee-row" *ngIf="!withdrawalAmount">
+                        <p class="text-muted w-100" style="text-align:center;">Enter withdrawal amount to see estimate.
+                        </p>
+                    </div>
+
+                    <div *ngIf="withdrawalAmount && withdrawalAmount > 0">
+                        <div class="fee-row">
+                            <span>Requested:</span>
+                            <span class="text-end justify-content-end">${{ withdrawalAmount | number:'1.2-2' }}</span>
+                        </div>
+
+                        <div class="fee-row">
+                            <span>PayPal Fee (4.4%):</span>
+                            <span class="text-end">-${{ paypalFee | number:'1.2-2' }}</span>
+                        </div>
+                        <div class="fee-row">
+                            <span>Admin Fee (2%):</span>
+                            <span class="text-end">-${{ platformFee | number:'1.2-2' }}</span>
+                        </div>
+                        <div class="fee-row total-deduction">
+                            <span>Total Charges:</span>
+                            <span class="text-end">-${{ totalFee | number:'1.2-2' }}</span>
+                        </div>
+                        <hr>
+                        <div class="fee-row final-amount text-end">
+                            <span>Receive:</span>
+                            <span>${{ finalReceiveAmount | number:'1.2-2' }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Success Message for Deposit (Existing) -->
+        <div class="success-section" *ngIf="transactionCompleted">
+            <div class="success-box animate-in">
+                <h3>✅ <span>Payment Successful!</span></h3>
+                <p class="thank-you">Thank you for your payment, <strong>{{ transactionDetails?.payerName
+                        }}</strong>.</p>
+
+                <div class="details">
+                    <p><strong>Transaction ID:</strong> {{ transactionDetails?.transactionId }}</p>
+                    <p><strong>Amount:</strong> ${{ transactionDetails?.amount }} {{ transactionDetails?.currency }}
+                    </p>
+                    <p><strong>Status:</strong> {{ transactionDetails?.status }}</p>
+                    <p><strong>Date:</strong> {{ transactionDetails?.date | date: 'medium' }}</p>
+                </div>
                 <button class="btn-download" (click)="downloadReceipt()">⬇ Download Receipt (PDF)</button>
             </div>
+        </div>
+    </div>
+
+    <!-- VERIFICATION MODAL -->
+    <div class="modal-backdrop" *ngIf="showVerifyModal">
+        <div class="modal-content animate-pop">
+            <h3>Verify Withdrawal</h3>
+
+            <div class="modal-details">
+                <div class="detail-row">
+                    <span class="label">Amount:</span>
+                    <span class="value">${{ withdrawalAmount }} USD</span>
+                </div>
+                <div class="detail-row">
+                    <span class="label">To PayPal:</span>
+                    <span class="value">{{ withdrawalEmail }}</span>
+                </div>
+            </div>
+
+            <!-- STEP 1: PRE-OTP -->
+            <div *ngIf="!otpSent" class="otp-stage">
+                <p>We need to verify the destination email before sending funds.</p>
+
+                <div class="modal-actions">
+                    <button class="btn-cancel" (click)="closeVerifyModal()">Cancel</button>
+                    <button class="btn-confirm" (click)="sendOtp()" [disabled]="isSendingOtp">
+                        {{ isSendingOtp ? 'Sending Code...' : 'Send Verification Code' }}
+                    </button>
+                </div>
+            </div>
+
+            <!-- STEP 2: OTP ENTRY -->
+            <div *ngIf="otpSent" class="otp-stage" style="color: black !important;">
+                <p>Enter the 6-digit code sent to your email.</p>
+
+                <div class="input-group otp-input-group">
+                    <input type="text" [(ngModel)]="otpCode" placeholder="Enter OTP ex: 123456" maxlength="6">
+                </div>
+
+                <div class="modal-actions">
+                    <button class="btn-cancel" (click)="otpSent = false">Back</button>
+                    <button class="btn-confirm" (click)="verifyAndWithdraw()" [disabled]="isVerifyingOtp">
+                        {{ isVerifyingOtp ? 'Verifying...' : 'Verify & Withdraw' }}
+                    </button>
+                </div>
+            </div>
+
+            <!-- OTP FEEDBACK -->
+            <div class="message-box mt-3" *ngIf="otpMessage" [class.error]="otpError" [class.success]="!otpError">
+                {{ otpMessage }}
+            </div>
+
         </div>
     </div>
 </div>

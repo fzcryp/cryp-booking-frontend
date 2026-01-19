@@ -1,11 +1,7 @@
-/* Container styling */
+/* Container styling removed to avoid double-card effect. 
+   .signup-card handles the card look. */
 form {
-  max-width: 400px;
-  margin: 40px auto;
-  padding: 2rem;
-  border-radius: 10px;
-  background: #ffffff;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 100%;
 }
 
 /* Title */
@@ -125,7 +121,19 @@ a:hover {
   margin-top: 8px;
 }
 
-
+/* Button */
+.signup-btn {
+  width: 100%;
+  padding: 0.9rem;
+  background: linear-gradient(90deg, #00c4cc, #0097a7);
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
 /* Sign Up Link */
 /* Inline "Already have an account? Sign in" */
 .signin-inline {
@@ -150,4 +158,57 @@ a:hover {
 
 .signin-inline a:hover {
   text-decoration: underline;
+}
+
+/* ================== DIVIDER & GOOGLE BTN ================== */
+.separator {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 24px 0;
+  color: #999;
+  font-size: 1rem;
+}
+.separator::before, .separator::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #ddd;
+}
+.separator::before { margin-right: 12px; }
+.separator::after { margin-left: 12px; }
+
+.google-auth-section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 500px) {
+  .signup-container {
+    padding: 40px 15px; /* More vertical padding, less horizontal */
+    min-height: 100vh; /* Allow scrolling/growth */
+    height: auto; /* Remove fixed height */
+    align-items: flex-start; /* Start from top + padding */
+  }
+
+  .signup-card {
+    padding: 2rem 1rem; /* Reduce side padding for maximum width */
+    max-width: 100%;
+    width: 100%;
+    box-shadow: none;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  }
+  
+  /* Ensure Google Button fits */
+  .google-auth-section {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    transform: scale(0.85); 
+    transform-origin: center;
+    margin-top: 10px;
+  }
 }

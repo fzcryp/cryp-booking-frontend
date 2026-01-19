@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 
+import { environment } from '../../environments/environment';
+
 @Component({
   selector: 'app-transaction',
   templateUrl: './transactions.component.html',
@@ -12,7 +14,7 @@ export class TransactionsComponent implements OnInit {
   transactions: any[] = [];
   userEmail: string = '';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
     this.userEmail = localStorage.getItem('userEmail') || '';
@@ -22,7 +24,7 @@ export class TransactionsComponent implements OnInit {
 
   loadTransactions(): void {
     this.http
-      .get<any[]>(`http://localhost:4000/api/transactions/${this.userEmail}`)
+      .get<any[]>(`${environment.apiUrl}/transactions/${this.userEmail}`)
       .subscribe({
         next: (res) => {
           console.log('✅ Transactions loaded:', res);
@@ -52,10 +54,13 @@ export class TransactionsComponent implements OnInit {
     doc.line(15, 32, 195, 32);
 
     // Transaction details
+    // Transaction details
+    // Note: Backend saves as 'amount_requested' for withdrawals, 'amount' for others. Check both.
+    const amount = tx.amount || tx.amount_requested;
     const transactionData = [
       ['Transaction ID', tx.transaction_id],
       ['Name', tx.payer_name],
-      ['Amount', `$${tx.amount} ${tx.currency}`],
+      ['Amount', `$${amount} ${tx.currency}`],
       ['Status', tx.status],
       ['Date', new Date(tx.date).toLocaleString()]
     ];
@@ -74,7 +79,7 @@ export class TransactionsComponent implements OnInit {
     const totalY = (doc as any).lastAutoTable.finalY + 10;
     doc.setFontSize(13);
     doc.setFont('helvetica', 'bold');
-    doc.text(`Total Amount: $${tx.amount} ${tx.currency}`, 15, totalY);
+    doc.text(`Total Amount: $${amount} ${tx.currency}`, 15, totalY);
 
     // Thank you message
     doc.setFontSize(12);

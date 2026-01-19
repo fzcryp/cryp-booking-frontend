@@ -1,0 +1,169 @@
+.discount-container {
+    padding-top: 120px;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    background: #f4f6f8;
+    padding-bottom: 50px;
+    font-family: 'Inter', sans-serif;
+}
+
+.discount-card {
+    background: white;
+    width: 100%;
+    max-width: 600px; /* Slightly wider for grid */
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    height: fit-content;
+}
+
+h2 { text-align: center; color: #1a1a1a; font-weight: 700; margin-bottom: 0.5rem; }
+.subtitle { text-align: center; color: #666; font-size: 0.9rem; margin-bottom: 2rem; }
+
+.form-group { margin-bottom: 1.2rem; }
+.form-group label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.5rem; color: #333; }
+.form-group input[type="text"] { width: 100%; padding: 12px; border: 1px solid #e0e0e0; border-radius: 8px; font-size: 0.95rem; outline: none; transition: all 0.2s; }
+.form-group input[type="text"]:focus { border-color: #000; }
+.submit-btn { width: 100%; background: #000; color: white; padding: 14px; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: background 0.2s; }
+.submit-btn:hover { background: #333; }
+.status-msg { text-align: center; margin-top: 1rem; color: green; }
+.divider { margin: 2rem 0; border: 0; border-top: 1px solid #eee; }
+
+/* Grid Layout for Requests */
+.request-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 15px;
+    margin-top: 1rem;
+}
+
+.request-item-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.thumbnail-box {
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    border: 1px solid #e0e0e0;
+    background: #f9f9f9;
+}
+
+.thumbnail-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.2s;
+}
+
+.thumbnail-box:hover img {
+    transform: scale(1.05);
+}
+
+.pdf-icon {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: #e74c3c;
+}
+
+/* Status Overlay */
+.status-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.6); /* Default dark for Pending */
+    padding: 4px 0;
+    text-align: center;
+    transition: background 0.3s;
+}
+
+.status-overlay.status-approved {
+    background: rgba(40, 167, 69, 0.9); /* Green for Approved, slightly transparent */
+}
+
+.status-overlay.status-rejected {
+    background: rgba(220, 53, 69, 0.9); /* Red for Rejected */
+}
+
+.status-text, .status-icon {
+    color: white;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+}
+
+.req-details {
+    margin-top: 8px;
+    text-align: center;
+}
+
+.booking-id-text {
+    font-size: 0.8rem;
+    color: #555;
+    font-weight: 500;
+}
+
+/* Modal */
+.preview-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.8);
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+}
+
+.modal-content {
+    position: relative;
+    width: 90%;
+    max-width: 500px; /* Limit width */
+    max-height: 85vh; /* Max height relative to viewport */
+    overflow-y: auto; /* Enable vertical scroll */
+    background: transparent;
+    border-radius: 8px;
+    /* Hide scrollbar for clean look if supported, or keep distinct */
+}
+
+/* Custom Scrollbar for modal */
+.modal-content::-webkit-scrollbar { width: 8px; }
+.modal-content::-webkit-scrollbar-track { background: rgba(255,255,255,0.1); }
+.modal-content::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.5); border-radius: 4px; }
+
+.modal-content img {
+    width: 100%;      /* Fill container width */
+    height: auto;     /* Maintain aspect ratio, allowing height to grow */
+    display: block;   /* Remove bottom space */
+    border-radius: 8px;
+    box-shadow: 0 5px 30px rgba(0,0,0,0.5);
+}
+
+.close-btn {
+    position: absolute;
+    top: -40px;
+    right: 0;
+    color: white;
+    font-size: 2rem;
+    cursor: pointer;
+    font-weight: bold;
+}

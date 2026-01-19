@@ -1,0 +1,173 @@
+<div class="center-container" [class.is-searching]="isSearching">
+    <!-- Search Box (Left Panel when searching) -->
+
+    <div class="banner-section" [class.hidden]="isSearching">
+        <div class="banner-content">
+            <h1>Rent the Perfect Car <br>& Drive Your Adventure</h1>
+            <p>Best prices on car rentals worldwide.</p>
+        </div>
+    </div>
+
+
+    <div class="search-wrapper" [class.is-searching]="isSearching">
+        <div class="center-box">
+            <div class="logo-corner" *ngIf="!isSearching">
+                <span class="animated-logo">CrypBooking</span>
+            </div>
+
+            <h2 *ngIf="!isSearching">Find Your Ride</h2>
+            <h2 *ngIf="isSearching">Edit Search</h2>
+            <p class="subtitle" *ngIf="!isSearching">Comfort. Speed. Reliability.</p>
+
+            <div class="form-grid">
+                <!-- Autocomplete Pick Up -->
+                <div class="input-group" style="position: relative;">
+                    <label>Pick Up Location</label>
+                    <div style="position: relative;">
+                        <input type="text" placeholder="City or Airport" [ngModel]="pickUpInput"
+                            (ngModelChange)="onPickUpInput($event)" style="padding-right: 35px;" />
+
+                        <div *ngIf="isPickUpLoading" class="input-loader">
+                            <i class="fas fa-spinner fa-spin"></i>
+                        </div>
+                    </div>
+
+                    <ul class="suggestions-list" *ngIf="pickUpSuggestions.length > 0">
+                        <li *ngFor="let item of pickUpSuggestions" (click)="selectPickUp(item)">
+                            <div class="s-name">{{ item.name }}</div>
+                            <div class="s-code">{{ item.iataCode }}</div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Autocomplete Drop Off -->
+                <div class="input-group" style="position: relative;">
+                    <label>Drop Off Location</label>
+                    <div style="position: relative;">
+                        <input type="text" placeholder="Same as Pick Up (Optional)" [ngModel]="dropOffInput"
+                            (ngModelChange)="onDropOffInput($event)" style="padding-right: 35px;" />
+
+                        <div *ngIf="isDropOffLoading" class="input-loader">
+                            <i class="fas fa-spinner fa-spin"></i>
+                        </div>
+                    </div>
+
+                    <ul class="suggestions-list" *ngIf="dropOffSuggestions.length > 0">
+                        <li *ngFor="let item of dropOffSuggestions" (click)="selectDropOff(item)">
+                            <div class="s-name">{{ item.name }}</div>
+                            <div class="s-code">{{ item.iataCode }}</div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="input-group">
+                    <label>Pick Up Date</label>
+                    <input type="date" [(ngModel)]="pickUpDate" />
+                </div>
+
+                <div class="input-group">
+                    <label>Pick Up Time</label>
+                    <input type="time" [(ngModel)]="pickUpTime" />
+                </div>
+            </div>
+
+            <button class="center-btn" (click)="search()">
+                {{ isSearching ? 'Update Search' : 'Find Cars' }}
+            </button>
+        </div>
+
+        <!-- Results Panel (Right Side) -->
+        <div class="results-panel" *ngIf="isSearching">
+
+            <!-- Loading State -->
+            <div *ngIf="isLoading" class="placeholder-message-box">
+                <div class="shimmer-icon spin">
+                    <i class="fas fa-spinner fa-spin"></i>
+                </div>
+                <h3>Searching Cars...</h3>
+                <p>Finding the best wheels for you...</p>
+            </div>
+
+            <!-- Empty State -->
+            <div *ngIf="!isLoading && paginatedCars.length === 0 && errorMessage" class="placeholder-message-box">
+                <div class="shimmer-icon warning">
+                    <i class="fas fa-exclamation-circle"></i>
+                </div>
+                <h3>No Cars Found</h3>
+                <p>{{ errorMessage }}</p>
+            </div>
+
+            <!-- Grid of Results -->
+            <div class="results-grid" *ngIf="!isLoading && paginatedCars.length > 0">
+                <div class="result-card" *ngFor="let item of paginatedCars">
+
+                    <!-- LEFT: Image Section -->
+                    <div class="card-image-section">
+                        <div class="hotel-img-placeholder" *ngIf="!item.image">
+                            <i class="fas fa-car" style="color: #64b5f6;"></i>
+                        </div>
+                        <!-- If API provides image, use it -->
+                        <img *ngIf="item.image" [src]="item.image" alt="Car Image"
+                            style="width:100%; height:100%; object-fit:cover;">
+
+                        <div class="img-overlay-btn">
+                            <div class="overlay-btn"><i class="far fa-heart"></i> Save</div>
+                        </div>
+                    </div>
+
+                    <!-- MIDDLE: Info Section -->
+                    <div class="card-info-section">
+                        <h4 class="hotel-title">{{ item.name | titlecase }}</h4>
+                        <div class="hotel-location">{{ item.type }} - {{ item.transmission }} ({{ item.sipp }})</div>
+
+                        <div class="rating-row">
+                            <span class="rating-badge">9.2</span>
+                            <span class="rating-text">Excellent</span>
+                        </div>
+
+                        <!-- Provider List (Mocked/Similar Structure) -->
+                        <div class="provider-list">
+                            <div class="provider-row">
+                                <span class="provider-name"><i class="fas fa-check" style="color:#0071c2"></i>
+                                    {{ item.provider }}</span>
+                                <span class="provider-price">{{ item.price | currency: item.currency : 'symbol' :
+                                    '1.0-0' }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- RIGHT: Deal Sidebar -->
+                    <div class="card-deal-section">
+                        <div>
+                            <div class="deal-badge">Best Price</div>
+                            <div class="deal-provider-logo">{{ item.provider }}</div>
+                            <div class="main-price">{{ item.price | currency: item.currency : 'symbol' : '1.0-0' }}
+                            </div>
+                        </div>
+
+                        <a [href]="getExpediaLink(item)" target="_blank" class="view-deal-btn">
+                            View Deal
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pagination Controls (Generic for now) -->
+            <div class="pagination-container" *ngIf="!isLoading && paginatedCars.length > 0">
+                <button class="page-btn prev" (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1">
+                    <i class="fas fa-arrow-left"></i> Previous
+                </button>
+
+                <div class="page-info">
+                    Page {{ currentPage }} <span>of {{ totalPages }}</span>
+                </div>
+
+                <button class="page-btn next" (click)="changePage(currentPage + 1)"
+                    [disabled]="currentPage === totalPages">
+                    Next <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>

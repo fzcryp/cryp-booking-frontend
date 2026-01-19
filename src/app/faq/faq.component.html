@@ -1,0 +1,14 @@
+<div class="faq-container">
+    <div class="content-wrapper">
+        <h1 class="page-title">Frequently Asked Questions</h1>
+
+        <div class="faq-list">
+            <div class="faq-item" *ngFor="let faq of faqs">
+                <details>
+                    <summary>{{ faq.question }} <i class="fas fa-chevron-down"></i></summary>
+                    <p>{{ faq.answer }}</p>
+                </details>
+            </div>
+        </div>
+    </div>
+</div>
