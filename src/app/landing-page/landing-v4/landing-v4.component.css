@@ -1,107 +1,182 @@
-.bold-container {
-    display: flex;
-    min-height: 100vh;
-    font-family: 'Arial Black', 'Impact', sans-serif;
+/* Main Container similar to Landing Simple */
+.v4-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    font-family: 'Roboto', sans-serif;
+    padding: 0 20px;
+    margin-top: 19vh;
 }
 
-.split-screen {
-    flex: 1;
+/* --- HERO STYLES (Copied & Refined) --- */
+.hero-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 40px;
+}
+
+.hero-text .brand-link {
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 8px;
+    display: block;
+    color: #1f1f1f;
+}
+
+.hero-text h1 {
+    font-size: 3.2rem; /* Larger for impact */
+    line-height: normal;
+    font-weight: 800;
+    margin: 0;
+    color: #1f1f1f;
+}
+
+.hero-reward-card {
+    background: rgba(22, 104, 227, 0.05); /* Slight blue tint */
+    backdrop-filter: blur(5px);
+    padding: 16px 24px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    max-width: 400px;
+    border: 1px solid rgba(22, 104, 227, 0.2);
+    align-self: center;
+}
+
+.reward-icon {
+    font-size: 28px;
+    color: #007f5f; /* Deep Green */
+}
+.reward-info {
+    font-size: 0.95rem;
+    line-height: 1.4;
+    color: #333;
+}
+
+
+/* --- TABS SECTION --- */
+
+.search-tabs-container {
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 24px;
+    box-shadow: 0 15px 50px rgba(0,0,0,0.08);
+}
+
+.widget-tabs {
     display: flex;
     justify-content: center;
+    gap: 40px; /* Wider spacing */
+    margin-bottom: 50px;
+    flex-wrap: wrap;
+}
+
+.tab-btn {
+    display: flex;
     align-items: center;
-    padding: 50px;
-}
-
-.left {
-    background-color: #ffcc00; /* Bold Yellow */
-    color: #000;
-}
-
-.right {
-    background-color: #000;
-    color: #fff;
-}
-
-h1 {
-    font-size: 8rem;
-    line-height: 0.9;
-    letter-spacing: -5px;
-    margin-bottom: 20px;
-    text-transform: uppercase;
-}
-
-.header-text p {
-    font-family: 'Helvetica', sans-serif;
-    font-size: 1.5rem;
-    font-weight: bold;
-    max-width: 400px;
-}
-
-.big-btn {
-    background: #000;
-    color: #fff;
-    margin-top: 40px;
-}
-
-.search-panel {
-    background: #111;
-    padding: 60px;
-    width: 100%;
-    max-width: 500px;
-    border: 2px solid #333;
-}
-
-.search-panel h2 {
-    font-size: 3rem;
-    color: #fff;
-    margin-bottom: 40px;
-    letter-spacing: -2px;
-}
-
-.form-group {
-    margin-bottom: 30px;
-}
-
-.form-group label {
-    display: block;
-    font-size: 0.9rem;
-    font-family: 'Courier New', monospace;
-    color: #666;
-    margin-bottom: 10px;
-}
-
-.form-group input {
-    background: transparent;
-    border: none;
-    border-bottom: 3px solid #333;
-    width: 100%;
-    color: #fff;
-    font-size: 1.5rem;
-    padding: 10px 0;
-    font-weight: bold;
-    outline: none;
-}
-
-.form-group input:focus {
-    border-bottom-color: #ffcc00;
-}
-
-.bold-btn {
-    border: none;
-    padding: 20px 40px;
-    font-size: 1.2rem;
-    font-weight: bold;
+    gap: 16px;
+    padding: 20px 60px; /* EXTRA LARGE buttons */
+    border-radius: 60px;
+    border: 2px solid transparent;
+    background: #f4f6f8;
+    color: #555; /* Darker inactive text */
+    font-size: 1.4rem; /* Larger text */
+    font-weight: 700;
     cursor: pointer;
-    text-transform: uppercase;
-    transition: transform 0.2s;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    outline: none;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
 }
 
-.bold-btn:hover {
-    transform: scale(1.02);
+.tab-btn i {
+    font-size: 1.8rem;
+    transition: transform 0.3s ease;
+    opacity: 0.7;
 }
 
-.black-btn {
-    background: #ffcc00;
-    color: #000;
+/* Hover Effects */
+.tab-btn:hover {
+    background: #eef2f5;
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+}
+
+.tab-btn:hover i {
+    transform: scale(1.15);
+    opacity: 1;
+}
+
+/* --- Active States (VIVID & PERFECT) --- */
+
+/* Hotels Active (Blue) */
+.tab-btn.active:nth-child(1) {
+    background-color: #fff;
+    color: #1668e3;
+    border-color: #1668e3;
+    box-shadow: 0 10px 40px rgba(22, 104, 227, 0.2);
+}
+.tab-btn:nth-child(1) i { color: #1668e3; opacity: 1; }
+
+/* Flights Active (Cyan) */
+.tab-btn.active:nth-child(2) {
+    background-color: #fff;
+    color: #00acc1;
+    border-color: #00acc1;
+    box-shadow: 0 10px 40px rgba(0, 172, 193, 0.2);
+}
+.tab-btn:nth-child(2) i { color: #00acc1; opacity: 1; }
+
+/* Cars Active (Green) */
+.tab-btn.active:nth-child(3) {
+    background-color: #fff;
+    color: #2e7d32;
+    border-color: #2e7d32;
+    box-shadow: 0 10px 40px rgba(46, 125, 50, 0.2);
+}
+.tab-btn:nth-child(3) i { color: #2e7d32; opacity: 1; }
+
+
+/* Widget Content Area */
+.widgets-wrapper {
+    min-height: 200px;
+    position: relative;
+    padding-top: 10px;
+}
+
+.widget-pane {
     width: 100%;
+}
+
+/* Animations */
+.fade-in {
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .v4-container { margin: 20px auto; padding: 0 15px; }
+
+    .hero-content {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .hero-text h1 { font-size: 2.2rem; }
+
+    .search-tabs-container { padding: 25px; }
+
+    .widget-tabs { gap: 15px; margin-bottom: 30px; }
+
+    .tab-btn {
+        padding: 15px 30px;
+        font-size: 1.1rem;
+        flex: 1 1 auto;
+        justify-content: center;
+    }
 }

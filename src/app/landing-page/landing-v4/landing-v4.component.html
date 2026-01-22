@@ -1,27 +1,45 @@
-<div class="bold-container">
-    <div class="split-screen left">
-        <div class="header-text">
-            <h1>BOOK<br>SMARTER.</h1>
-            <p>The only crypto-first hotel booking engine you'll ever need.</p>
-            <button class="bold-btn big-btn">START NOW</button>
+<div class="v4-container">
+
+    <!-- TOP SECTION: Hero Banner -->
+    <div class="hero-content">
+        <div class="hero-text">
+            <div class="brand-link">www.pbookings.com</div>
+            <h1>Book via Our <br> Partner Links & Get <br> Up to $1000</h1>
+        </div>
+        <div class="hero-reward-card">
+            <div class="reward-icon"><i class="fas fa-shield-alt"></i></div>
+            <div class="reward-info">
+                Ensure you are logged in to <strong>pbookings.com</strong> to claim rewards.
+            </div>
         </div>
     </div>
-    <div class="split-screen right">
-        <div class="search-panel">
-            <h2>FIND YOUR STAY</h2>
-            <div class="form-group">
-                <label>WHERE</label>
-                <input type="text" placeholder="Dubai, New York, Tokyo..." />
+
+    <!-- TABS & WIDGETS CONTAINER -->
+    <div class="search-tabs-container">
+        <div class="widget-tabs">
+            <button class="tab-btn" [class.active]="activeTab === 'hotels'" (click)="setActiveTab('hotels')">
+                <i class="fas fa-hotel"></i> <span>Hotels</span>
+            </button>
+            <button class="tab-btn" [class.active]="activeTab === 'flights'" (click)="setActiveTab('flights')">
+                <i class="fas fa-plane"></i> <span>Flights</span>
+            </button>
+            <button class="tab-btn" [class.active]="activeTab === 'cars'" (click)="setActiveTab('cars')">
+                <i class="fas fa-car"></i> <span>Cars</span>
+            </button>
+        </div>
+
+        <div class="widgets-wrapper">
+            <div [hidden]="activeTab !== 'hotels'" class="widget-pane fade-in">
+                <div id="tp-hotel-widget"></div>
             </div>
-            <div class="form-group">
-                <label>WHEN</label>
-                <input type="date" />
+
+            <div [hidden]="activeTab !== 'flights'" class="widget-pane fade-in">
+                <div id="tp-flight-widget"></div>
             </div>
-            <div class="form-group">
-                <label>WHO</label>
-                <input type="number" placeholder="2 Guests" />
+
+            <div [hidden]="activeTab !== 'cars'" class="widget-pane fade-in">
+                <div id="tp-car-widget"></div>
             </div>
-            <button class="bold-btn black-btn">SEARCH</button>
         </div>
     </div>
 </div>

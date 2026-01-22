@@ -139,7 +139,7 @@
 
 .promo-girl {
     position: relative;
-    z-index: 2;
+    z-index: 0; /* Reduced to prevent covering markers/widgets */
     max-width: 100%;
     height: auto;
     max-height: 600px; 

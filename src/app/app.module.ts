@@ -45,11 +45,13 @@ import { MyHotelsComponent } from './my-hotels/my-hotels.component';
 import { FaqComponent } from './faq/faq.component';
 import { ContactUsComponent } from './contact-us/contact-us.component'; // Added
 import { TermsComponent } from './terms/terms.component'; // Added
+import { ConvertCurrencyPipe } from './Pipes/convert-currency.pipe';
 
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatSliderModule } from '@angular/material/slider';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
@@ -83,12 +85,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AdminAffiliatePartnerComponent,
     HotelsComponent,
     AmadeusComponent,
-    AmadeusComponent,
     MyHotelsComponent,
     FaqComponent,
     ContactUsComponent,
     ContactRequestsAdminComponent,
-    TermsComponent // Added
+    TermsComponent,
+    ConvertCurrencyPipe
   ],
   imports: [
     BrowserModule,
@@ -102,6 +104,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatNativeDateModule,
     MatFormFieldModule,
     MatInputModule,
+    MatSliderModule,
     BrowserAnimationsModule
   ],
   providers: [

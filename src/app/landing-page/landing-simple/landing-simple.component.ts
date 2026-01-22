@@ -2,6 +2,7 @@ import { Component, OnInit, ViewEncapsulation, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import { AffiliateService } from '../../Services/affiliate.service';
 import { AmadeusService } from '../../Services/amadeus.service';
+import { CurrencyService } from '../../Services/currency/currency.service';
 import { SavedHotelsService } from '../../Services/saved-hotels.service';
 import { SavedFlightsService } from '../../Services/saved-flights.service';
 import { Subject } from 'rxjs';
@@ -184,6 +185,7 @@ export class LandingSimpleComponent implements OnInit {
     propertyNameFilter: string = '';
 
     userEmail: string = '';
+    selectedCurrencyCode: string = 'USD'; // Added for currency pipe
 
     constructor(
         private router: Router,
@@ -191,10 +193,16 @@ export class LandingSimpleComponent implements OnInit {
         private amadeusService: AmadeusService,
         private savedHotelsService: SavedHotelsService,
         private savedFlightsService: SavedFlightsService,
-        private ngZone: NgZone
+        private ngZone: NgZone,
+        private currencyService: CurrencyService // Injected
     ) { }
 
     ngOnInit(): void {
+        // Subscribe to currency changes
+        this.currencyService.currentCurrency$.subscribe(curr => {
+            this.selectedCurrencyCode = curr.code;
+        });
+
         // Setup Debounce
         this.searchSubject.pipe(
             debounceTime(300),
@@ -570,20 +578,309 @@ export class LandingSimpleComponent implements OnInit {
         this.fetchHotels();
     }
 
-    // Triggered by Property Name Input (Client-Side)
     onNameFilterChange() {
-        this.applyNameFilter();
+        this.paginatedHotels = this.applyClientSideFilters(this.fullListHotels);
+        this.totalRecords = this.paginatedHotels.length;
     }
 
-    applyNameFilter() {
-        if (!this.propertyNameFilter) {
-            this.paginatedHotels = [...this.fullListHotels];
+    // Popular Filters State
+    popularFilters: Set<string> = new Set();
+
+    togglePopularFilter(filter: string) {
+        if (this.popularFilters.has(filter)) {
+            this.popularFilters.delete(filter);
         } else {
-            const lowerQuery = this.propertyNameFilter.toLowerCase();
-            this.paginatedHotels = this.fullListHotels.filter(item =>
-                item.hotel && item.hotel.name && item.hotel.name.toLowerCase().includes(lowerQuery)
-            );
+            this.popularFilters.add(filter);
         }
+        // Client-side only update
+        this.currentPage = 1;
+        this.paginatedHotels = this.applyClientSideFilters(this.fullListHotels);
+        this.totalRecords = this.paginatedHotels.length; // Ensure this updates
+    }
+
+    processPopularFilters() {
+        // Map "Popular" filters to actual API params where possible
+        // 1. "4 stars" -> Add to selectedStars
+        if (this.popularFilters.has('4 stars')) {
+            this.selectedStars.add(4);
+        } else if (!this.isStarCheckboxManuallyChecked(4)) {
+            // Only remove if not manually checked in the other section? 
+            // For simplicity, we assume this toggles the actual filter state.
+            // But we have conflicting UI (Star section vs Popular section). 
+            // Let's treat Popular Filters as a "Quick Apply" that modifies the underlying state.
+            // Actually, usually they are independent checkboxes. 
+            // Let's just handle them as independent client side filters or API params if simple.
+            this.selectedStars.delete(4);
+        }
+
+        // 2. "Private bathroom" -> Add to amenities
+        const pb = 'PRIVATE_BATHROOM';
+        if (this.popularFilters.has('Private bathroom')) {
+            this.selectedAmenities.add(pb);
+        } else {
+            this.selectedAmenities.delete(pb);
+        }
+
+        // 3. "Very good: 8+" -> Map to 4 & 5 Stars for API? 
+        // Or just filter client side. Amadeus rating is 1-5. 
+        // Let's assume 8+ ~ 4+ stars?
+        if (this.popularFilters.has('Very good: 8+')) {
+            // this.selectedStars.add(4);
+            // this.selectedStars.add(5);
+        }
+
+        // Trigger Refresh
+        this.currentPage = 1;
+        this.fetchHotels();
+    }
+
+    // Facilities Filter State
+    facilitiesList = ['Free WiFi', 'Non-smoking rooms', '24-hour front desk', 'Restaurant'];
+    selectedFacilities: Set<string> = new Set();
+    facilityCounts: { [key: string]: number } = {};
+
+    toggleFacilityFilter(facility: string) {
+        if (this.selectedFacilities.has(facility)) {
+            this.selectedFacilities.delete(facility);
+        } else {
+            this.selectedFacilities.add(facility);
+        }
+        this.currentPage = 1;
+        this.paginatedHotels = this.applyClientSideFilters(this.fullListHotels);
+        this.totalRecords = this.paginatedHotels.length;
+    }
+
+    calculateFacilityCounts(hotels: any[]) {
+        // Reset counts
+        this.facilitiesList.forEach(f => this.facilityCounts[f] = 0);
+
+        hotels.forEach(h => {
+            const offer = h.offers?.[0];
+            // Combine all text sources for keyword search
+            const fullText = (
+                (h.hotel?.name || '') + ' ' +
+                (offer?.description?.text || '') + ' ' +
+                (offer?.room?.description?.text || '') + ' ' +
+                (offer?.roomInformation?.description || '') + ' ' +
+                (h.hotel?.description?.text || '') // usage if available
+            ).toLowerCase();
+
+            // 1. Free WiFi
+            if (fullText.includes('wifi') || fullText.includes('wi-fi') || fullText.includes('internet')) {
+                this.facilityCounts['Free WiFi']++;
+            }
+
+            // 2. Non-smoking rooms
+            if (fullText.includes('non-smoking') || fullText.includes('smoke free') || fullText.includes('no smoking')) {
+                this.facilityCounts['Non-smoking rooms']++;
+            }
+
+            // 3. 24-hour front desk
+            if (fullText.includes('24-hour') || fullText.includes('front desk') || fullText.includes('reception')) {
+                this.facilityCounts['24-hour front desk']++;
+            }
+
+            // 4. Restaurant
+            if (fullText.includes('restaurant') || fullText.includes('dining') || fullText.includes('bar')) {
+                this.facilityCounts['Restaurant']++;
+            }
+        });
+    }
+
+    // Popular Filter Counts State
+    popularFilterCounts: { [key: string]: number } = {};
+
+    calculatePopularFilterCounts(hotels: any[]) {
+        const keys = ['Hotels', 'Very good: 8+', '4 stars', 'Breakfast included', 'Apartments', 'Free cancellation', 'Private bathroom'];
+        keys.forEach(k => this.popularFilterCounts[k] = 0);
+
+        hotels.forEach(h => {
+            keys.forEach(k => {
+                if (this.checkPopularFilterRule(h, k)) {
+                    this.popularFilterCounts[k]++;
+                }
+            });
+        });
+    }
+
+    // Property Type Filter State
+    propertyTypes = [
+        'Entire homes & apartments', 'Apartments', 'Hotels', 'Guest houses',
+        'Homestays', 'Holiday homes', 'Hostels', 'Bed and breakfasts',
+        'Villas', 'Boats', 'Capsule hotels', 'Student accommodation',
+        'Campsites', 'Luxury tents'
+    ];
+    selectedPropertyTypes: Set<string> = new Set();
+    propertyTypeCounts: { [key: string]: number } = {};
+
+    togglePropertyTypeFilter(type: string) {
+        if (this.selectedPropertyTypes.has(type)) {
+            this.selectedPropertyTypes.delete(type);
+        } else {
+            this.selectedPropertyTypes.add(type);
+        }
+        this.currentPage = 1;
+        this.paginatedHotels = this.applyClientSideFilters(this.fullListHotels);
+        this.totalRecords = this.paginatedHotels.length;
+    }
+
+    // --- HELPER: Inference Logic (Standardized) ---
+    getInferredPropertyType(hotel: any): string {
+        const name = (hotel.hotel?.name || '').toLowerCase();
+        if (name.includes('apartment') || name.includes('apt')) return 'Apartments';
+        if (name.includes('villa')) return 'Villas';
+        if (name.includes('guest house') || name.includes('guesthouse')) return 'Guest houses';
+        if (name.includes('homestay')) return 'Homestays';
+        if (name.includes('hostel')) return 'Hostels';
+        if (name.includes('boat')) return 'Boats';
+        if (name.includes('camp')) return 'Campsites';
+        if (name.includes('tent')) return 'Luxury tents';
+        return 'Hotels'; // Fallback
+    }
+
+    checkPopularFilterRule(hotel: any, filterKey: string): boolean {
+        const name = (hotel.hotel?.name || '').toLowerCase();
+        const rating = hotel.hotel?.rating ? parseFloat(hotel.hotel.rating) : 0;
+        const offer = hotel.offers?.[0];
+        const desc = (
+            (offer?.description?.text || '') +
+            (offer?.room?.description?.text || '') +
+            (offer?.roomInformation?.description || '') +
+            (hotel.hotel?.description?.text || '')
+        ).toLowerCase();
+
+        if (filterKey === 'Hotels') return this.getInferredPropertyType(hotel) === 'Hotels';
+        if (filterKey === 'Very good: 8+') return rating >= 4;
+        if (filterKey === '4 stars') return Math.floor(rating) === 4;
+        if (filterKey === 'Breakfast included') return desc.includes('breakfast');
+        if (filterKey === 'Apartments') return this.getInferredPropertyType(hotel) === 'Apartments';
+        if (filterKey === 'Free cancellation') {
+            return (offer?.policies?.refundable && offer?.policies?.refundable !== 'NON_REFUNDABLE') || desc.includes('cancellation') || desc.includes('cancel');
+        }
+        if (filterKey === 'Private bathroom') return desc.includes('private bathroom') || desc.includes('bath');
+
+        return false;
+    }
+
+    calculatePropertyCounts(hotels: any[]) {
+        this.propertyTypes.forEach(t => this.propertyTypeCounts[t] = 0);
+        hotels.forEach(h => {
+            const type = this.getInferredPropertyType(h);
+            if (this.propertyTypeCounts[type] !== undefined) this.propertyTypeCounts[type]++;
+
+            // "Entire homes & apartments" aggregation
+            if (['Apartments', 'Villas', 'Holiday homes', 'Boats'].includes(type) || type === 'Entire homes & apartments') {
+                this.propertyTypeCounts['Entire homes & apartments']++; // Note: 'Entire homes & apartments' is abstract, but if 'type' returns it (unlikely with current logic but for future safety)
+            }
+        });
+    }
+
+    // Helper to track manual star clicks vs popular filter clicks?  
+    // Simplified: Just one source of truth.
+    // If user checks "4 stars" in Popular, it checks "4 stars" in Stars section.
+
+    isStarCheckboxManuallyChecked(star: number): boolean {
+        // Implementation detail: check if UI checkbox is checked? 
+        // We rely on selectedStars set.
+        return this.selectedStars.has(star);
+    }
+
+    // Price Filter State
+    minPrice: number = 0;
+    maxPrice: number = 5000; // Default fallback
+    currentMinPrice: number = 0;
+    currentMaxPrice: number = 5000;
+
+    calculatePriceRange(hotels: any[]) {
+        if (!hotels || hotels.length === 0) return;
+
+        let min = Infinity;
+        let max = 0;
+
+        hotels.forEach(h => {
+            const price = parseFloat(h.offers?.[0]?.price?.total || '0');
+            if (price > 0) { // Valid price
+                if (price < min) min = price;
+                if (price > max) max = price;
+            }
+        });
+
+        if (min !== Infinity) {
+            this.minPrice = Math.floor(min);
+            this.maxPrice = Math.ceil(max);
+            // Reset selection to full range on new search
+            this.currentMinPrice = this.minPrice;
+            this.currentMaxPrice = this.maxPrice;
+        }
+    }
+
+    onPriceFilterChange() {
+        this.currentPage = 1;
+        this.paginatedHotels = this.applyClientSideFilters(this.fullListHotels);
+        this.totalRecords = this.paginatedHotels.length; // Update count based on local filter
+    }
+
+    // Updated applyClientFilters to handle visual filters
+    applyClientSideFilters(hotels: any[]): any[] {
+        let filtered = [...hotels];
+
+        // 0. Price Filter
+        filtered = filtered.filter(h => {
+            const price = parseFloat(h.offers?.[0]?.price?.total || '0');
+            return price >= this.currentMinPrice && price <= this.currentMaxPrice;
+        });
+
+        // 1. Property Name
+        if (this.propertyNameFilter) {
+            const lower = this.propertyNameFilter.toLowerCase();
+            filtered = filtered.filter(h => h.hotel && h.hotel.name && h.hotel.name.toLowerCase().includes(lower));
+        }
+
+        // 1.5 Property Type Filter (OR Logic)
+        if (this.selectedPropertyTypes.size > 0) {
+            filtered = filtered.filter(h => {
+                const type = this.getInferredPropertyType(h);
+                if (this.selectedPropertyTypes.has(type)) return true;
+
+                // Aggregation check
+                if (this.selectedPropertyTypes.has('Entire homes & apartments')) {
+                    if (['Apartments', 'Villas', 'Holiday homes', 'Boats'].includes(type)) return true;
+                }
+
+                return false;
+            });
+        }
+
+        // 2. Popular Filters (Client Side Logic - synced with Count Logic)
+        this.popularFilters.forEach(filter => {
+            filtered = filtered.filter(h => this.checkPopularFilterRule(h, filter));
+        });
+
+        // 3. Facilities Filter (AND Logic)
+        if (this.selectedFacilities.size > 0) {
+            filtered = filtered.filter(h => {
+                const offer = h.offers?.[0];
+                const fullText = (
+                    (h.hotel?.name || '') + ' ' +
+                    (offer?.description?.text || '') + ' ' +
+                    (offer?.room?.description?.text || '') + ' ' +
+                    (offer?.roomInformation?.description || '') + ' ' +
+                    (h.hotel?.description?.text || '')
+                ).toLowerCase();
+
+                let match = true;
+                this.selectedFacilities.forEach(f => {
+                    const k = f.toLowerCase();
+                    if (f === 'Free WiFi' && !fullText.includes('wifi') && !fullText.includes('wi-fi') && !fullText.includes('internet')) match = false;
+                    else if (f === 'Non-smoking rooms' && !fullText.includes('non-smoking') && !fullText.includes('smoke free') && !fullText.includes('no smoking')) match = false;
+                    else if (f === '24-hour front desk' && !fullText.includes('24-hour') && !fullText.includes('front desk') && !fullText.includes('reception')) match = false;
+                    else if (f === 'Restaurant' && !fullText.includes('restaurant') && !fullText.includes('dining') && !fullText.includes('bar')) match = false;
+                });
+                return match;
+            });
+        }
+
+        return filtered;
     }
 
     private formatDate(date: any): string {
@@ -627,8 +924,20 @@ export class LandingSimpleComponent implements OnInit {
                 // Store in full list for client-side filtering
                 this.fullListHotels = rawData;
 
-                // Apply filter immediately (in case user typed something while loading, though unlikely, good practice)
-                this.applyNameFilter();
+                // Calculate Dynamic Price Range
+                this.calculatePriceRange(this.fullListHotels);
+
+                // Calculate property Counts
+                this.calculatePropertyCounts(this.fullListHotels);
+
+                // Calculate Popular Filter Counts
+                this.calculatePopularFilterCounts(this.fullListHotels);
+
+                // Calculate Facility Counts
+                this.calculateFacilityCounts(this.fullListHotels);
+
+                // Apply Client Side Filters (Name + Popular + Price)
+                this.paginatedHotels = this.applyClientSideFilters(this.fullListHotels);
 
                 // Use backend total if available, else fallback
                 this.totalRecords = response.meta?.total || (this.paginatedHotels.length + (this.currentPage * this.itemsPerPage));

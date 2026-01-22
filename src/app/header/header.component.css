@@ -55,9 +55,8 @@
 .main-header {
     position: fixed;
     top: 0;
-    left: 0;
     width: 100%;
-    z-index: 100;
+    z-index: 20; /* Lowered from 100 to allow widgets (TravelPayouts) to show on top */
     
     /* LIGHT THEME UPDATE */
     background: rgba(255, 255, 255, 0.95); 
@@ -549,5 +548,129 @@
     .profile-menu::-webkit-scrollbar-thumb {
         background-color: #0bc6e3;
         border-radius: 10px;
+    }
+}
+
+/* Currency Selector */
+.currency-item {
+    position: relative;
+    cursor: pointer;
+    margin-left: 12px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    transition: background-color 0.2s;
+    user-select: none;
+}
+
+.currency-item:hover {
+    background-color: #f5f5f5;
+}
+
+.currency-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    color: #333;
+}
+
+.curr-flag-img {
+    height: 18px;
+    border-radius: 2px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.curr-code {
+    font-size: 1rem;
+    color: #1f1f1f;
+}
+
+/* Dropdown */
+.currency-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 12px;
+    background: #ffffff; /* White background */
+    border-radius: 12px;
+    padding: 8px;
+    width: 240px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15); /* Softer shadow */
+    border: 1px solid #eee;
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+    z-index: 2000;
+    max-height: 320px;
+    overflow-y: auto;
+}
+
+.currency-dropdown.open {
+    display: flex;
+    animation: fadeIn 0.2s ease;
+}
+
+.currency-option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    color: #333; /* Black text */
+    transition: background 0.2s;
+    cursor: pointer;
+}
+
+.currency-option span:last-child {
+       color: #666 !important; /* Darker grey for better readability */
+}
+
+.currency-option:hover {
+    background-color: #f7f9fa; /* Light grey hover */
+}
+
+/* Scrollbar for dropdown */
+.currency-dropdown::-webkit-scrollbar {
+    width: 6px;
+}
+.currency-dropdown::-webkit-scrollbar-track {
+    background: #fff;
+}
+.currency-dropdown::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 3px;
+}
+
+/* ================= Mobile Currency Selector ================= */
+.mobile-currency-selector {
+    display: none; /* Hidden on desktop */
+}
+
+@media (max-width: 900px) {
+    .mobile-currency-selector {
+        display: flex !important;
+        align-items: center;
+        margin-left: 10px;
+        margin-right: auto; /* Pushes the profile icon to the right */
+        position: relative;
+        cursor: pointer;
+        padding: 5px;
+        border-radius: 6px;
+    }
+
+    .mobile-currency-selector:active {
+        background-color: #f0f0f0;
+    }
+
+    /* Mobile specific dropdown adjustments */
+    .mobile-dropdown {
+        right: auto;
+        left: -40px; /* Shift left to ensure right side isn't cut off */
+        width: 220px;
+        margin-top: 10px;
+        /* Improved visibility logic */
+        box-shadow: 0 8px 30px rgba(0,0,0,0.25) !important;
+        border: 1px solid #d0d0d0 !important;
+        background: #ffffff !important;
     }
 }

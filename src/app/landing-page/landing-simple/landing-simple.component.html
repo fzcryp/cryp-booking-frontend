@@ -206,8 +206,10 @@
 
     <!-- SIDEBAR -->
     <div class="results-sidebar">
-        <div class="map-widget">
-            <button class="map-btn" (click)="openMap()">View in a map</button>
+        <div class="map-widget" (click)="openMap()">
+            <!-- <button class="map-btn">
+                <i class="fas fa-map-marker-alt"></i> Show on map
+            </button> -->
         </div>
 
         <div class="filter-section">
@@ -219,9 +221,31 @@
             </div>
         </div>
 
+        <!-- NEW: Dynamic Price Filter -->
+        <div class="filter-section budget-filter-section" *ngIf="maxPrice > 0">
+            <h4 class="filter-title">Your budget (per night)</h4>
+            <div class="price-range-labels" style="margin-bottom:10px; font-weight:600; font-size:0.95rem; color:#333;">
+                {{ currentMinPrice | convertCurrency | currency:selectedCurrencyCode:'symbol':'1.0-0' }} - {{
+                currentMaxPrice | convertCurrency | currency:selectedCurrencyCode:'symbol':'1.0-0' }}+
+            </div>
+
+            <mat-slider [min]="minPrice" [max]="maxPrice" [step]="10" discrete="false" showTickMarks="false"
+                style="width:100%;">
+                <input matSliderStartThumb [(ngModel)]="currentMinPrice" (dragEnd)="onPriceFilterChange()">
+                <input matSliderEndThumb [(ngModel)]="currentMaxPrice" (dragEnd)="onPriceFilterChange()">
+            </mat-slider>
+
+            <!-- Optional: Histogram placeholder (Hard to generate dynamic CSS chart from raw data without loops, simple static one or CSS loop?) -->
+            <div class="histogram-placeholder"
+                style="display:flex; align-items:flex-end; height:40px; gap:2px; margin-bottom:-10px; opacity:0.3;">
+                <div *ngFor="let h of [2,5,8,4,6,9,12,15,10,6,8,4,3,2,1]" [style.height.px]="h*2"
+                    style="background:#000; flex:1;"></div>
+            </div>
+        </div>
+
         <div class="filter-section">
             <h4 class="filter-title">Filter by</h4>
-            <div class="checkbox-row" *ngFor="let star of [5,4,3]">
+            <div class="checkbox-row" *ngFor="let star of [5,4,3,2,1]">
                 <input type="checkbox" [checked]="isStarSelected(star)" (change)="toggleStarFilter(star)">
                 <span>{{star}} Star Rating</span>
             </div>
@@ -241,6 +265,95 @@
                               For this layout, usually it's instant. Let's just mock the UI checkbox for now or bind to nothing critical if complex logic required. -->
                     <span>{{am | titlecase}}</span>
                 </ng-container>
+            </div>
+        </div>
+
+        <!-- NEW: Popular Filters -->
+        <div class="filter-section">
+            <h4 class="filter-title">Popular filters</h4>
+
+            <div class="checkbox-row">
+                <input type="checkbox" [checked]="popularFilters.has('Hotels')"
+                    (change)="togglePopularFilter('Hotels')">
+                <span>Hotels</span>
+                <span style="margin-left:auto; font-size:0.8rem; color:#6b6b6b">{{ popularFilterCounts['Hotels'] || 0
+                    }}</span>
+            </div>
+
+            <div class="checkbox-row">
+                <input type="checkbox" [checked]="popularFilters.has('Very good: 8+')"
+                    (change)="togglePopularFilter('Very good: 8+')">
+                <div style="display:flex; flex-direction:column;">
+                    <span>Very good: 8+</span>
+                    <span style="font-size:0.75rem; color:#666;">Based on guest reviews</span>
+                </div>
+                <span style="margin-left:auto; font-size:0.8rem; color:#6b6b6b">{{ popularFilterCounts['Very good: 8+']
+                    || 0 }}</span>
+            </div>
+
+            <div class="checkbox-row">
+                <input type="checkbox" [checked]="popularFilters.has('4 stars')"
+                    (change)="togglePopularFilter('4 stars')">
+                <span>4 stars</span>
+                <span style="margin-left:auto; font-size:0.8rem; color:#6b6b6b">{{ popularFilterCounts['4 stars'] || 0
+                    }}</span>
+            </div>
+
+            <div class="checkbox-row">
+                <input type="checkbox" [checked]="popularFilters.has('Breakfast included')"
+                    (change)="togglePopularFilter('Breakfast included')">
+                <span>Breakfast included</span>
+                <span style="margin-left:auto; font-size:0.8rem; color:#6b6b6b">{{ popularFilterCounts['Breakfast
+                    included'] || 0 }}</span>
+            </div>
+
+            <div class="checkbox-row">
+                <input type="checkbox" [checked]="popularFilters.has('Apartments')"
+                    (change)="togglePopularFilter('Apartments')">
+                <span>Apartments</span>
+                <span style="margin-left:auto; font-size:0.8rem; color:#6b6b6b">{{ popularFilterCounts['Apartments'] ||
+                    0 }}</span>
+            </div>
+
+            <div class="checkbox-row">
+                <input type="checkbox" [checked]="popularFilters.has('Free cancellation')"
+                    (change)="togglePopularFilter('Free cancellation')">
+                <span>Free cancellation</span>
+                <span style="margin-left:auto; font-size:0.8rem; color:#6b6b6b">{{ popularFilterCounts['Free
+                    cancellation'] || 0 }}</span>
+            </div>
+
+            <div class="checkbox-row">
+                <input type="checkbox" [checked]="popularFilters.has('Private bathroom')"
+                    (change)="togglePopularFilter('Private bathroom')">
+                <span>Private bathroom</span>
+                <span style="margin-left:auto; font-size:0.8rem; color:#6b6b6b">{{ popularFilterCounts['Private
+                    bathroom'] || 0 }}</span>
+            </div>
+
+        </div>
+
+        <!-- NEW: Property Type Filter -->
+        <div class="filter-section">
+            <h4 class="filter-title">Property type</h4>
+            <div class="checkbox-row" *ngFor="let type of propertyTypes">
+                <input type="checkbox" [checked]="selectedPropertyTypes.has(type)"
+                    (change)="togglePropertyTypeFilter(type)">
+                <span>{{type}}</span>
+                <span style="margin-left:auto; font-size:0.8rem; color:#6b6b6b">{{ propertyTypeCounts[type] || 0
+                    }}</span>
+            </div>
+        </div>
+
+        <!-- NEW: Facilities Filter -->
+        <div class="filter-section">
+            <h4 class="filter-title">Facilities</h4>
+            <div class="checkbox-row" *ngFor="let facility of facilitiesList">
+                <input type="checkbox" [checked]="selectedFacilities.has(facility)"
+                    (change)="toggleFacilityFilter(facility)">
+                <span>{{facility}}</span>
+                <span style="margin-left:auto; font-size:0.8rem; color:#6b6b6b">{{ facilityCounts[facility] || 0
+                    }}</span>
             </div>
         </div>
 
@@ -292,48 +405,61 @@
                     </button>
                 </div>
 
-                <!-- CENTER INFO -->
+                <!-- CONTENT COLUMN (Flex Column) -->
                 <div class="hc-info-col">
-                    <div class="hc-details">
+
+                    <!-- 1. FULL WIDTH HEADER -->
+                    <div class="hc-header-row">
                         <h3 class="hc-title">{{ item.hotel.name }}</h3>
-                        <p class="hc-location">{{ item.hotel.cityCode }} • Guests like the location</p>
-
-                        <div class="hc-tags">
-                            <span class="tag-text">Fully refundable</span>
-                            <span class="tag-text">Reserve now, pay later</span>
-                        </div>
-
-                        <!-- Provider Badges -->
-                        <div class="badge-list" style="margin-top: 8px;">
-                            <span class="hc-badge" style="background:#38cb77; margin-left:0;"><i class="fas fa-hotel"
-                                    style="margin-right:4px;"></i> expedia.com</span>
-                            <span class="hc-badge" style="background:#003580; margin-left:0;"><i class="fas fa-hotel"
-                                    style="margin-right:4px;"></i> Booking.com</span>
-                            <span class="hc-badge" style="background:#d8555c; margin-left:0;"><i class="fas fa-hotel"
-                                    style="margin-right:4px;"></i> Hotels.com</span>
-                        </div>
+                        <button class="heart-mobile-btn" [class.saved]="item.isSaved" (click)="toggleSave(item)">
+                            <i [class]="item.isSaved ? 'fas fa-heart' : 'far fa-heart'"></i>
+                        </button>
                     </div>
 
-                    <!-- RIGHT PRICE -->
-                    <div class="hc-price-col">
-                        <div class="hc-rating-row">
-                            <span class="hc-rating-text">Wonderful</span>
-                            <span class="hc-badge">9.2</span>
-                            <div class="hc-reviews">177 reviews</div>
+                    <!-- 2. SPLIT BODY (Details Left | Price Right) -->
+                    <div class="hc-body-split">
+
+                        <!-- LEFT BODY: Location, Tags, Rating -->
+                        <div class="hc-details-left">
+                            <p class="hc-location">{{ item.hotel.cityCode }}</p>
+
+                            <div class="hc-tags">
+                                <span class="tag-green">Fully refundable</span>
+                                <span class="tag-green">Reserve now, pay later</span>
+                            </div>
+
+                            <div class="hc-rating-row">
+                                <span class="hc-rating-badge">9.2</span>
+                                <div class="hc-rating-text-group">
+                                    <span class="hc-rating-word">Wonderful</span>
+                                    <span class="hc-reviews">1,929 reviews</span>
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="hc-prices">
-                            <div class="hc-deal-tag">We have couple of left at 15% off</div>
-                            <span class="price-strike">{{ (item.offers?.[0]?.price?.total * 1.15) | currency:
-                                'USD':'symbol':'1.0-0' }}</span>
-                            <span class="price-final">{{ item.offers?.[0]?.price?.total | currency:
-                                'USD':'symbol':'1.0-0' }}</span>
-                            <span class="price-period">total</span>
-                            <!-- <span class="price-tax">includes taxes & fees</span> -->
-                            <!-- <a [href]="getExpediaLink(item.hotel)" target="_blank" class="view-deal-btn">
-                                View Deal
-                            </a> -->
+                        <!-- RIGHT BODY: Badges, Price -->
+                        <div class="hc-price-col">
+                            <!-- Provider Badges -->
+                            <div class="badge-list-vertical">
+                                <span class="hc-badge-sm"><i class="fas fa-hotel"></i> expedia.com</span>
+                                <span class="hc-badge-sm"><i class="fas fa-hotel"></i> Booking.com</span>
+                                <span class="hc-badge-sm"><i class="fas fa-hotel"></i> Hotels.com</span>
+                            </div>
+
+                            <div class="hc-prices-group">
+                                <div class="hc-scarcity-tag">We have 5 left at</div>
+                                <span class="price-large">{{ item.offers?.[0]?.price?.total | convertCurrency |
+                                    currency:
+                                    selectedCurrencyCode:'symbol':'1.0-0' }}</span>
+                                <div class="price-details">
+                                    <span class="price-total">{{ (item.offers?.[0]?.price?.total * 1.15) |
+                                        convertCurrency | currency:
+                                        selectedCurrencyCode:'symbol':'1.0-0' }} total</span>
+                                    <span class="price-tax">includes taxes & fees</span>
+                                </div>
+                            </div>
                         </div>
+
                     </div>
                 </div>
 
@@ -349,6 +475,24 @@
                 Next > </button>
         </div>
 
+    </div>
+
+    <!-- RIGHT ADS SIDEBAR -->
+    <div class="results-ads-sidebar">
+        <div class="ad-placeholder">
+            <span class="ad-label">Advertisement</span>
+            <div class="ad-box">
+                <i class="fas fa-ad"></i>
+                <p>Space for Ad</p>
+            </div>
+        </div>
+        <div class="ad-placeholder" style="height: 600px; margin-top: 24px;">
+            <span class="ad-label">Advertisement</span>
+            <div class="ad-box">
+                <i class="fas fa-ad"></i>
+                <p>Vertical Ad Unit</p>
+            </div>
+        </div>
     </div>
 
 </div>
@@ -470,6 +614,25 @@
         </div>
 
     </div>
+
+    <!-- RIGHT ADS SIDEBAR -->
+    <div class="results-ads-sidebar">
+        <div class="ad-placeholder">
+            <span class="ad-label">Advertisement</span>
+            <div class="ad-box">
+                <i class="fas fa-ad"></i>
+                <p>Space for Ad</p>
+            </div>
+        </div>
+        <div class="ad-placeholder" style="height: 600px; margin-top: 24px;">
+            <span class="ad-label">Advertisement</span>
+            <div class="ad-box">
+                <i class="fas fa-ad"></i>
+                <p>Vertical Ad Unit</p>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <!-- MAP MODAL -->

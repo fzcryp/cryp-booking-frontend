@@ -20,7 +20,7 @@ export class WalletComponent implements OnInit {
   totalFee: number = 0;
   finalAmount: number = 0;
 
-  apiUrl = 'http://localhost:4000/api'; // backend base URL
+  apiUrl = environment.apiUrl; // backend base URL
 
   constructor(private http: HttpClient) { }
 

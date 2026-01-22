@@ -1,4 +1,4 @@
-<header class="main-header">
+<header class="main-header" [class.scrolled]="isScrolled">
     <!-- <div class="top-bar">
         <div class="contact-info">
             <span class="phone">(000) 999 -656 -888</span>
@@ -13,7 +13,28 @@
     </div> -->
 
     <nav class="navbar">
-        <div class="logo" routerLink="/">PBookings</div>
+        <div class="logo" routerLink="/"><img src="assets/pbookings_logo.PNG" alt="PBookings Logo"
+                style="height: 50px; border-radius: 10px !important;"></div>
+
+        <!-- MOBILE CURRENCY SELECTOR (Visible only on <900px) -->
+        <div class="mobile-currency-selector" (click)="toggleCurrencyMenu()">
+            <img [src]="'https://flagcdn.com/h24/' + selectedCurrency.flagCode + '.png'" class="curr-flag-img"
+                alt="flag">
+            <span class="curr-code" style="margin-left:5px; font-weight:600;">{{ selectedCurrency.code }}</span>
+            <i class="fas fa-chevron-down" style="font-size: 0.7rem; color: #aaa; margin-left:5px;"></i>
+
+            <!-- Mobile Dropdown -->
+            <div class="currency-dropdown mobile-dropdown" [class.open]="currencyMenuOpen"
+                (click)="$event.stopPropagation()">
+                <div *ngFor="let c of currencies" class="currency-option" (click)="selectCurrency(c)">
+                    <img [src]="'https://flagcdn.com/h24/' + c.flagCode + '.png'" class="curr-flag-img" alt="flag">
+                    <div style="display:flex; flex-direction:column; line-height:1.2;">
+                        <span style="font-weight:600;">{{ c.code }}</span>
+                        <span style="font-size:0.8rem; color:#aaa; font-weight:400;">{{ c.name }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- Hamburger Icon -->
         <div class="menu-toggle" (click)="toggleMenu()">
@@ -29,6 +50,28 @@
             <li *ngIf="!isAdmin"><a routerLink="/wallet"><i class="fas fa-wallet"></i>Wallet</a></li>
             <li *ngIf="!isAdmin"><a routerLink="/get-discount"><i class="fas fa-tag"></i> Get Discount</a></li>
             <li *ngIf="!isAdmin"><a routerLink="/contact-us"><i class="fas fa-envelope"></i> Contact Us</a></li>
+
+            <!-- CURRENCY SELECTOR -->
+            <li class="currency-item" (click)="toggleCurrencyMenu()">
+                <div class="currency-label">
+                    <!-- <i class="fas fa-globe" style="font-size: 1.1rem; color: #555;"></i> -->
+                    <img [src]="'https://flagcdn.com/h24/' + selectedCurrency.flagCode + '.png'" class="curr-flag-img"
+                        alt="flag">
+                    <span class="curr-code">{{ selectedCurrency.code }}</span>
+                    <i class="fas fa-chevron-down" style="font-size: 0.7rem; color: #aaa;"></i>
+                </div>
+
+                <div class="currency-dropdown" [class.open]="currencyMenuOpen">
+                    <div *ngFor="let c of currencies" class="currency-option"
+                        (click)="selectCurrency(c); $event.stopPropagation()">
+                        <img [src]="'https://flagcdn.com/h24/' + c.flagCode + '.png'" class="curr-flag-img" alt="flag">
+                        <div style="display:flex; flex-direction:column; line-height:1.2;">
+                            <span style="font-weight:600;">{{ c.code }}</span>
+                            <span style="font-size:0.8rem; color:#aaa; font-weight:400;">{{ c.name }}</span>
+                        </div>
+                    </div>
+                </div>
+            </li>
             <!-- <li *ngIf="!isAdmin"><a routerLink="/terms-and-conditions"><i class="fas fa-file-contract"></i> Terms &
                     Conditions</a></li> -->
             <!-- <li *ngIf="!isAdmin"><a routerLink="/get-discount"><i class="fas fa-tag"></i> Get Discount</a></li>

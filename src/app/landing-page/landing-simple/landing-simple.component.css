@@ -86,9 +86,7 @@
     line-height: 1.4;
     /* color: #e0e0e0; */
 }
-.reward-info strong { 
-    /* color: white;  */
-}
+
 
 /* SEARCH CARD WRAPPER */
 .search-card-wrapper {
@@ -303,33 +301,52 @@
 }
 
 /* -- LEFT SIDEBAR -- */
+
 .results-sidebar {
   width: 280px;
   flex-shrink: 0;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 16px;
+  background-color: #ffffff;
+  height: fit-content; /* Ensure it doesn't stretch unnecessarily */
 }
 
 .map-widget {
   width: 100%;
-  height: 120px;
-  background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS518CHj7hu9W9d2Z0QiolnOSS3O0j7VYWtXQ&s') center/cover;
-  border-radius: 8px;
-  border: 1px solid #c5c5c5;
+  height: 150px;
+  background: url('../../../assets/map_widget_bg.png') center/cover;
+
+  border-radius: 8px; /* Slightly tighter radius */
+  /* border: 1px solid #d0d0d0; Removed border to match screenshot style */
   margin-bottom: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   position: relative;
+  overflow: hidden;
 }
+
 .map-btn {
-  background: white;
-  color: #1668e3;
-  padding: 8px 16px;
-  border-radius: 20px;
-  font-weight: 500;
-  font-size: 0.9rem;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  background: #006ce4;
+  color: white;
+  padding: 12px 24px; /* Slightly larger padding */
+  border-radius: 4px;
+  font-weight: 600; /* Bolder text */
+  font-size: 0.95rem;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
   border: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background-color 0.2s;
+  font-family: inherit; /* Ensure font matches */
+}
+
+
+.map-btn:hover {
+  background: #0057b8;
 }
 
 .filter-section {
@@ -367,9 +384,66 @@
 .checkbox-row input { width: 16px; height: 16px; }
 
 
+/* -- Budget Filter Styling -- */
+.budget-filter-section {
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 16px;
+    background: #ffffff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05); /* Subtle lift */
+    margin-bottom: 24px; /* Ensure space below */
+}
+
 /* -- RIGHT CONTENT -- */
 .results-content {
   flex: 1;
+  min-width: 0; /* Prevent flex overflow */
+}
+
+/* -- ADS SIDEBAR -- */
+.results-ads-sidebar {
+    width: 250px;
+    flex-shrink: 0;
+}
+
+.ad-placeholder {
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 250px;
+}
+
+.ad-label {
+    font-size: 0.7rem;
+    color: #999;
+    margin-bottom: 8px;
+    align-self: flex-start;
+}
+
+.ad-box {
+    width: 100%;
+    height: 100%;
+    background: #f8f9fa;
+    border: 1px dashed #ccc;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #bbb;
+}
+
+.ad-box i { font-size: 2rem; margin-bottom: 8px; }
+
+/* RESPONSIVE HIDING For ADS */
+@media (max-width: 1150px) {
+    .results-ads-sidebar {
+        display: none;
+    }
 }
 
 .results-header {
@@ -466,12 +540,171 @@
 .heart-btn.saved { color: #d93025; }
 .heart-btn:hover { transform: scale(1.1); }
 
-/* Card Content */
+/* Card Content Outer */
 .hc-info-col {
   flex: 1;
   padding: 16px;
   display: flex;
+  flex-direction: column; /* Changed to Column */
+}
+
+/* 1. Header Row (Full Width) */
+.hc-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    margin-bottom: 8px; /* Spacing below title */
+}
+
+.hc-title {
+  font-size: 1.35rem; /* Slightly larger */
+  font-weight: 700;
+  color: #1f1f1f;
+  margin: 0;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* 2. Body Split (Row) */
+.hc-body-split {
+    display: flex;
+    justify-content: space-between;
+    flex: 1;
+}
+
+/* Left Body Details */
+.hc-details-left {
+    display: flex;
+    flex-direction: column;
+    padding-right: 16px;
+    flex: 1;
+}
+
+.hc-location {
+  font-size: 0.9rem;
+  color: #1f1f1f;
+  margin-bottom: 12px;
+  text-transform: uppercase; /* "PAR" in screenshot appears upper/code */
+  font-weight: 500;
+}
+
+.hc-tags {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: auto;
+}
+
+.tag-green {
+    color: #007f5f;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+/* Rating Section at bottom left */
+.hc-rating-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 16px;
+}
+
+.hc-rating-badge {
+    background: #007f5f;
+    color: white;
+    font-weight: 700;
+    padding: 6px 8px;
+    border-radius: 4px 4px 4px 0; /* Distinct shape */
+    font-size: 0.95rem;
+}
+
+.hc-rating-text-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.hc-rating-word {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: #1f1f1f;
+}
+
+.hc-reviews {
+    font-size: 0.8rem;
+    color: #616161;
+}
+
+/* RIGHT PRICE COLUMN */
+.hc-price-col {
+  width: 180px;
+  text-align: right;
+  display: flex;
+  flex-direction: column;
   justify-content: space-between;
+  align-items: flex-end;
+}
+
+.badge-list-vertical {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: flex-end;
+    margin-bottom: 8px;
+}
+
+.hc-badge-sm {
+    font-size: 0.75rem;
+    background: #f0f0f0;
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: #555;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.hc-prices-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.hc-scarcity-tag {
+    background: #007f5f;
+    color: white;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 4px;
+    margin-bottom: 4px;
+}
+
+.price-large {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1f1f1f;
+}
+
+.price-details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.price-total {
+    font-size: 0.85rem;
+    color: #616161;
+    font-weight: 400;
+}
+
+.price-tax {
+    font-size: 0.8rem;
+    color: #616161;
+}
+
+.heart-mobile-btn {
+    background: none; border: none; font-size: 1.2rem; display: none; /* Hidden on desktop unless needed */
 }
 
 .hc-details {
